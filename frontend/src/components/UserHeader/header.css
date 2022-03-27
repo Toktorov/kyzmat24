@@ -1,0 +1,37 @@
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    height: 70px;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+    background-color: rgba(49, 72, 95, 0.75);
+}
+.header-link{
+    font-size: 15px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+
+.logout{
+    position: absolute;
+    right: 15px;
+    top: 70px;
+    background-color: #ed4c5c;
+    border: 1px solid #ed4c5c;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s;
+}
+.logout:hover{
+    background-color: white;
+    color: #ed4c5c;
+}

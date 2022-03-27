@@ -1,0 +1,11 @@
+.review input{
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border-radius: 10px;
+}
+
+
+.review__form{
+    margin-bottom: 50px;
+}

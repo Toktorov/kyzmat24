@@ -1,0 +1,30 @@
+.search select, input {
+    margin: 0;
+    outline: none;
+    border: 1px solid #5c5c5c;
+    padding: 5px;
+}
+
+.search__btn{
+    padding: 5px;
+    cursor: pointer;
+}
+
+.search__left{
+    display: flex;
+    column-gap: 5px;
+}
+
+.search__filter {
+    display: flex;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    row-gap: 5px;
+}
+
+.search__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}

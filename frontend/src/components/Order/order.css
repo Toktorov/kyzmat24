@@ -1,0 +1,84 @@
+.reception__form{
+    display: block;
+    width: 400px;
+    padding: 10px 15px;
+    text-align: center;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.reception__form input, select{
+    display: block;
+    margin: 15px auto;
+    padding: 5px 20px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    width: 100%;
+}
+.reception__form button{
+    padding: 5px 40px;
+    background-color: #00D363;
+    color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #00D363;
+    cursor: pointer;
+    transition: .5s;
+    font-size: 17px;
+}
+.reception__form button:hover{
+    background-color: #FFFFFF;
+    color: #00D363;
+}
+.reception__form h4{
+    color: #FFFFFF;
+
+}
+
+
+
+
+@media screen and (max-width: 580px) {
+
+    .reception__form{
+        background-color: rgba(62, 85, 67, 0.81);
+        border-radius: 15px;
+    }
+
+}
+
+@media screen and (max-width: 470px) {
+    .reception__form{
+        width: 370px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .reception__form {
+        width: 340px;
+    }
+    .reception__form input, select{
+        font-size: 12px;
+    }
+    .reception__form button{
+        font-size: 15px;
+        padding: 4px 32px;
+    }
+
+
+}
+
+@media screen and (max-width: 375px) {
+    .reception__form {
+        width: 280px;
+    }
+    .reception__form input, select{
+        font-size: 10px;
+        padding: 4px 7px;
+    }
+    .reception__form button{
+        font-size: 12px;
+        padding: 3px 24px;
+    }
+}

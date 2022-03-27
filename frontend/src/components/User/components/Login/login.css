@@ -1,0 +1,33 @@
+
+
+.login form{
+    width: 400px;
+    background-color: #00D363;
+    padding: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 5px 5px rgba(0, 255, 107, 0.47);}
+.login input,
+.login button{
+    width: 100%;
+    margin: 15px 0;
+    border: none;
+    outline: none;
+    padding: 10px;
+    box-shadow: 0 0 5px 5px rgba(210, 210, 210, 0.33);
+}
+
+.login button{
+    background-color: #158af2;
+    color: white;
+    border-radius: 20px;
+    border: 1px solid #158af2;
+    cursor: pointer;
+    transition: .5s;
+}
+.login button:hover{
+    background-color: white;
+    color: #158af2;
+}

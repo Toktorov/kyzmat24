@@ -1,0 +1,178 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 50px;
+    height: 70px;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    z-index: 5;
+    background-color: rgba(49, 72, 95, 0.75);
+}
+
+.header__menu {
+    display: flex;
+    column-gap: 70px;
+}
+
+
+.header__link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+    border-bottom: 1px solid transparent;
+    transition: .5s;
+}
+
+.header__link:hover {
+    color: #00D363;
+}
+
+.header__link-active {
+    border-color: #FFFFFF;
+}
+
+.header__link-active:hover {
+    border-color: #00D363;
+}
+
+.header__link-form {
+    text-decoration: none;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: "Roboto", sans-serif;
+}
+
+.header__logo a {
+    color: #fff;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+}
+
+.mobile-btn {
+    display: none;
+}
+
+.mobile-btn span {
+    height: 3px;
+    width: 100%;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.mobile-btn span::before,
+.mobile-btn span::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    position: absolute;
+}
+
+.mobile-btn span::before {
+    top: -10px;
+}
+
+.mobile-btn span::after {
+    top: 10px;
+}
+
+
+@media screen and (max-width: 900px) {
+.header__menu{
+    column-gap: 25px;
+}
+}
+
+@media screen and (max-width: 750px) {
+    .header__logo{
+        position: absolute;
+        top: 0;
+        left: 5px;
+    }
+    .header__link-form{
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+    .mobile-btn {
+        width: 55px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: absolute;
+        left: 5px;
+        bottom: -7px;
+    }
+
+    .show-mobile-btn span {
+        background: transparent;
+    }
+
+    .show-mobile-btn span::before,
+    .show-mobile-btn span::after {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .show-mobile-btn span::before {
+        transform: rotate(45deg);
+    }
+
+    .show-mobile-btn span::after {
+        transform: rotate(-45deg)
+    }
+
+    .header__menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        background-color: rgba(0, 211, 99, 0.91);
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: -100%;
+        transition: .7s;
+    }
+
+    .show-menu {
+        left: 0;
+        overflow: scroll;
+    }
+
+    .header__link {
+        margin-top: 10px;
+        border: 1px solid #ffffff;
+        width: 170px;
+        padding: 15px 0;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        font-family: "Roboto", sans-serif;
+        transition: .5s;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .header{
+        padding: 0 10px;
+        height: 58px;
+    }
+    .header__logo{
+        font-size: 25px;
+    }
+    .header__link-form{
+        font-size: 12px;
+    }
+}

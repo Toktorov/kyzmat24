@@ -1,0 +1,295 @@
+
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    overflow: auto;
+    position: fixed;
+    height: 100vh;
+    top: -6px;
+    width: 100%;
+}
+
+.profile__info {
+    width: 1140px;
+    background-color: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 15px 10px rgba(92, 92, 92, 0.3);
+    position: absolute;
+    top: 0;
+    margin-top: 100px;
+}
+
+.close-link {
+    position: relative;
+    top: -32px;
+    left: -21px;
+}
+
+.profile-contact {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.profile-contact a {
+    text-decoration: none;
+    color: #158af2;
+}
+
+.profile-social {
+    display: flex;
+    column-gap: 10px;
+}
+
+.profile-social > a {
+    font-size: 20px;
+    color: #158af2;
+    transition: .5s;
+}
+
+.profile-social > a:hover {
+    transform: scale(1.2);
+}
+
+.profile-top {
+    display: flex;
+    padding: 15px;
+    column-gap: 30px;
+}
+
+.profile-top > img {
+    width: 40%;
+}
+
+.profile-bottom {
+    padding: 15px;
+}
+
+.profile-bottom > h3 {
+    margin: 15px 0;
+}
+
+.profile-media {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile-images {
+    width: 33.3%;
+    padding: 0 15px;
+    margin-top: 10px;
+}
+
+.profile-img {
+    width: 100%;
+}
+
+.profile-video {
+    width: 100% !important;
+    height: 200px !important;
+}
+
+.close-profile {
+    position: relative;
+    display: inline-block;
+    top: 29.5px;
+    left: 21px;
+    transform: translate(-50%, -50%);
+    height: 50px;
+    width: 50px;
+}
+
+.close-profile::before,
+.close-profile::after {
+    top: 50%;
+    position: absolute;
+    transform: rotate(45deg);
+    display: inline-block;
+    height: 5px;
+    width: 50px;
+    background-color: #0d3349;
+    content: ' ';
+}
+
+.close-profile::after {
+    transform: rotate(-45deg);
+}
+
+
+@media screen and (max-width: 1200px) {
+    .profile__info {
+        width: 960px;
+    }
+
+    .profile-top {
+        margin-top: -40px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .profile__info {
+        width: 720px;
+    }
+
+    .profile-top {
+        column-gap: 20px;
+    }
+
+    .profile-contact {
+        row-gap: 0;
+    }
+
+    .profile-video {
+        height: 120px !important;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .profile__info {
+        width: 540px;
+    }
+
+    .profile-top > img {
+        height: 100%;
+    }
+
+    .profile-contact h2 {
+        font-size: 18px;
+    }
+
+    .profile-contact h3 {
+        font-size: 16px;
+        line-height: 15px;
+    }
+
+    .profile-contact p {
+        font-size: 12px;
+    }
+
+    .profile-social a {
+        font-size: 14px;
+    }
+
+    .profile-video {
+        height: 80px !important;
+    }
+
+    .close-profile::before,
+    .close-profile::after {
+        height: 3px;
+        width: 40px;
+        left: 4.5px;
+        top: 52%;
+    }
+
+    .profile-bottom > h3 {
+        margin: 0;
+        font-size: 14px;
+        line-height: 17px;
+    }
+
+    .profile-bottom {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .profile__info {
+        width: 430px;
+    }
+
+    .profile-images {
+        padding: 0 2px;
+    }
+
+    .profile-top {
+        column-gap: 10px;
+    }
+
+    .profile-contact h3 {
+        font-size: 15px;
+        line-height: 14px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .profile__info {
+        width: 380px;
+    }
+
+    .close-profile::before,
+    .close-profile::after {
+        left: 12.7px;
+        top: 52.5%;
+        height: 2px;
+        width: 25px;
+    }
+
+    .profile-contact h2 {
+        font-size: 14px;
+    }
+
+    .profile-contact h3 {
+        font-size: 11px;
+        line-height: 12px;
+    }
+
+    .profile-contact p {
+        font-size: 9px;
+    }
+
+    .profile-social a {
+        font-size: 11px;
+    }
+
+    .profile-social a {
+        font-size: 11px;
+    }
+
+    .profile-bottom > h3 {
+        font-size: 12px;
+        line-height: 5px;
+    }
+
+    .profile-video {
+        height: 65px !important;
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .profile__info {
+        width: 350px;
+    }
+
+    .profile-video {
+        height: 60px !important;
+    }
+
+}
+
+@media screen and (max-width: 375px) {
+    .profile__info {
+        width: 250px;
+    }
+
+    .profile-contact h2 {
+        font-size: 13px;
+        line-height: 12px;
+    }
+
+    .profile-contact h3 {
+        font-size: 9px;
+        line-height: 10px;
+    }
+
+    .profile-top {
+        margin-top: -60px;
+    }
+
+    .profile-video {
+        height: 41px !important;
+    }
+}
+
