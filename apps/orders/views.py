@@ -24,7 +24,29 @@ class ContactAPIViewSet(viewsets.ModelViewSet):
     serializer_class = ContactSerializer
     permission_classes = [IsAuthenticated]
 
+class ContactUpdateAPIView(generics.UpdateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ContactDeleteAPIView(generics.DestroyAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
 class MediaAPIViewSet(viewsets.ModelViewSet):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+class MediaUpdateAPIView(generics.UpdateAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class MediaDeleteAPIView(generics.DestroyAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
     permission_classes = [IsAuthenticated]
@@ -36,4 +58,15 @@ class CreateOrderAPIViewSet(generics.ListCreateAPIView):
 class OrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+class OrderUpdateAPIView(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class OrderDeleteAPIView(generics.DestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]

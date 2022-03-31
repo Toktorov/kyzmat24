@@ -10,7 +10,18 @@ router.register('media', views.MediaAPIViewSet, basename='media')
 router.register('contact', views.ContactAPIViewSet, basename='contact')
 
 urlpatterns = [
-    path('detail/<int:pk>', views.OrderDetailAPIView.as_view(), name = 'order_detail')
+    #order
+    path('detail/<int:pk>', views.OrderDetailAPIView.as_view(), name = 'order_detail'),
+    path('delete/<int:pk>', views.OrderDeleteAPIView.as_view(), name = 'order_delete_api'),
+    path('update/<int:pk>', views.OrderUpdateAPIView.as_view(), name = 'order_update_api'),
+
+    #contact
+    path('contact/delete/<int:pk>', views.ContactDeleteAPIView.as_view(), name = 'contact_delete_api'),
+    path('contact/update/<int:pk>', views.ContactUpdateAPIView.as_view(), name = 'contact_update_api'),
+
+    #media
+    path('media/delete/<int:pk>', views.MediaDeleteAPIView.as_view(), name = 'media_delete_api'),
+    path('media/update/<int:pk>', views.MediaUpdateAPIView.as_view(), name = 'media_update_api'),
 ]
 
 urlpatterns += router.urls
