@@ -6,6 +6,7 @@ from django.urls import path, include
 router = DefaultRouter()
 router.register('order', views.OrderAPIViewSet, basename='order')
 router.register('create_order', views.OrderCreateAPIViewSet, basename = 'create_order')
+router.register('accept_order', views.AcceptOrderAPIView, basename = 'accept_order')
 
 
 urlpatterns = [

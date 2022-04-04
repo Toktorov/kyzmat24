@@ -1,5 +1,7 @@
+from tabnanny import verbose
 from django.db import models
 from apps.categories.models import Category
+from apps.users.models import User
 
 # Create your models here.
 class Order(models.Model):
@@ -17,6 +19,14 @@ class Order(models.Model):
         return self.title 
 
     class Meta:
-        verbose_name = "Товар"
-        verbose_name_plural = "Товары"
+        verbose_name = "Услуга"
+        verbose_name_plural = "Услуги"
         ordering = ('-id',)
+
+class AcceptOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Принимать заказ"
+        verbose_name = "Принимать заказы"
