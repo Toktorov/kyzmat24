@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
-from apps.users.models import User
+from apps.users.models import User, Contact, Media
 from apps.orders.models import Order
 from apps.orders.serializers import OrderSerializer, OrderUserSerializer
 from rest_framework.validators import UniqueValidator
@@ -62,12 +62,23 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = "__all__"
+
+class MediaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Media
+        fields = "__all__"
 
 class UserSerializerList(serializers.ModelSerializer):
+    contact = ContactSerializer(many=True, source='contact_set.all', read_only=True)
+    media = MediaSerializer(many = True,  source='media_set.all', read_only = True)
     class Meta:
         model = User
         fields = (
-            'id', 'username', 'password'
+            'id', 'username', 'password', 'contact', 'media'
         )
 
 

@@ -1,11 +1,13 @@
 from rest_framework import viewsets, generics
-from apps.users.models import User
+from apps.users.models import User, Contact, Media
 from apps.users.serializers import (
     UserSerializer, 
     UserSerializerList, 
     UserDetailSerializer, 
     RegisterSerializer, 
     MyTokenObtainPairSerializer,
+    ContactSerializer, 
+    MediaSerializer
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -71,4 +73,36 @@ class UserUpdateAPIView(generics.UpdateAPIView):
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+class ContactAPIViewSet(viewsets.ModelViewSet):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+class ContactUpdateAPIView(generics.UpdateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ContactDeleteAPIView(generics.DestroyAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+class MediaAPIViewSet(viewsets.ModelViewSet):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+class MediaUpdateAPIView(generics.UpdateAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class MediaDeleteAPIView(generics.DestroyAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
     permission_classes = [IsAuthenticated]

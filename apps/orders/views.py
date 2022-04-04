@@ -1,8 +1,8 @@
 from rest_framework import viewsets, generics
-from apps.orders.models import Order, Contact, Media
+from apps.orders.models import Order
 from apps.orders.serializers import (CategorySerializer, 
-    OrderSerializer, ContactSerializer, 
-    MediaSerializer, CreateOrderSerializer, 
+    OrderSerializer,
+    CreateOrderSerializer, 
     OrderCreateSerializer, OrderDetailSerializer)
 from apps.categories.models import Category
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
@@ -17,39 +17,6 @@ class OrderCreateAPIViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderCreateSerializer
     permission_classes = [AllowAny]
-
-
-class ContactAPIViewSet(viewsets.ModelViewSet):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
-
-class ContactUpdateAPIView(generics.UpdateAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class ContactDeleteAPIView(generics.DestroyAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
-
-class MediaAPIViewSet(viewsets.ModelViewSet):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
-
-class MediaUpdateAPIView(generics.UpdateAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class MediaDeleteAPIView(generics.DestroyAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
 
 class CreateOrderAPIViewSet(generics.ListCreateAPIView):
     queryset = Order.objects.all()
