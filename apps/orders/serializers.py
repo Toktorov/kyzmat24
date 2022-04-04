@@ -54,3 +54,8 @@ class AcceptOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = AcceptOrder
         fields = "__all__"
+
+class AcceptOrderCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AcceptOrder
+        fields = "__all__"
