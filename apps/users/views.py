@@ -41,7 +41,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 class MyObtainTokenPairView(TokenObtainPairView):
-    # permission_classes = (AllowAny,)
+    permission_classes = (AllowAny)
     serializer_class = MyTokenObtainPairSerializer
 
 class GoogleLogin(SocialLoginView):
