@@ -10,6 +10,7 @@ header{
     z-index: 5;
     background-color: rgba(49, 72, 95, 0.75);
 }
+
 .header-link{
     font-size: 15px;
     font-weight: 500;

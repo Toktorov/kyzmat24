@@ -7,13 +7,15 @@ import {useDispatch} from "react-redux";
 
 const Login = ({setStatus}) => {
     const dispatch = useDispatch();
-
+    const [userStatus, setUserStatus] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const loginUser = (e) => {
+        setLoading(true);
         e.preventDefault();
-        axios.post('http://kyzmat24.com/api/token/', {
+        axios.post('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/token/', {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -23,19 +25,42 @@ const Login = ({setStatus}) => {
 
 
         }).then(({data}) => {
+            setUserStatus(true);
+            setLoading(false);
             dispatch(setAuthTokens(data));
             dispatch(setUser(jwt_decode(data.access)));
             localStorage.setItem('authTokens', JSON.stringify(data));
-        }).catch(() => alert('Неверный пароль или логин'))
+        }).catch(() => {
+            setUserStatus(false);
+            setLoading(false)
+        })
     };
 
     return (
         <div className={'login'}>
             <form onSubmit={loginUser}>
-                <input required={true} type="text" name="username" onChange={(e) => setUsername(e.target.value)} placeholder="Введите логин" />
-                <input required={true} type="password" name="password" onChange={e => setPassword(e.target.value)} placeholder="Введите пароль" />
-                <button type="submit">Войти</button>
-                <p>Нет аккаунта? Пройди <button onClick={()=> setStatus('signUp')}>регистрацию</button></p>
+                <h3>Вход в аккаунт</h3>
+                {
+                    userStatus === false ? <h4 className={'error'}>Неверный пароль или логин</h4> : ''
+                }
+
+                <input required={true} type="text" name="username" onChange={(e) => setUsername(e.target.value)}
+                       placeholder="Введите логин"/>
+                <input required={true} type="password" name="password" onChange={e => setPassword(e.target.value)}
+                       placeholder="Введите пароль"/>
+                {
+                    loading === true ? <div className="lds-ring">
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                    </div> : <>  <button className={'login-btn'} type="submit">Войти</button>
+                        <p>Нет аккаунта? Пройди <button className={'login-btn-link'}
+                                                        onClick={() => setStatus('signUp')}>регистрацию</button></p>
+                    </>
+                }
+
+
             </form>
 
         </div>

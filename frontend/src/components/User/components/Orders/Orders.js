@@ -36,7 +36,7 @@ const Orders = () => {
                              <div key={item.id} className={'orders__item'}>
                                  <p><b>Описание:</b> {item.description}</p>
                                  <p><b>Телефон:</b> {item.tel}</p>
-                                 <p><b>Категория:</b> {item.category.content}</p>
+                                 <p><b>Категория:</b> {item.category ? item.category.content : '...'}</p>
                                  <button className={'orders__item-get'}>Взять заказ</button>
                                  <button  className={'orders__item-more'}>Подробнее...</button>
                              </div>

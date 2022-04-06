@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import './header.css'
 import {useDispatch, useSelector} from "react-redux";
 import {setApp, setStatus} from "../../redux/reducers/item";
+import logo from '../../img/logo.png';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -36,7 +37,8 @@ const Header = () => {
     return (
 
         <header className='header'>
-            <h1 className='header__logo'><Link to={'/'}>KYZMAT24.KG</Link></h1>
+            <h1 className='header__logo'><Link to={'/'}><img className={'logo'} src={logo} alt=""/></Link></h1>
+
             <div className="header__nav">
                 <nav className={'header__menu'}>
 

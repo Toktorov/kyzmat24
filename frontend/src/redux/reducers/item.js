@@ -11,6 +11,8 @@ const GET_PROFILE = 'GET_PROFILE';
 
 const SET_APP = 'SET_APP';
 
+const ADD_ITEM = 'ADD_ITEM';
+
 const initState = {
     items: [],
     status: 'home',
@@ -55,6 +57,11 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 app: action.change
+            }
+        }
+        case GET_ITEMS :{
+            return {
+                ...state
             }
         }
 
@@ -109,3 +116,23 @@ export const setApp = (app) =>{
     }
 };
 
+
+// export const addItem = ( description, tel, email, location, category) =>{
+//     return(dispatch) => {
+//         const data = {
+//             description,
+//             tel,
+//             email,
+//             location,
+//             category
+//         };
+//         axios
+//             .post('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/order/create_order/', data)
+//             .then((data) => console.log(data))
+//             .catch(error => {
+//                 console.log(error.response);
+//                 console.log("Произошла ошибка Кубаныч")
+//             });
+//         return dispatch({type: ADD_ITEM})
+//     }
+// };

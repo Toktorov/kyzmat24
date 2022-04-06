@@ -50,6 +50,13 @@
     color: #fff;
     font-family: "Roboto", sans-serif;
     text-decoration: none;
+
+}
+.logo{
+    width: 300px;
+    object-fit: cover;
+    object-position: 50% 45%;
+    height: 50px;
 }
 
 .mobile-btn {

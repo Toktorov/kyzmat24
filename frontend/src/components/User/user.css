@@ -1,7 +1,7 @@
 
-.home{
+.home {
     width: 1000px;
-    background-color: rgba(237,235,235,0.81);
+    background-color: rgba(237, 235, 235, 0.81);
     box-shadow: 0 0 5px 5px rgba(92, 92, 92, 0.73);
     position: absolute;
     top: 100px;
@@ -10,34 +10,39 @@
     padding: 15px;
 }
 
-.home-top{
+.home-top {
     display: flex;
     column-gap: 15px;
     margin-bottom: 15px;
 }
-.avatar{
+
+.avatar {
     width: 300px;
 }
-.top-left label{
+
+.top-left label {
     display: block;
 }
-.top-left input{
+
+.top-left input {
     display: block;
-    background-color: #00D363;
+    background-color: #00a353;
     color: #f0f1f8;
     padding: 10px;
     cursor: pointer;
 }
-.home-bottom{
+
+.home-bottom {
     margin-top: 15px;
 }
 
-.bottom-form{
+.bottom-form {
     display: flex;
     column-gap: 40px;
     justify-content: center;
 }
-.bottom-row{
+
+.bottom-row {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
@@ -45,10 +50,11 @@
     row-gap: 15px;
 }
 
-.bottom-media{
+.bottom-media {
     width: 30%;
 }
-.bottom-media button{
+
+.bottom-media button {
     background-color: red;
     color: #FFFFFF;
     border: 1px solid red;
@@ -59,14 +65,13 @@
     transition: .5s;
 }
 
-.bottom-media button:hover{
+.bottom-media button:hover {
     color: red;
     background-color: #FFFFFF;
 }
 
 
-
-.bottom-form button{
+.bottom-form button {
     background-color: #158af2;
     border: 1px solid #158af2;
     padding: 5px 10px;
@@ -78,17 +83,47 @@
     cursor: pointer;
     transition: .5s;
 }
-.bottom-form button:hover{
+
+.bottom-form button:hover {
     background-color: #FFFFFF;
     color: #158af2;
 }
 
-.top-right button{
+.top-right button {
     background-color: transparent;
     border: none;
     cursor: pointer;
     transition: .5s;
 }
-.top-right button:hover{
-    color: #00D363;
+
+.top-right button:hover {
+    color: #00a353;
+}
+
+.welcome {
+    background-color: #00a353;
+    width: 500px;
+    height: 200px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    text-align: center;
+    box-shadow: 0 0 37px 13px rgba(249, 0, 0, 0.2);
+}
+
+.welcome h2 {
+    color: white;
+    margin: 30px 0;
+}
+
+.welcome button {
+    padding: 5px 25px;
+    background-color: #ffc40d;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 37px 13px rgba(249, 0, 0, 0.2);
 }

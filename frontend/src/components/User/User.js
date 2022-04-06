@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import jwt_decode from "jwt-decode";
-import {setAuthTokens, setUser, logoutUser} from "../../redux/reducers/user";
+import {setAuthTokens, setUser, logoutUser, setNewUser} from "../../redux/reducers/user";
 import './user.css'
 
 import Login from "./components/Login/Login";
@@ -10,7 +10,7 @@ import SignUp from "./components/SignUp/SignUp";
 
 const User = () => {
     const [status, setStatus] = useState('login');
-
+const newUser = useSelector(s=> s.user.newUser);
 
 
     const authTokens = useSelector(s => s.user.authTokens);
@@ -100,6 +100,12 @@ const User = () => {
 
     return (
         <section>
+            {
+                newUser ? <div className={'welcome'}> <h2 >Добро подаловать в KYZMAT24.COM!</h2>  <button onClick={()=>{
+                dispatch(setNewUser(false))
+                }
+                }>ok</button> </div>: ''
+            }
             {
                 user ?
                     <>

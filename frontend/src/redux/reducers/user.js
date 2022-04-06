@@ -6,30 +6,31 @@ const SET_AUTH_TOKENS = 'SET_AUTH_TOKENS';
 const SET_USER = 'SET_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const GET_ORDERS = 'GET_ORDERS';
-
+const SET_NEW_USER = 'SET_NEW_USER';
 
 const initState = {
     authTokens: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null,
     user: localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null,
     orders: [],
+    newUser: false,
 };
 
 
 export default (state = initState, action) => {
     switch (action.type) {
-        case SET_AUTH_TOKENS:{
+        case SET_AUTH_TOKENS: {
             return {
                 ...state,
                 authTokens: action.authTokens
             }
         }
-        case SET_USER:{
+        case SET_USER: {
             return {
                 ...state,
                 user: action.user
             }
         }
-        case LOGOUT_USER:{
+        case LOGOUT_USER: {
             localStorage.removeItem('authTokens');
             return {
                 ...state,
@@ -43,6 +44,12 @@ export default (state = initState, action) => {
                 orders: action.orders
             }
         }
+        case SET_NEW_USER :{
+            return {
+                ...state,
+                newUser: action.newUser
+            }
+        }
 
         default:
             return state
@@ -54,21 +61,27 @@ export const setAuthTokens = (authTokens) => {
     }
 };
 
-export const setUser = (user) =>{
+export const setUser = (user) => {
     return (dispatch) => {
         dispatch({type: SET_USER, user})
     }
 };
-export const logoutUser = () =>{
-  return (dispatch) => {
-      dispatch({type: LOGOUT_USER})
-  }
+export const logoutUser = () => {
+    return (dispatch) => {
+        dispatch({type: LOGOUT_USER})
+    }
 };
 
 
-export const getOrders = () =>{
-  return (dispatch) =>{
-      axios('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/order/order/')
-          .then(({data})=>  dispatch({type: GET_ORDERS, orders: data}))
+export const getOrders = () => {
+    return (dispatch) => {
+        axios('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/order/order/')
+            .then(({data}) => dispatch({type: GET_ORDERS, orders: data}))
+    }
+};
+
+export const setNewUser = (boolean) =>{
+  return (dispatch)=>{
+      dispatch({type:SET_NEW_USER, newUser: boolean})
   }
 };
