@@ -1,13 +1,13 @@
 from tabnanny import verbose
 from django.db import models
-from apps.categories.models import Category
+from apps.categories.models import Category, Location
 from apps.users.models import User
 
 # Create your models here.
 class Order(models.Model):
     title = models.CharField(max_length=250, help_text = "Название продукта")
     description = models.TextField(help_text="Описание продукта")
-    location = models.CharField(max_length=100, help_text="Место продажи", blank = True, null = True)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
     places = models.CharField(max_length=100, help_text="places", blank = True, null = True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,  related_name='product_category', blank = True, null = True)
     imgsrc = models.ImageField(upload_to = 'product_image', help_text = "Фотография продукта")
@@ -29,4 +29,4 @@ class AcceptOrder(models.Model):
 
     class Meta:
         verbose_name = "Принимать заказ"
-        verbose_name = "Принимать заказы"
+        verbose_name_plural = "Принимать заказы"

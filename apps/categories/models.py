@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.db.models.signals import pre_save
 from utils.slug_generator import unique_slug_generators
@@ -9,10 +10,9 @@ class Category(models.Model):
         verbose_name='Наименование'
     )
     
-    value = models.SlugField(blank=True, unique=True)
 
     def __str__(self):
-        return f"{self.content} -- {self.value}"
+        return f"{self.content}"
 
     class Meta:
         verbose_name = "Категория"
@@ -38,10 +38,13 @@ class CategoryImage(models.Model):
         verbose_name_plural = 'Изображении продуктов'
         ordering = ('-id',)
 
+class Location(models.Model):
+    title = models.CharField(max_length=255)
+    location_self = models.ForeignKey('self', on_delete=models.SET_NULL, null = True, blank = True)
 
-def slag_pre_save_receiver(sender, instance, *args, **kwargs):
-    if not instance.value:
-        instance.value = unique_slug_generators(instance)
+    def __str__(self):
+        return self.title 
 
-
-pre_save.connect(slag_pre_save_receiver, sender=Category)
+    class Meta:
+        verbose_name = "Локация"
+        verbose_name_plural = "Локации"
