@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 class OrderAPIViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class OrderCreateAPIViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()

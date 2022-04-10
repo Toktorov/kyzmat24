@@ -25,6 +25,12 @@ class OrderSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only = True)
     # order_user = serializers.ReadOnlyField(source='order_user.username')
     
+    def get_serializer_class(self):
+        if self.status == True:
+            return OrderSerializer
+        elif self.action == False:
+            return OrderUserSerializer
+    
     class Meta:
         model = Order
         fields = "__all__"

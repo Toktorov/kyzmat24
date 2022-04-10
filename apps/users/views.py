@@ -16,8 +16,9 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.permissions import AllowAny
+from apps.users.permissions import OwnerProfilePermissions, OwnerDeletePermissions
 
 # Create your views here.
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -67,13 +68,25 @@ def getRoutes(request):
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [OwnerProfilePermissions]
 
 
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [OwnerDeletePermissions]
+
+
+    def get(self, request, pk, format=None,):
+        content = {
+            'Kyzmat24': 'Вы уверены что хотите удалить свой профиль?'
+        }
+        return Response(content)
+
+    def get_permissions(self):
+        if self.request.method == 'DELETE':
+            return [OwnerDeletePermissions()]
+        return [permission() for permission in self.permission_classes]
 
 class ContactAPIViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
