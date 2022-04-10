@@ -16,6 +16,11 @@ class OrderAPIViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [AllowAny]
 
+    def get_queryset(self):
+        queryset = self.queryset
+        query_set = queryset.filter(status=False)
+        return query_set
+
 class OrderCreateAPIViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderCreateSerializer
