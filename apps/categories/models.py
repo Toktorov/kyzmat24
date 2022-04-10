@@ -1,7 +1,4 @@
-from tabnanny import verbose
 from django.db import models
-from django.db.models.signals import pre_save
-from utils.slug_generator import unique_slug_generators
 
 # Create your models here.
 class Category(models.Model):

@@ -1,4 +1,3 @@
-from tabnanny import verbose
 from django.db import models
 from apps.categories.models import Category, Location
 from apps.users.models import User

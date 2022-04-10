@@ -55,3 +55,6 @@ class AcceptOrderCreateAPIView(viewsets.ModelViewSet):
     queryset = AcceptOrder.objects.all()
     serializer_class = AcceptOrderCreateSerializer
     permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        serializer.save(status=True)

@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from utils.validator import phone_validator
@@ -51,6 +52,10 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.username} -- {self.description}"
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
 class Contact(models.Model):
     name = models.CharField(max_length = 100)
