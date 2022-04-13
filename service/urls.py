@@ -28,6 +28,7 @@ from rest_framework_simplejwt.views import (
 )
 
 
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Blog API",
@@ -66,8 +67,8 @@ urlpatterns = [
 
     # auth
     path('auth/', include('rest_framework.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'),
+    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
 
     # docs
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
