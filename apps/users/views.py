@@ -7,7 +7,9 @@ from apps.users.serializers import (
     RegisterSerializer, 
     MyTokenObtainPairSerializer,
     ContactSerializer, 
-    MediaSerializer
+    MediaSerializer,
+    UsersSerializer,
+    LoginRequestSerializer,
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -15,10 +17,15 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from django.conf import settings
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.permissions import AllowAny
 from apps.users.permissions import OwnerProfilePermissions, OwnerDeletePermissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication, SessionAuthentication
+from rest_framework.request import Request
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 # Create your views here.
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -119,3 +126,25 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
     permission_classes = [IsAuthenticated]
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login(request: Request):
+    serializer = LoginRequestSerializer(data=request.data)
+    if serializer.is_valid():
+        authenticated_user = authenticate(**serializer.validated_data)
+        if authenticated_user is not None:
+            login(request, authenticated_user)
+            return Response({'status': 'Success'})
+        else:
+            return Response({'error': 'Invalid credentials'}, status=403)
+    else:
+        return Response(serializer.errors, status=400)
+
+@api_view()
+@permission_classes([IsAuthenticated])
+@authentication_classes([SessionAuthentication])
+def user(request: Request):
+    return Response({
+        'data': UsersSerializer(request.user).data
+    })

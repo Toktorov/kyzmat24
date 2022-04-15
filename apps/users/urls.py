@@ -12,6 +12,8 @@ router.register('contact', views.ContactAPIViewSet, basename='contact')
 
 urlpatterns = [
     path('user/<int:pk>', views.UserDetailAPIViewSet.as_view(), name = 'user_detail'),
+    path('user/', views.user, name = "user"),
+    path('user/login', views.login, name='login'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('social-login/google/', views.GoogleLogin.as_view(), name='google_login'),
     path('delete/<int:pk>', views.UserDeleteAPIView.as_view(), name = 'user_delete_api'),

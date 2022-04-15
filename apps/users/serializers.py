@@ -6,6 +6,8 @@ from apps.orders.serializers import OrderSerializer, OrderUserSerializer
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.authtoken.models import Token
+from rest_framework.serializers import Serializer, ModelSerializer, CharField
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -57,6 +59,19 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+class UsersSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'date_joined']
+
+class LoginRequestSerializer(serializers.Serializer):
+    model = User
+
+    username = CharField(required=True)
+    password = CharField(required=True)
+
 
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
