@@ -9,7 +9,8 @@ from apps.users.serializers import (
     ContactSerializer, 
     MediaSerializer,
     UsersSerializer,
-    LoginRequestSerializer,
+    IssueTokenRequestSerializer,
+    TokenSeriazliser
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -129,21 +130,21 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def login(request: Request):
-    serializer = LoginRequestSerializer(data=request.data)
+def issue_token(request: Request):
+    serializer = IssueTokenRequestSerializer(data=request.data)
     if serializer.is_valid():
         authenticated_user = authenticate(**serializer.validated_data)
-        if authenticated_user is not None:
-            login(request, authenticated_user)
-            return Response({'status': 'Success'})
-        else:
-            return Response({'error': 'Invalid credentials'}, status=403)
+        try:
+            token = Token.objects.get(user=authenticated_user)
+        except Token.DoesNotExist:
+            token = Token.objects.create(user=authenticated_user)
+        return Response(TokenSeriazliser(token).data)
     else:
         return Response(serializer.errors, status=400)
 
 @api_view()
 @permission_classes([IsAuthenticated])
-@authentication_classes([SessionAuthentication])
+@authentication_classes([TokenAuthentication])
 def user(request: Request):
     return Response({
         'data': UsersSerializer(request.user).data
