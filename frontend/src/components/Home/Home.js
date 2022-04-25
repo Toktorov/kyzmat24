@@ -7,25 +7,15 @@ import {useEffect, useState} from "react";
 const Home = () => {
 
     const dispatch = useDispatch();
-    const element = useSelector((s)=>s.item.items);
-    const status = useSelector((s)=> s.item.status);
-    const [item, setItem] = useState([]);
+    const item = useSelector((s)=>s.item.items);
+
     useEffect(()=>{
         dispatch(getItems());
         dispatch(setStatus('home'));
         dispatch(setApp('kyzmat'));
     },[]);
 
-useEffect(()=>{
-    dispatch(setApp('kyzmat'));
-    const arr1 = element.filter((item)=>{
-        return item.status === 'P'
-    });
-    const arr2 = element.filter((item)=>{
-        return item.status === 'U'
-    });
-    setItem([...arr1, ...arr2])
-},[element]);
+
     return (
         <div className='container'>
             <div className='home__row'>
@@ -38,10 +28,10 @@ useEffect(()=>{
                                 <h3 className="item__title"> <Link onClick={()=>{
                                     dispatch(setStatus('profile'));
                                 }
-                                } to={`/profile/${item.id}`}>{item.title.length > 20 ? `${item.title.slice(0, 19)}...` : item.title}</Link></h3>
-                                <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
-                                <p className="item__text"><b>Локация :</b>{item.location}</p>
-                                <p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>
+                                } to={`/profile/${item.id}`}>{item.username.length > 20 ? `${item.username.slice(0, 19)}...` : item.username}</Link></h3>
+                                {/*<p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>*/}
+                                {/*<p className="item__text"><b>Локация :</b>{item.location}</p>*/}
+                                {/*<p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>*/}
                             </div>
                         </div>
 

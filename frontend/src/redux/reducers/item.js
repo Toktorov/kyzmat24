@@ -79,7 +79,7 @@ export const setStatus = (state) =>{
 
 export const getItems = () => {
     return (dispatch) => {
-        axios('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/product/product/')
+        axios('https://kyzmat24.com/api/users/')
             .then(({data}) => {
                 return dispatch({type: GET_ITEMS, arr: data})
             })
@@ -89,7 +89,7 @@ export const getItems = () => {
 
 export const getBtns = () => {
     return (dispatch) => {
-        axios('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/category/')
+        axios('https://kyzmat24.com/api/category/')
         .then(({data}) => {
             return dispatch({type: GET_BTNS, arr: data})
         }).catch(error => console.log(error.response))
@@ -99,7 +99,7 @@ export const getBtns = () => {
 
 export const getProfile = (idx) =>{
   return (dispatch) =>{
-      axios('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/product/product/')
+      axios('https://kyzmat24.com/api/users/')
           .then(({data}) => {
               return dispatch({
                   type: GET_PROFILE, arr: data.filter((item) => {
@@ -117,22 +117,3 @@ export const setApp = (app) =>{
 };
 
 
-// export const addItem = ( description, tel, email, location, category) =>{
-//     return(dispatch) => {
-//         const data = {
-//             description,
-//             tel,
-//             email,
-//             location,
-//             category
-//         };
-//         axios
-//             .post('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/order/create_order/', data)
-//             .then((data) => console.log(data))
-//             .catch(error => {
-//                 console.log(error.response);
-//                 console.log("Произошла ошибка Кубаныч")
-//             });
-//         return dispatch({type: ADD_ITEM})
-//     }
-// };

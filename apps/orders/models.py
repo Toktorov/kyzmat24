@@ -13,7 +13,7 @@ class Order(models.Model):
     email = models.CharField(max_length=100, help_text="Почта", blank = True, null = True)
     tel = models.CharField(max_length=100, help_text="Телефоный номер")
     cretated = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(default=False)
+    status = models.BooleanField(default=True, blank=True, null = True)
     
     def __str__(self):
         return self.description 

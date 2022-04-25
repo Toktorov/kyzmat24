@@ -55,3 +55,11 @@ class AcceptOrderCreateAPIView(generics.CreateAPIView):
     queryset = AcceptOrder.objects.all()
     serializer_class = AcceptOrderCreateSerializer
     permission_classes = [AllowAny]
+
+    def get_queryset(self, instance):
+        user = self.context['request'].user.id
+        order = instance.id
+        try:
+            return AcceptOrder.objects.filter(user=user, order=order).exists()
+        except Exception:
+            return False

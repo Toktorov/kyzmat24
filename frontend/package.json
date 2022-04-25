@@ -24,6 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "https://kyzmat24.com",
   "eslintConfig": {
     "extends": [
       "react-app",

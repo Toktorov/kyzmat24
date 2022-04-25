@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './login.css';
 import axios from "axios";
-import {setAuthTokens, setUser} from "../../../../redux/reducers/user";
+import {setAuthTokens, setUser, setId} from "../../../../redux/reducers/user";
 import jwt_decode from "jwt-decode";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+
 
 const Login = ({setStatus}) => {
     const dispatch = useDispatch();
+    const id = useSelector(s => s.user.id);
     const [userStatus, setUserStatus] = useState(null);
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
@@ -15,30 +17,43 @@ const Login = ({setStatus}) => {
     const loginUser = (e) => {
         setLoading(true);
         e.preventDefault();
-        axios.post('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/token/', {
+        axios.post('api/token/obtain', {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json;charset=utf-8',
             },
-
-            username,
-            password
-
-
+                username,
+                password
         }).then(({data}) => {
             setUserStatus(true);
             setLoading(false);
-            dispatch(setAuthTokens(data));
-            dispatch(setUser(jwt_decode(data.access)));
             localStorage.setItem('authTokens', JSON.stringify(data));
-        }).catch(() => {
+             dispatch(setAuthTokens(data));
+             dispatch(setId(jwt_decode(data.access).user_id));
+             localStorage.setItem('id', `${jwt_decode(data.access).user_id}`)
+        }).catch((error) => {
             setUserStatus(false);
-            setLoading(false)
+            setLoading(false);
         })
     };
 
+    useEffect(()=>{
+        if (localStorage.getItem('user')){
+
+        } else {
+            axios(`/api/users/${id}`).then(({data})=>{
+                dispatch(setUser(data));
+                localStorage.setItem('user', JSON.stringify(data))
+            });
+        }
+
+    },[id]);
+
     return (
         <div className={'login'}>
-            <form onSubmit={loginUser}>
+            <form onSubmit={(e)=>{
+                loginUser(e);
+              //  getUser();
+            }}>
                 <h3>Вход в аккаунт</h3>
                 {
                     userStatus === false ? <h4 className={'error'}>Неверный пароль или логин</h4> : ''
@@ -50,11 +65,12 @@ const Login = ({setStatus}) => {
                        placeholder="Введите пароль"/>
                 {
                     loading === true ? <div className="lds-ring">
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                    </div> : <>  <button className={'login-btn'} type="submit">Войти</button>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div> : <>
+                        <button className={'login-btn'} type="submit">Войти</button>
                         <p>Нет аккаунта? Пройди <button className={'login-btn-link'}
                                                         onClick={() => setStatus('signUp')}>регистрацию</button></p>
                     </>

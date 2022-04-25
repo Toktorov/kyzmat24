@@ -42,7 +42,7 @@ useEffect(()=>{
                             }}><span className={'close-profile'}> </span></Link>
                             <div className="profile-top">
                                 {
-                                    element.imgsrc.length == 0
+                                    element.imgsrc.length === 0
                                         ? <img src={avatar} alt=""/>
                                         :  <img src={element.imgsrc} alt=""/>
                                 }
@@ -57,7 +57,7 @@ useEffect(()=>{
                                     <p>Дополнительные контакты:</p>
                                     <div className="profile-social">
                                         {
-                                            element.contact.length == 0 ? <p> --- </p> :
+                                            element.contact.length === 0 ? <p> --- </p> :
                                             element.contact.map((item)=>{
                                                 if (item.name === 'facebook'){
                                                    return <a key={item.src} href={item.src} target={'_blank'}><i className="fab fa-facebook"> </i></a>
@@ -85,7 +85,7 @@ useEffect(()=>{
                                 <h3>ФОТО/ВИДЕО</h3>
                                 <div className="profile-media">
                                     {
-                                        element.media.length == 0 ? <p>Пользователь пока не загрузил</p> :
+                                        element.media.length === 0 ? <p>Пользователь пока не загрузил</p> :
                                         element.media.map((item) => {
                                         if (item.name === 'img') {
                                             return (

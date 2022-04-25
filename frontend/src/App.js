@@ -23,6 +23,7 @@ function App() {
                        <Route path={'/order'} exact component={()=>    <Header />}/>
                        <Route path={'/profile/:id'} exact component={()=>    <Header />}/>
                        <Route path={'/user'} exact component={()=> <UserHeader/>}/>
+                       <Route path={'/user/home/:id'} exact component={()=> <UserHeader/>}/>
                        <Route path={'/user/tasks'} exact component={()=> <UserHeader/>}/>
                        <Route path={'/user/orders'} exact component={()=> <UserHeader/>}/>
                    </Switch>

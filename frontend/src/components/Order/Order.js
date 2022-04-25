@@ -5,43 +5,46 @@ import './order.css'
 import axios from "axios";
 
 const Order = () => {
-    // const status = useSelector((s) => s.item.status);
-    // const [state, setState] = useState([]);
+     const [state, setState] = useState(null);
     const btns = useSelector((s) => s.item.btns);
     const [description, setDescription] = useState('');
     const [tel, setTel] = useState('');
     const [email, setEmail] = useState('');
-    const [location, setLocation] = useState('');
-    const [category, setCategory] = useState('');
+    const [location, setLocation] = useState(null);
+    const [category, setCategory] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [showMessage, setShowMessage] =useState(false);
 
     const addItem = (e) => {
         e.preventDefault();
-        const data = {
-            description,
-            tel,
-            email,
-            location,
-            category
-        }
+        setLoading(true);
        axios
-           .post('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/order/create_order/', data)
-           .then((data) => console.log(data))
+           .post('api/order/create_order/', {
+
+               description,
+               tel,
+               email,
+               location,
+               category
+           })
+           .then((data) =>{
+               console.log(data);
+               setState(data.status);
+               setShowMessage(true)
+           })
            .catch(error => {
-            console.log(error.response)
-            console.log("Произошла ошибка Кубаныч")
+            console.log(error);
+            if (String(error).includes('Network')){
+             setState('network')
+            }
+            console.log("Произошла ошибка Кубаныч");
+            setShowMessage(true)
         });
-    }
+    };
 
 
     const dispatch = useDispatch();
-    // const addState = (mean) => {
-    //     setState([
-    //         ...status,
-    //         {
-    //             category: mean,
-    //         }
-    //     ])
-    // };
+
     useEffect(() => {
         dispatch(setApp('kyzmat'));
         dispatch(setStatus('addItem'));
@@ -50,6 +53,24 @@ const Order = () => {
 
     return (
         <>
+            {
+                showMessage === true ?  <div className="message">
+                    <p>{state === 201 ? 'Ваш заказ добавлен. Через некоторое время с вами должны связаться':
+                        state === 'network' ? 'Проблемы с соединением. Поверьте подключение к интернету и пробуйте снова' :
+                        'Произошла ошибка. Очень скоро наши специалисты исправят ошибку. Пробуйте обновить страницу и снова повторить попытку или попробуйте сделать это чуть позже'}</p>
+                    <button onClick={()=> {
+                        setShowMessage(false);
+                        setLoading(false);
+                        setDescription('');
+                        setTel('');
+                        setEmail('');
+                        setCategory('');
+                        setLocation('')
+                    }}>ok</button>
+                </div> : ''
+            }
+
+
 
             <form className={'reception__form'} onSubmit={addItem}>
                 <h4>Добавьте объявление</h4>
@@ -84,7 +105,15 @@ const Order = () => {
                         })
                     }
                 </select>
-                <button type='submit'>Добавить</button>
+                {
+                    loading === true ? <div className="lds-ring">
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                    </div>:  <button type='submit'>Добавить</button>
+                }
+
             </form>
         </>
     );

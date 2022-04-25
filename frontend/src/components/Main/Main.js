@@ -31,8 +31,9 @@ const Main = () => {
                 <Route exact path='/service/:id' component={() => <Service/>}/>
                 <Route exact path={'/order'} component={() => <Order/>}/>
                 <Route path={'/user'} exact component={()=> <User/>}/>
-                <Route exact path={'/user/tasks'} component={()=> <Tasks/>} />
-                <Route exact path={'/user/orders'} component={() => <Orders/>} />
+                <Route path={'/user/home/:id'} exact component={()=> <User/>}/>
+                <Route exact path={'/user/tasks/'} component={()=> <Tasks/>} />
+                <Route exact path={'/user/orders/'} component={() => <Orders/>} />
             </Switch>
         </main>
     );

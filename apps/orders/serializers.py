@@ -4,6 +4,7 @@ from apps.categories.models import Category
 from apps.categories.serializers import CategorySerializerList
 from apps.users.models import User
 from apps.users.serializers import UserSerializer
+from rest_framework.fields import SerializerMethodField
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -53,7 +54,35 @@ class AcceptOrderSerializer(serializers.ModelSerializer):
         model = AcceptOrder
         fields = "__all__"
 
+# class AcceptOrderCreateSerializer(serializers.ModelSerializer):
+#     def change_status(self, instance):
+#         user = self.context['request'].user.id
+#         order = instance.id
+#         try:
+#             return AcceptOrder.objects.filter(user=user, order=order).exists()
+#         except Exception:
+#             return False
+#     status = SerializerMethodField(method_name='change_status')
+
+#     class Meta:
+#         model = AcceptOrder
+#         fields = ('id', 'user', 'order', 'status')
+
+
 class AcceptOrderCreateSerializer(serializers.ModelSerializer):
+
+# returns true if user is authenticated and a Watching instance  
+# exists with this user's id and this listing's id
+    # def is_watched_by_user(self, instance):
+    #     user = self.context['request'].user.id
+    #     order = instance.id
+    #     try:
+    #         return AcceptOrder.objects.filter(user=user, order=order).exists()
+    #     except Exception:
+    #         return False
+
+    # user_is_watching = SerializerMethodField(method_name='is_watched_by_user')
+
     class Meta:
         model = AcceptOrder
-        fields = "__all__"
+        fields = ('id', 'user', 'order')

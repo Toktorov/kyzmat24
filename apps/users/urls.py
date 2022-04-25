@@ -18,6 +18,8 @@ urlpatterns = [
     path('social-login/google/', views.GoogleLogin.as_view(), name='google_login'),
     path('delete/<int:pk>', views.UserDeleteAPIView.as_view(), name = 'user_delete_api'),
     path('update/<int:pk>', views.UserUpdateAPIView.as_view(), name = 'user_update_api'),
+    path('confirm/', views.ConfirmationNumberAPI.as_view(), name = 'user_confirm_api'),
+
 
     #contact
     path('contact/delete/<int:pk>', views.ContactDeleteAPIView.as_view(), name = 'contact_delete_api'),

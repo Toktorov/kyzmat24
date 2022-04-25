@@ -7,10 +7,12 @@ const SET_USER = 'SET_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const GET_ORDERS = 'GET_ORDERS';
 const SET_NEW_USER = 'SET_NEW_USER';
+const SET_ID = 'SET_ID';
 
 const initState = {
     authTokens: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null,
-    user: localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null,
+    id: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('id')) : null,
+    user:  localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')): null,
     orders: [],
     newUser: false,
 };
@@ -32,10 +34,12 @@ export default (state = initState, action) => {
         }
         case LOGOUT_USER: {
             localStorage.removeItem('authTokens');
+            localStorage.removeItem('user');
             return {
                 ...state,
                 authTokens: null,
-                user: null
+                user: null,
+                id: null
             }
         }
         case GET_ORDERS: {
@@ -48,6 +52,12 @@ export default (state = initState, action) => {
             return {
                 ...state,
                 newUser: action.newUser
+            }
+        }
+        case SET_ID:{
+            return {
+                ...state,
+                id: action.id
             }
         }
 
@@ -75,7 +85,7 @@ export const logoutUser = () => {
 
 export const getOrders = () => {
     return (dispatch) => {
-        axios('https://cors-anywhere.herokuapp.com/http://kyzmat24.com/api/order/order/')
+        axios('https://kyzmat24.com/api/order/order/')
             .then(({data}) => dispatch({type: GET_ORDERS, orders: data}))
     }
 };
@@ -83,5 +93,11 @@ export const getOrders = () => {
 export const setNewUser = (boolean) =>{
   return (dispatch)=>{
       dispatch({type:SET_NEW_USER, newUser: boolean})
+  }
+};
+
+export const setId = (id) =>{
+  return (dispatch) =>{
+   dispatch({type: SET_ID, id:id})
   }
 };

@@ -77,7 +77,9 @@ const Header = () => {
             </div>
 
             <div>
-                <Link to={'/user'} onClick={()=> dispatch(setApp('order'))} className="header__link-form" >Вход/Регистрация</Link>
+                <Link to={'/user'} onClick={()=> {
+                    dispatch(setApp('order'));
+                }} className="header__link-form" >Вход/Регистрация</Link>
             </div>
         </header>
     );

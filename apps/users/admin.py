@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.users.models import User
+from apps.users.models import User, ConfirmationNumber
 
 # Register your models here.
 class UserFilterAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class UserFilterAdmin(admin.ModelAdmin):
     search_fields = ('username', )
 
 admin.site.register(User, UserFilterAdmin)
+admin.site.register(ConfirmationNumber)

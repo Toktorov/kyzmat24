@@ -1,7 +1,8 @@
-from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from utils.validator import phone_validator
+from twilio.rest import Client
+import random
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -49,13 +50,43 @@ class User(AbstractUser):
         blank=True, null=True
     )
     password = models.CharField(max_length=100)
+    random_code = random.randint(1000, 9999)
 
     def __str__(self):
         return f"{self.username} -- {self.description}"
 
+    def save(self, *args, **kwargs):
+        #if test_result is less than 80 execute this
+        if self.phone_number:
+            #twilio code
+            
+            account_sid = 'ACa6774feff3b9de0e840a9a988ac75684'
+            auth_token = '46524fdde811f18eea6868ac70a89951'
+            client = Client(account_sid, auth_token)
+
+            message = client.messages.create(
+                                        body=f'Your code {self.random_code}',
+                                        from_='+18452506710',
+                                        to='+996772343206' 
+                                    )
+
+            print(message.sid)
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+class ConfirmationNumber(User):
+    code = models.IntegerField()
+    verify_number = models.BooleanField(default=False)
+
+    def verify(self, *args, **kwargs):
+        if self.code == self.random_code:
+            self.verify == True 
+        else:
+            self.verify == False 
+
 
 class Contact(models.Model):
     name = models.CharField(max_length = 100)

@@ -1,5 +1,5 @@
 from rest_framework import viewsets, generics
-from apps.users.models import User, Contact, Media
+from apps.users.models import User, Contact, Media, ConfirmationNumber
 from apps.users.serializers import (
     UserSerializer, 
     UserSerializerList, 
@@ -10,7 +10,8 @@ from apps.users.serializers import (
     MediaSerializer,
     UsersSerializer,
     IssueTokenRequestSerializer,
-    TokenSeriazliser
+    TokenSeriazliser,
+    ConfirmationNumberSerializer,
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -38,6 +39,11 @@ class UserAPIViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return UserSerializerList
         return self.serializer_class
+
+class ConfirmationNumberAPI(generics.CreateAPIView):
+    queryset = ConfirmationNumber.objects.all()
+    serializer_class = ConfirmationNumberSerializer
+    permission_classes = [AllowAny]
 
 class UserDetailAPIViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()

@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
-from apps.users.models import User, Contact, Media
+from apps.users.models import User, Contact, Media, ConfirmationNumber
 from apps.orders.models import Order
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
@@ -20,7 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email')
+        fields = ('username', 'password', 'password2', 'email', 'phone_number')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -42,7 +42,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return user
 
-
+class ConfirmationNumberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConfirmationNumber
+        fields = ('code',)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
