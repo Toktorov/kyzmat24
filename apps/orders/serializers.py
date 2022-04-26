@@ -50,27 +50,12 @@ class OrderDetailSerializer(serializers.ModelSerializer):
 class AcceptOrderSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only = True)
     order = OrderSerializer(read_only = True)
+
     class Meta:
         model = AcceptOrder
         fields = "__all__"
 
-# class AcceptOrderCreateSerializer(serializers.ModelSerializer):
-#     def change_status(self, instance):
-#         user = self.context['request'].user.id
-#         order = instance.id
-#         try:
-#             return AcceptOrder.objects.filter(user=user, order=order).exists()
-#         except Exception:
-#             return False
-#     status = SerializerMethodField(method_name='change_status')
-
-#     class Meta:
-#         model = AcceptOrder
-#         fields = ('id', 'user', 'order', 'status')
-
-
 class AcceptOrderCreateSerializer(serializers.ModelSerializer):
-    # order = OrderSerializer()
     class Meta:
         model = AcceptOrder
         fields = ('id', 'user', 'order')

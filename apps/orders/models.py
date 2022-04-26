@@ -23,12 +23,13 @@ class Order(models.Model):
         verbose_name_plural = "Услуги"
         ordering = ('-id',)
 
-class AcceptOrder(models.Model):
+class AcceptOrder(Order, models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accept_user")
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="accept_user")
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="accept_user", unique=True)
 
     def __str__(self):
         return f"{self.order}"
+
 
     class Meta:
         verbose_name = "Принимать заказ"
