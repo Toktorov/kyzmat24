@@ -70,19 +70,11 @@ class AcceptOrderSerializer(serializers.ModelSerializer):
 
 
 class AcceptOrderCreateSerializer(serializers.ModelSerializer):
-
-# returns true if user is authenticated and a Watching instance  
-# exists with this user's id and this listing's id
-    # def is_watched_by_user(self, instance):
-    #     user = self.context['request'].user.id
-    #     order = instance.id
-    #     try:
-    #         return AcceptOrder.objects.filter(user=user, order=order).exists()
-    #     except Exception:
-    #         return False
-
-    # user_is_watching = SerializerMethodField(method_name='is_watched_by_user')
-
+    # order = OrderSerializer()
     class Meta:
         model = AcceptOrder
         fields = ('id', 'user', 'order')
+
+    # def __init__(self, *args, **kwargs):
+    #     super(AcceptOrderCreateSerializer, self).__init__(*args, **kwargs)
+    #     self.fields['status'].required = True

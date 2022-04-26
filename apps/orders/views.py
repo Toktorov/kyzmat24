@@ -9,6 +9,8 @@ from apps.orders.serializers import (CategorySerializer,
     AcceptOrderCreateSerializer)
 from apps.categories.models import Category
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from distutils.util import strtobool
+from rest_framework.response import Response
 # Create your views here.
 
 class OrderAPIViewSet(viewsets.ModelViewSet):
@@ -56,10 +58,12 @@ class AcceptOrderCreateAPIView(generics.CreateAPIView):
     serializer_class = AcceptOrderCreateSerializer
     permission_classes = [AllowAny]
 
-    def get_queryset(self, instance):
-        user = self.context['request'].user.id
-        order = instance.id
-        try:
-            return AcceptOrder.objects.filter(user=user, order=order).exists()
-        except Exception:
-            return False
+    def update_status(self, request, *args, **kwargs):
+        if self.status:
+            try:
+                Order.objects.filter(user_id=request.user.id).update(status=strtobool(self.status))
+                return Response({'Status': True})
+            except ValueError as error:
+                return Response({'Status': False, 'Errors': str(error)}, status=self.status.HTTP_400_BAD_REQUEST)
+
+        return Response({'Status': False, 'Errors': 'Не указан аргумент state.'}, status=self.status.HTTP_400_BAD_REQUEST)
