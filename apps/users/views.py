@@ -82,13 +82,13 @@ def getRoutes(request):
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [OwnerProfilePermissions]
+    permission_classes = [AllowAny]
 
 
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [OwnerDeletePermissions]
+    permission_classes = [AllowAny]
 
 
     def get(self, request, pk, format=None,):

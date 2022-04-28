@@ -30,6 +30,7 @@ class AcceptOrder(Order, models.Model):
     def __str__(self):
         return f"{self.order}"
 
+    
 
     class Meta:
         verbose_name = "Принимать заказ"
