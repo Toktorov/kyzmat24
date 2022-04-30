@@ -73,6 +73,15 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = User 
         fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'location', 'another')
 
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
 class IssueTokenRequestSerializer(Serializer):
     model = User
 

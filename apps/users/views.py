@@ -13,6 +13,7 @@ from apps.users.serializers import (
     TokenSeriazliser,
     ConfirmationNumberSerializer,
     UserUpdateSerializer,
+    ChangePasswordSerializer,
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -29,6 +30,7 @@ from rest_framework.authentication import BasicAuthentication, TokenAuthenticati
 from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework import status
 
 # Create your views here.
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -85,6 +87,39 @@ class UserUpdateAPIView(generics.UpdateAPIView):
     serializer_class = UserUpdateSerializer
     permission_classes = [AllowAny]
 
+class ChangePasswordView(generics.UpdateAPIView):
+        """
+        An endpoint for changing password.
+        """
+        serializer_class = ChangePasswordSerializer
+        model = User
+        permission_classes = (AllowAny,)
+
+        def get_object(self, queryset=None):
+            obj = self.request.user
+            return obj
+
+        def update(self, request, *args, **kwargs):
+            self.object = self.get_object()
+            serializer = self.get_serializer(data=request.data)
+
+            if serializer.is_valid():
+                # Check old password
+                if not self.object.check_password(serializer.data.get("old_password")):
+                    return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+                # set_password also hashes the password that the user will get
+                self.object.set_password(serializer.data.get("new_password"))
+                self.object.save()
+                response = {
+                    'status': 'success',
+                    'code': status.HTTP_200_OK,
+                    'message': 'Password updated successfully',
+                    'data': []
+                }
+
+                return Response(response)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
