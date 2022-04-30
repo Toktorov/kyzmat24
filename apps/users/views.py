@@ -31,6 +31,7 @@ from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import status
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -99,6 +100,7 @@ class ChangePasswordView(generics.UpdateAPIView):
             obj = self.request.user
             return obj
 
+        @login_required
         def update(self, request, *args, **kwargs):
             self.object = self.get_object()
             serializer = self.get_serializer(data=request.data)
