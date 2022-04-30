@@ -68,6 +68,11 @@ class UsersSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'date_joined']
 
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User 
+        fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'location', 'another')
+
 class IssueTokenRequestSerializer(Serializer):
     model = User
 

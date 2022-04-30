@@ -1,3 +1,4 @@
+from dataclasses import field
 from rest_framework import serializers
 from apps.orders.models import AcceptOrder, Order
 from apps.categories.models import Category
@@ -60,6 +61,7 @@ class AcceptOrderCreateSerializer(serializers.ModelSerializer):
         model = AcceptOrder
         fields = ('id', 'user', 'order')
 
-    # def __init__(self, *args, **kwargs):
-    #     super(AcceptOrderCreateSerializer, self).__init__(*args, **kwargs)
-    #     self.fields['status'].required = True
+class UpdateStatusSeriaizer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('id', 'title', 'status')

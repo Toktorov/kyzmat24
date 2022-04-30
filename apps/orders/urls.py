@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete/<int:pk>', views.OrderDeleteAPIView.as_view(), name = 'order_delete_api'),
     path('update/<int:pk>', views.OrderUpdateAPIView.as_view(), name = 'order_update_api'),
     path('create_accept_order/', views.AcceptOrderCreateAPIView.as_view(), name='create_saccept_order'),
+    path('update_status/<int:pk>', views.UpdateStatusSeriaizer.as_view(), name = "update_status")
 
 ]
 

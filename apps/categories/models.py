@@ -40,7 +40,7 @@ class Location(models.Model):
     location_self = models.ForeignKey('self', on_delete=models.SET_NULL, null = True, blank = True)
 
     def __str__(self):
-        return self.title 
+        return str(self.title)
 
     class Meta:
         verbose_name = "Локация"

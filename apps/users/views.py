@@ -12,6 +12,7 @@ from apps.users.serializers import (
     IssueTokenRequestSerializer,
     TokenSeriazliser,
     ConfirmationNumberSerializer,
+    UserUpdateSerializer,
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -81,7 +82,7 @@ def getRoutes(request):
 
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserUpdateSerializer
     permission_classes = [AllowAny]
 
 

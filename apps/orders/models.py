@@ -1,6 +1,7 @@
 from django.db import models
 from apps.categories.models import Category, Location
 from apps.users.models import User
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Order(models.Model):
@@ -13,24 +14,32 @@ class Order(models.Model):
     email = models.CharField(max_length=100, help_text="Почта", blank = True, null = True)
     tel = models.CharField(max_length=100, help_text="Телефоный номер", blank=True, null = True)
     cretated = models.DateTimeField(auto_now_add=True)
-    status = models.BooleanField(default=False, blank=True, null = True)
+    status = models.BooleanField(
+        _("staff status"),
+        default=False,
+        help_text=_("Status Product"),
+    )
     
     def __str__(self):
-        return self.description 
+        return str(self.description)
 
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
         ordering = ('-id',)
 
-class AcceptOrder(Order, models.Model):
+class AcceptOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accept_user")
-    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="accept_user", unique=True)
+    order = models.ForeignKey(Order, limit_choices_to = {'status': False}, on_delete=models.CASCADE, related_name="accept_user")
+
+    def save(self, *args, **kwargs):
+        if self.order.status == False:
+            self.order.status = True 
+        else:
+            pass
 
     def __str__(self):
-        return f"{self.order}"
-
-    
+        return str(self.order)
 
     class Meta:
         verbose_name = "Принимать заказ"
