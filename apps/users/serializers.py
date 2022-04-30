@@ -73,14 +73,41 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = User 
         fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'location', 'another')
 
-class ChangePasswordSerializer(serializers.Serializer):
-    model = User
+class ChangePasswordSerializer(ModelSerializer):
+    confirm_password = CharField(write_only=True)
+    new_password = CharField(write_only=True)
+    old_password = CharField(write_only=True)
 
-    """
-    Serializer for password change endpoint.
-    """
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password', 'old_password', 'new_password','confirm_password']
+
+
+
+    def update(self, instance, validated_data):
+
+        instance.password = validated_data.get('password', instance.password)
+
+        if not validated_data['new_password']:
+              raise serializers.ValidationError({'new_password': 'not found'})
+
+        if not validated_data['old_password']:
+              raise serializers.ValidationError({'old_password': 'not found'})
+
+        if not instance.check_password(validated_data['old_password']):
+              raise serializers.ValidationError({'old_password': 'wrong password'})
+
+        if validated_data['new_password'] != validated_data['confirm_password']:
+            raise serializers.ValidationError({'passwords': 'passwords do not match'})
+
+        if validated_data['new_password'] == validated_data['confirm_password'] and instance.check_password(validated_data['old_password']):
+            # instance.password = validated_data['new_password'] 
+            print(instance.password)
+            instance.set_password(validated_data['new_password'])
+            print(instance.password)
+            instance.save()
+            return instance
+        return instance
 
 class IssueTokenRequestSerializer(Serializer):
     model = User
