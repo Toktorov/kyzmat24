@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_rest_passwordreset',
 
-     #docs
+    #docs
     'drf_yasg',
 
     #django_rest
@@ -128,6 +129,13 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIT_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'kyzmat24@gmail.com'
+EMAIL_HOST_PASSWORD = 'vgciwtdmopvvbpsm'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

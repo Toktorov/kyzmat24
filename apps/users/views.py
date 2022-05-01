@@ -22,8 +22,10 @@ from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import status
-from django.contrib.auth.decorators import login_required
-from rest_framework.views import APIView
+from django.dispatch import receiver
+from django.urls import reverse
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import send_mail  
 
 # Create your views here.
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -181,3 +183,19 @@ def user(request: Request):
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+
+    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+
+    send_mail(
+        # title:
+        "Password Reset for {title}".format(title="Some website title"),
+        # message:
+        email_plaintext_message,
+        # from:
+        "noreply@somehost.local",
+        # to:
+        [reset_password_token.user.email]
+    )

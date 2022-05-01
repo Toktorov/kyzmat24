@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from apps.users import views
-from django.urls import path
+from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('update_password/<int:pk>', views.ChangePasswordView.as_view(), name = "update_password"),
     path('login/', views.MyObtainTokenPairView.as_view(), name = "example_view"),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
     #contact
     path('contact/delete/<int:pk>', views.ContactDeleteAPIView.as_view(), name = 'contact_delete_api'),
