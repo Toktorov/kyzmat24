@@ -102,6 +102,11 @@ class ChangePasswordView(generics.UpdateAPIView):
                     'message': 'Password updated successfully',
                     'data': []
                 }
+
+                return Response(response)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
