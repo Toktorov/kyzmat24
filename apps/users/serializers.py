@@ -123,12 +123,11 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'description', 'profile_image', 'location', 'another', 'phone_number', 'user_order')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
     @classmethod
     def get_token(cls, user):
-        token = super().get_token(user)
+        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
         # Add custom claims
         token['username'] = user.username
-        # ...
-
         return token

@@ -1,18 +1,9 @@
 from rest_framework import viewsets, generics
 from apps.users.models import User, Contact, Media, ConfirmationNumber
-from apps.users.serializers import (
-    UserSerializer, 
-    UserSerializerList, 
-    UserDetailSerializer, 
-    RegisterSerializer, 
-    MyTokenObtainPairSerializer,
-    ContactSerializer, 
-    MediaSerializer,
-    UsersSerializer,
-    IssueTokenRequestSerializer,
-    TokenSeriazliser,
-    ConfirmationNumberSerializer,
-    UserUpdateSerializer,
+from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
+    RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
+    MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
+    TokenSeriazliser, ConfirmationNumberSerializer, UserUpdateSerializer,
     ChangePasswordSerializer,
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -32,6 +23,7 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth.decorators import login_required
+from rest_framework.views import APIView
 
 # Create your views here.
 class UserAPIViewSet(viewsets.ModelViewSet):
@@ -59,19 +51,12 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
-class MyObtainTokenPairView(TokenObtainPairView):
-    permission_classes = (AllowAny)
-    serializer_class = MyTokenObtainPairSerializer
 
 class GoogleLogin(SocialLoginView):
     authentication_classes = [] # disable authentication
     adapter_class = GoogleOAuth2Adapter
     callback_url = "http://localhost:3000"
     client_class = OAuth2Client
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -187,3 +172,7 @@ def user(request: Request):
     return Response({
         'data': UsersSerializer(request.user).data
     })
+
+class MyObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer

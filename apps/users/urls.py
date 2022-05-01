@@ -20,6 +20,8 @@ urlpatterns = [
     path('update/<int:pk>', views.UserUpdateAPIView.as_view(), name = 'user_update_api'),
     path('confirm/', views.ConfirmationNumberAPI.as_view(), name = 'user_confirm_api'),
     path('update_password/<int:pk>', views.ChangePasswordView.as_view(), name = "update_password"),
+    path('login/', views.MyObtainTokenPairView.as_view(), name = "example_view"),
+    path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     #contact
     path('contact/delete/<int:pk>', views.ContactDeleteAPIView.as_view(), name = 'contact_delete_api'),
