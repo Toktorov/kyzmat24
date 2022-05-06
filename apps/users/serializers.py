@@ -96,11 +96,25 @@ class TokenSeriazliser(ModelSerializer):
         fields = ['key']
 
 class ContactSerializer(serializers.ModelSerializer):
+    class ContactUserSerializer(serializers.ModelSerializer):
+
+        class Meta:
+            model = User
+            fields = ('username',)
+
+    user = ContactUserSerializer()
     class Meta:
         model = Contact
         fields = "__all__"
 
 class MediaSerializer(serializers.ModelSerializer):
+    class MediaUserSerializer(serializers.ModelSerializer):
+
+        class Meta:
+            model = User
+            fields = ('username',)
+
+    user = MediaUserSerializer()
     class Meta:
         model = Media
         fields = "__all__"

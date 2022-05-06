@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.users.models import User, ConfirmationNumber
+from apps.users.models import User, ConfirmationNumber, Contact, Media
 
 # Register your models here.
 class UserFilterAdmin(admin.ModelAdmin):
@@ -9,3 +9,5 @@ class UserFilterAdmin(admin.ModelAdmin):
 
 admin.site.register(User, UserFilterAdmin)
 admin.site.register(ConfirmationNumber)
+admin.site.register(Contact)
+admin.site.register(Media)

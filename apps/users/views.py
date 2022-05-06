@@ -24,7 +24,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.dispatch import receiver
 from django.urls import reverse
-from django_rest_passwordreset.signals import reset_password_token_created
+from django_rest_passwordreset.signals import reset_password_token_created, pre_password_reset
 from django.core.mail import send_mail 
 import random
 
@@ -127,7 +127,7 @@ class UserDeleteAPIView(generics.DestroyAPIView):
             return [OwnerDeletePermissions()]
         return [permission() for permission in self.permission_classes]
 
-class ContactAPIViewSet(viewsets.ModelViewSet):
+class ContactAPIViewSet(generics.ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = [IsAuthenticated]
@@ -143,7 +143,7 @@ class ContactDeleteAPIView(generics.DestroyAPIView):
     serializer_class = ContactSerializer
     permission_classes = [IsAuthenticated]
 
-class MediaAPIViewSet(viewsets.ModelViewSet):
+class MediaAPIViewSet(generics.ListAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
     permission_classes = [IsAuthenticated]
@@ -188,15 +188,15 @@ class MyObtainTokenPairView(TokenObtainPairView):
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
-    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
+    email_plaintext_message = random.randint(100000, 999999)
 
-    reset_key = random.randint(100000, 999999)
+    # reset_key = random.randint(100000, 999999)
 
     send_mail(
         # title:
         "Запрос на смену пароля.",
         # message:
-        f"Вы (или кто-то от вашего имени) запросил смену пароля для аккаунта {reset_password_token.user.username} (запрос выполнен с IP адреса 217.29.29.13), Для смены пароля пройдите по следующей ссылке: https://kyzmat24.com{email_plaintext_message}. или же введите {reset_key}",
+        f"Вы (или кто-то от вашего имени) запросил смену пароля для аккаунта {reset_password_token.user.username} (запрос выполнен с IP адреса 217.29.29.13), Для смены пароля пройдите по следующей ссылке: https://kyzmat24.com{email_plaintext_message}. или же введите {email_plaintext_message}",
         # from:
         "noreply@somehost.local",
         # to:
