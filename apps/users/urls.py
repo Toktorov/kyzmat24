@@ -24,11 +24,13 @@ urlpatterns = [
 
     #contact
     path('contact/', views.ContactAPIViewSet.as_view(), name='contact'),
+    path('contact_create/', views.ContactCreateAPIView.as_view(), name='contact_create'),
     path('contact/delete/<int:pk>', views.ContactDeleteAPIView.as_view(), name = 'contact_delete_api'),
     path('contact/update/<int:pk>', views.ContactUpdateAPIView.as_view(), name = 'contact_update_api'),
 
     #media
     path('media/', views.MediaAPIViewSet.as_view(), name='media'),
+    path('media_create/', views.MediaCreateAPIView.as_view(), name='media_create'),
     path('media/delete/<int:pk>', views.MediaDeleteAPIView.as_view(), name = 'media_delete_api'),
     path('media/update/<int:pk>', views.MediaUpdateAPIView.as_view(), name = 'media_update_api'),
 ]

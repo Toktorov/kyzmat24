@@ -4,7 +4,7 @@ from apps.users.serializers import (UserSerializer, UserSerializerList, UserDeta
     RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
     MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, ConfirmationNumberSerializer, UserUpdateSerializer,
-    ChangePasswordSerializer,
+    ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -29,6 +29,8 @@ from django.core.mail import send_mail
 import random
 
 # Create your views here.
+
+#UserAPI
 class UserAPIViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -127,38 +129,6 @@ class UserDeleteAPIView(generics.DestroyAPIView):
             return [OwnerDeletePermissions()]
         return [permission() for permission in self.permission_classes]
 
-class ContactAPIViewSet(generics.ListAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
-
-class ContactUpdateAPIView(generics.UpdateAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class ContactDeleteAPIView(generics.DestroyAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
-
-class MediaAPIViewSet(generics.ListAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
-
-class MediaUpdateAPIView(generics.UpdateAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class MediaDeleteAPIView(generics.DestroyAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def issue_token(request: Request):
@@ -202,3 +172,47 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # to:
         [reset_password_token.user.email]
     )
+
+#ContactAPI
+class ContactAPIViewSet(generics.ListAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+class ContactUpdateAPIView(generics.UpdateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+class ContactDeleteAPIView(generics.DestroyAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = [IsAuthenticated]
+
+class ContactCreateAPIView(generics.CreateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactCreateSerializer
+    permission_classes = [IsAuthenticated]
+
+
+#MediaAPI
+class MediaAPIViewSet(generics.ListAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+class MediaUpdateAPIView(generics.UpdateAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class MediaDeleteAPIView(generics.DestroyAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaSerializer
+    permission_classes = [IsAuthenticated]
+
+class MediaCreateAPIView(generics.CreateAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaCreateSerializer
+    permission_classes = [IsAuthenticated]
