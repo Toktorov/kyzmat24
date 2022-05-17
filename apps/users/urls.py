@@ -9,6 +9,7 @@ router.register('', views.UserAPIViewSet, basename='users')
 
 
 urlpatterns = [
+    #user
     path('user/<int:pk>', views.UserDetailAPIViewSet.as_view(), name = 'user_detail'),
     path('user/', views.user, name = "user"),
     path('user/login', views.issue_token, name='issue_token'),
@@ -16,7 +17,6 @@ urlpatterns = [
     path('social-login/google/', views.GoogleLogin.as_view(), name='google_login'),
     path('delete/<int:pk>', views.UserDeleteAPIView.as_view(), name = 'user_delete_api'),
     path('update/<int:pk>', views.UserUpdateAPIView.as_view(), name = 'user_update_api'),
-    path('confirm/', views.ConfirmationNumberAPI.as_view(), name = 'user_confirm_api'),
     path('update_password/<int:pk>', views.ChangePasswordView.as_view(), name = "update_password"),
     path('login/', views.MyObtainTokenPairView.as_view(), name = "example_view"),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

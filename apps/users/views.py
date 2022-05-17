@@ -1,10 +1,10 @@
 from rest_framework import viewsets, generics
-from apps.users.models import User, Contact, Media, ConfirmationNumber
+from apps.users.models import User, Contact, Media
 from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
     RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
     MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
-    TokenSeriazliser, ConfirmationNumberSerializer, UserUpdateSerializer,
-    ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer
+    TokenSeriazliser, UserUpdateSerializer,
+    ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer, 
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -25,8 +25,14 @@ from rest_framework import status
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created, pre_password_reset
+from django.utils import timezone
 from django.core.mail import send_mail 
 import random
+from twilio.rest import Client as TwilioClient
+from decouple import config
+from rest_framework import permissions
+import pyotp
+from decouple import config
 
 # Create your views here.
 
@@ -40,11 +46,6 @@ class UserAPIViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return UserSerializerList
         return self.serializer_class
-
-class ConfirmationNumberAPI(generics.CreateAPIView):
-    queryset = ConfirmationNumber.objects.all()
-    serializer_class = ConfirmationNumberSerializer
-    permission_classes = [AllowAny]
 
 class UserDetailAPIViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()

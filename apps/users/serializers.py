@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
-from apps.users.models import User, Contact, Media, ConfirmationNumber
+from apps.users.models import User, Contact, Media
 from apps.orders.models import Order
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
@@ -21,7 +21,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'email', 'phone_number')
+        fields = ('username', 'password', 'password2', 'email', 'phonenumber')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -42,11 +42,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-
-class ConfirmationNumberSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ConfirmationNumber
-        fields = ('code',)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -137,7 +132,7 @@ class UserSerializerList(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'username', 'first_name', 'last_name', 'email', 'profile_image', 'description', 'location', 'another', 'phone_number', 'contact', 'media'
+            'id', 'username', 'first_name', 'last_name', 'email', 'profile_image', 'description', 'location', 'another', 'contact', 'media'
         )
 
 
@@ -146,7 +141,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User 
-        fields = ('id', 'username', 'description', 'profile_image', 'location', 'another', 'phone_number', 'user_order')
+        fields = ('id', 'username', 'description', 'profile_image', 'location', 'another', 'user_order')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 

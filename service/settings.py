@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -212,6 +213,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#Twilio
+TWILIO_PHONE = config('+18452506710', default=None)
+TWILIO_ACCOUNT_SID = config('ACa6774feff3b9de0e840a9a988ac75684', default=None)
+TWILIO_AUTH_TOKEN = config('38e46b65735e8d54343fc3d848b62494', default=None)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
