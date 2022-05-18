@@ -4,7 +4,7 @@ from apps.users.serializers import (UserSerializer, UserSerializerList, UserDeta
     RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
     MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, UserUpdateSerializer,
-    ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer, 
+    ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter

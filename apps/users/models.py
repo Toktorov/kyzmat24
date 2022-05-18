@@ -46,34 +46,12 @@ class User(AbstractUser):
     profile_image = models.ImageField(upload_to='profiles', blank=True, null=True)
     location = models.CharField(max_length=250, blank = True, null = True, default="Пользователь не добавил местоположение")
     another = models.TextField(blank = True, null = True)
-    phonenumber = models.CharField(
-        max_length=255,
-        validators=[phone_validator],
-        blank=True, null=True,
-    )
     password = models.CharField(max_length=100)
     random_code = random.randint(1000, 9999)
 
     def __str__(self):
         return f"{self.username} -- {self.description}"
 
-    # def save(self, *args, **kwargs):
-    #     #if test_result is less than 80 execute this
-    #     if self.phone_number:
-    #         #twilio code
-            
-    #         account_sid = 'ACa6774feff3b9de0e840a9a988ac75684'
-    #         auth_token = '46524fdde811f18eea6868ac70a89951'
-    #         client = Client(account_sid, auth_token)
-
-    #         message = client.messages.create(
-    #                                     body=f'Your code {self.random_code}',
-    #                                     from_='+18452506710',
-    #                                     to='+996772343206' 
-    #                                 )
-
-    #         print(message.sid)
-    #     return super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Пользователь"

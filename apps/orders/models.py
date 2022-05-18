@@ -10,6 +10,7 @@ class Order(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null = True)
     places = models.CharField(max_length=100, help_text="places", blank = True, null = True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,  related_name='product_category', blank = True, null = True)
+    order_image = models.ImageField(upload_to = 'order_image/')
     imgsrc = models.ImageField(upload_to = 'product_image', help_text = "Фотография продукта")
     email = models.CharField(max_length=100, help_text="Почта", blank = True, null = True)
     tel = models.CharField(max_length=100, help_text="Телефоный номер", blank=True, null = True)

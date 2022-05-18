@@ -8,7 +8,10 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import Serializer, ModelSerializer, CharField
 from django.contrib.auth.decorators import login_required
-
+from phonenumber_field.serializerfields import PhoneNumberField
+from rest_framework.exceptions import ValidationError
+import phonenumbers
+from django.conf import settings
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
