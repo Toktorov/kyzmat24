@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from utils.validator import phone_validator
@@ -61,6 +62,7 @@ class User(AbstractUser):
 
 class Contact(models.Model):
     name = models.CharField(max_length = 100)
+    image = models.ImageField(upload_to = 'contact_image/')
     src = models.CharField(max_length = 250)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -73,6 +75,7 @@ class Contact(models.Model):
         
 class Media(models.Model):
     name = models.CharField(max_length = 100, verbose_name="Имя")
+    image = models.FileField(upload_to = 'media_files/')
     src = models.CharField(max_length = 250)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
