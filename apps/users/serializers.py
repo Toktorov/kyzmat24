@@ -1,4 +1,3 @@
-from django.db.models import fields
 from rest_framework import serializers
 from apps.users.models import User, Contact, Media
 from apps.orders.models import Order
@@ -7,11 +6,6 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import Serializer, ModelSerializer, CharField
-from django.contrib.auth.decorators import login_required
-from phonenumber_field.serializerfields import PhoneNumberField
-from rest_framework.exceptions import ValidationError
-import phonenumbers
-from django.conf import settings
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -152,6 +146,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
-        # Add custom claims
+        # Добавить пользовательские претензии
         token['username'] = user.username
         return token

@@ -10,30 +10,21 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.permissions import AllowAny
 from apps.users.permissions import OwnerProfilePermissions, OwnerDeletePermissions
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.authentication import BasicAuthentication, TokenAuthentication, SessionAuthentication
 from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.dispatch import receiver
-from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created, pre_password_reset
-from django.utils import timezone
 from django.core.mail import send_mail 
 import random
-from twilio.rest import Client as TwilioClient
 from decouple import config
-from rest_framework import permissions
-import pyotp
-from decouple import config
-
 # Create your views here.
 
 #UserAPI
@@ -59,7 +50,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 class GoogleLogin(SocialLoginView):
-    authentication_classes = [] # disable authentication
+    authentication_classes = [] # отключить аутентификацию
     adapter_class = GoogleOAuth2Adapter
     callback_url = "http://localhost:3000"
     client_class = OAuth2Client
@@ -96,10 +87,10 @@ class ChangePasswordView(generics.UpdateAPIView):
             serializer = self.get_serializer(data=request.data)
 
             if serializer.is_valid():
-                # Check old password
+                # Проверить старый пароль
                 if not self.object.check_password(serializer.data.get("old_password")):
                     return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-                # set_password also hashes the password that the user will get
+                # set_password также хеширует пароль, который получит пользователь
                 self.object.set_password(serializer.data.get("new_password"))
                 self.object.save()
                 response = {

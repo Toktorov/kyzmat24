@@ -10,8 +10,6 @@ from apps.orders.serializers import (CategorySerializer,
     UpdateStatusSeriaizer)
 from apps.categories.models import Category
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from distutils.util import strtobool
-from rest_framework.response import Response
 # Create your views here.
 
 class OrderAPIViewSet(viewsets.ModelViewSet):

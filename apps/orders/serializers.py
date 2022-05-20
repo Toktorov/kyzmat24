@@ -1,11 +1,8 @@
-from dataclasses import field
 from rest_framework import serializers
 from apps.orders.models import AcceptOrder, Order
 from apps.categories.models import Category
-from apps.categories.serializers import CategorySerializerList
 from apps.users.models import User
 from apps.users.serializers import UserSerializer
-from rest_framework.fields import SerializerMethodField
 
 
 class CategorySerializer(serializers.ModelSerializer):

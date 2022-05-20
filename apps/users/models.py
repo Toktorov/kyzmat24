@@ -1,11 +1,6 @@
-from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
-from utils.validator import phone_validator
-from django.conf import settings
-from twilio.rest import Client
-import random
-import pyotp
+from django.core.mail import send_mail 
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -41,6 +36,8 @@ class UserManager(BaseUserManager):
 
         return user
 
+""""Моделька для создания пользователя"""
+
 class User(AbstractUser):
     username = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank = True, null = True, default="Пользователь не добавил описание")
@@ -48,11 +45,27 @@ class User(AbstractUser):
     location = models.CharField(max_length=250, blank = True, null = True, default="Пользователь не добавил местоположение")
     another = models.TextField(blank = True, null = True)
     password = models.CharField(max_length=100)
-    random_code = random.randint(1000, 9999)
+    email = models.EmailField(max_length=255, null = True, blank = True)
 
     def __str__(self):
         return f"{self.username} -- {self.description}"
 
+
+    """В следующем обновлении сделаем отправку сообщений в email зарегистрированного пользователя, пока что код заморожен"""
+    # def save(self, *args, **kwargs):
+    #     try:
+    #         send_mail(
+    #                 # title:
+    #                 f"Добро пожаловать {self.username}!",
+    #                 # message:
+    #                 f"Добро пожаловать в наш сервис Kyzmat24",
+    #                 # from:
+    #                 "noreply@somehost.local",
+    #                 # to:
+    #                 [self.email]
+    #         )
+    #     except Exception:
+    #         return f"Error"
 
     class Meta:
         verbose_name = "Пользователь"
@@ -75,7 +88,7 @@ class Contact(models.Model):
         
 class Media(models.Model):
     name = models.CharField(max_length = 100, verbose_name="Имя")
-    image = models.FileField(upload_to = 'media_files/')
+    file = models.FileField(upload_to = 'media_files/')
     src = models.CharField(max_length = 250)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
