@@ -75,8 +75,7 @@ class User(AbstractUser):
 
 class Contact(models.Model):
     name = models.CharField(max_length = 100)
-    image = models.ImageField(upload_to = 'contact_image/')
-    src = models.CharField(max_length = 250)
+    src = models.CharField(max_length = 250, blank = True, null = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -88,8 +87,8 @@ class Contact(models.Model):
         
 class Media(models.Model):
     name = models.CharField(max_length = 100, verbose_name="Имя")
-    file = models.FileField(upload_to = 'media_files/')
-    src = models.CharField(max_length = 250)
+    file = models.FileField(upload_to = 'media_files/', blank=True, null = True)
+    src = models.CharField(max_length = 250, blank=True, null = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
