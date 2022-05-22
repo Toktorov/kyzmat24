@@ -76,7 +76,7 @@ class ChangePasswordView(generics.UpdateAPIView):
         """
         serializer_class = ChangePasswordSerializer
         model = User
-        permission_classes = (IsAuthenticated,)
+        permission_classes = (AllowAny,)
 
         def get_object(self, queryset=None):
             obj = self.request.user
@@ -136,7 +136,7 @@ def issue_token(request: Request):
         return Response(serializer.errors, status=400)
 
 @api_view()
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 @authentication_classes([TokenAuthentication])
 def user(request: Request):
     return Response({
@@ -169,42 +169,42 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class ContactAPIViewSet(generics.ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ContactUpdateAPIView(generics.UpdateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ContactDeleteAPIView(generics.DestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class ContactCreateAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 
 #MediaAPI
 class MediaAPIViewSet(generics.ListAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class MediaUpdateAPIView(generics.UpdateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 
 class MediaDeleteAPIView(generics.DestroyAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
 class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
