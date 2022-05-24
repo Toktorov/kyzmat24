@@ -34,6 +34,13 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
 
+class OrderAcceptUpdateSerializer(serializers.ModelSerializer):
+    # order_user = serializers.ReadOnlyField(source='order_user.username')
+    
+    class Meta:
+        model = Order
+        fields = ('status', )
+
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order

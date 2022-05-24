@@ -1,13 +1,9 @@
 from rest_framework import viewsets, generics
 from apps.orders.models import AcceptOrder, Order
 from apps.orders.serializers import (CategorySerializer, 
-    OrderSerializer,
-    CreateOrderSerializer, 
-    OrderCreateSerializer, 
-    OrderDetailSerializer,
-    AcceptOrderSerializer,
-    AcceptOrderCreateSerializer,
-    UpdateStatusSeriaizer)
+    OrderSerializer, CreateOrderSerializer, OrderCreateSerializer, 
+    OrderDetailSerializer, AcceptOrderSerializer, AcceptOrderCreateSerializer,
+    UpdateStatusSeriaizer, OrderAcceptUpdateSerializer)
 from apps.categories.models import Category
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 # Create your views here.
@@ -41,6 +37,10 @@ class OrderUpdateAPIView(generics.UpdateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [AllowAny]
 
+class AcceptOrderUpdateAPIView(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderAcceptUpdateSerializer
+    permission_classes = [AllowAny]
 
 class OrderDeleteAPIView(generics.DestroyAPIView):
     queryset = Order.objects.all()
