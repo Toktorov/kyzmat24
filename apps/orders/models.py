@@ -33,12 +33,6 @@ class AcceptOrder(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accept_user")
     order = models.ForeignKey(Order, limit_choices_to = {'status': False}, on_delete=models.CASCADE, related_name="accept_user")
 
-    def save(self, *args, **kwargs):
-        if self.order.status == False:
-            self.order.status = True 
-        else:
-            pass
-
     def __str__(self):
         return str(self.order)
 
