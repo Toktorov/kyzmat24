@@ -16,13 +16,13 @@ class Order(models.Model):
     tel = models.CharField(max_length=100, help_text="Телефоный номер", blank=True, null = True)
     cretated = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(
-        _("staff status"),
+        _("status"),
         default=False,
         help_text=_("Status Product"),
     )
     
     def __str__(self):
-        return str(self.description)
+        return f"{self.title}, {self.description}, {self.cretated}"
 
     class Meta:
         verbose_name = "Услуга"
@@ -30,8 +30,9 @@ class Order(models.Model):
         ordering = ('-id',)
 
 class AcceptOrder(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="accept_user")
-    order = models.ForeignKey(Order, limit_choices_to = {'status': False}, on_delete=models.CASCADE, related_name="accept_user")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order = models.OneToOneField(Order, limit_choices_to = {'status': False}, on_delete=models.CASCADE, unique=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return str(self.order)

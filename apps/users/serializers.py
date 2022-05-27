@@ -1,6 +1,7 @@
+from dataclasses import field
 from rest_framework import serializers
 from apps.users.models import User, Contact, Media
-from apps.orders.models import Order
+from apps.orders.models import AcceptOrder, Order
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -122,14 +123,22 @@ class MediaCreateSerializer(serializers.ModelSerializer):
         model = Media
         fields = "__all__"
 
+class AcceptOrderSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = AcceptOrder
+        fields = "__all__"
 
 class UserSerializerList(serializers.ModelSerializer):
     contact = ContactSerializer(many=True, source='contact_set.all', read_only=True)
     media = MediaSerializer(many = True,  source='media_set.all', read_only = True)
+    orders = AcceptOrderSerializer(many = True, read_only = True)
+
     class Meta:
         model = User
         fields = (
-            'id', 'username', 'first_name', 'last_name', 'email', 'profile_image', 'description', 'location', 'another', 'contact', 'media'
+            'id', 'username', 'first_name', 'last_name', 'email', 'profile_image', 'description', 
+            'location', 'another', 'contact', 'media', 'orders'
         )
 
 
