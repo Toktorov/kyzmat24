@@ -46,6 +46,7 @@ class User(AbstractUser):
     another = models.TextField(blank = True, null = True)
     password = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, null = True, blank = True)
+    verifed = models.BooleanField(default=False, verbose_name="Верифицирован")
 
     def __str__(self):
         return f"{self.username} -- {self.description}"

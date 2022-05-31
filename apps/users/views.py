@@ -21,7 +21,9 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.dispatch import receiver
-from django_rest_passwordreset.signals import reset_password_token_created, pre_password_reset
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail 
 import random
 from decouple import config
@@ -43,10 +45,31 @@ class UserDetailAPIViewSet(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserDetailSerializer
     permission_classes = [AllowAny]
 
+class Util:
+	@staticmethod
+	def send_email(data):
+		email = EmailMessage(subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
+		email.send()
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        user_data = serializer.data
+        user_uuid = user_data['username']
+        user = User.objects.get(email=user_data['email'])
+        current_site = get_current_site(request).domain
+        relativeLink = "/api/email-verify/"
+        absurl = 'http://'+ current_site + relativeLink + user_uuid 
+        email_body = 'Добро пожаловать в Kyzmat24! \n' + absurl 
+        data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Verify Your Email'}
+        Util.send_email(data)
+        return Response(user_data, status=status.HTTP_201_CREATED)
 
 
 class GoogleLogin(SocialLoginView):
