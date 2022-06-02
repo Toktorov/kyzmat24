@@ -64,12 +64,23 @@ class RegisterView(generics.CreateAPIView):
         user_uuid = user_data['username']
         user = User.objects.get(email=user_data['email'])
         current_site = get_current_site(request).domain
-        relativeLink = "/api/email-verify/"
+        relativeLink = "/api/users/email-verify/"
         absurl = 'http://'+ current_site + relativeLink + user_uuid 
         email_body = 'Добро пожаловать в Kyzmat24! \n' + absurl 
         data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Verify Your Email'}
         Util.send_email(data)
         return Response(user_data, status=status.HTTP_201_CREATED)
+
+class VerifyEmail(generics.GenericAPIView):
+	def get(self, request, pk):
+		try:
+			user = User.objects.get(username = pk)
+			if user:
+				user.verifed = True
+				user.save()
+			return Response({'email':'Succesfully activated'}, status=status.HTTP_200_OK)
+		except User.DoesNotExist:
+			return Response({'Not a valid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GoogleLogin(SocialLoginView):

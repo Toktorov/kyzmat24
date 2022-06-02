@@ -21,6 +21,7 @@ urlpatterns = [
     path('login/', views.MyObtainTokenPairView.as_view(), name = "example_view"),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('email-verify/<str:pk>', views.VerifyEmail.as_view(), name = "email-verify"),
 
     #contact
     path('contact/', views.ContactAPIViewSet.as_view(), name='contact'),
