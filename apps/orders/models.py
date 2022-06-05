@@ -20,6 +20,9 @@ class Order(models.Model):
         default=False,
         help_text=_("Status Product"),
     )
+    completed = models.BooleanField(
+        default=False, help_text="Статус заказа"
+    )
     
     def __str__(self):
         return f"{self.title}, {self.description}, {self.cretated}"

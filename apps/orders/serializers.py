@@ -1,3 +1,4 @@
+from dataclasses import field
 from rest_framework import serializers
 from apps.orders.models import AcceptOrder, Order
 from apps.categories.models import Category
@@ -27,6 +28,11 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = "__all__"
+
+class OrderCompletedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order 
+        fields = ('completed', )
 
 class OrderAcceptUpdateSerializer(serializers.ModelSerializer):
     # order_user = serializers.ReadOnlyField(source='order_user.username')

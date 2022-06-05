@@ -1,4 +1,7 @@
+from django.shortcuts import redirect
+from requests import request
 from rest_framework import viewsets, generics
+from apps.orders import serializers
 from apps.users.models import User, Contact, Media
 from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
     RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
@@ -75,7 +78,6 @@ class RegisterView(generics.CreateAPIView):
         return Response(user_data, status=status.HTTP_201_CREATED)
 
 class SendComfirmEmailView(generics.GenericAPIView):
-    # queryset = User.objects.all()
     serializer_class = SendConfirmEmailSerializer
     permission_classes = (AllowAny, )
 
@@ -267,3 +269,6 @@ class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
     permission_classes = [AllowAny]
+
+    def post(self, request):
+        return redirect('user_home', request.user.id)

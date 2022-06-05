@@ -48,7 +48,7 @@ api_urlpatterns = [
 ]
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name = 'index.html')),
+    path('', TemplateView.as_view(template_name = 'index.html'), name = "index"),
     path('category/', TemplateView.as_view(template_name = 'index.html')),
     path('search/', TemplateView.as_view(template_name = 'index.html')),
     path('reviews/', TemplateView.as_view(template_name = 'index.html')),
@@ -58,6 +58,7 @@ urlpatterns = [
     path('user/orders', TemplateView.as_view(template_name = 'index.html')),
     path('user/tasks', TemplateView.as_view(template_name = 'index.html')),
     path('user/', TemplateView.as_view(template_name = 'index.html')),
+    path('user/home/<int:id>', TemplateView.as_view(template_name = 'index.html'), name = "user_home"),
     path('accounts/', include('allauth.urls')),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
