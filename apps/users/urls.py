@@ -20,7 +20,6 @@ urlpatterns = [
     path('update_password/<int:pk>', views.ChangePasswordView.as_view(), name = "update_password"),
     path('login/', views.MyObtainTokenPairView.as_view(), name = "example_view"),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('email-verify/<str:pk>', views.VerifyEmail.as_view(), name = "email-verify"),
     path('send-confirm-email/', views.SendComfirmEmailView.as_view(), name = "confirm-email-send"),
     path('change-password/', views.ChangePasswordView.as_view(), name='change-password'),

@@ -8,8 +8,7 @@ from apps.users.serializers import (UserSerializer, UserSerializerList, UserDeta
     MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, UserUpdateSerializer,
     ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
-    SendConfirmEmailSerializer, SendResetPasswordSerializer,
-    ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
+    SendConfirmEmailSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -122,7 +121,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
                 'password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
 
             redirect_url = request.data.get('redirect_url', '')
-            absurl = 'http://'+'127.0.0.1:7080' + relativeLink
+            absurl = 'http://'+'kyzmat24.com' + relativeLink
             email_body = 'Здрайствуйте, \n Воспользуйтесь ссылкой ниже, чтобы сбросить пароль  \n' + \
                 absurl+"?redirect_url="+redirect_url
             data = {'email_body': email_body, 'to_email': user.email,
@@ -146,12 +145,12 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
                 if len(redirect_url) > 3:
                     return CustomRedirect(redirect_url+'?token_valid=False')
                 else:
-                    return CustomRedirect('http://127.0.0.1:7080'+'?token_valid=False')
+                    return CustomRedirect('https://kyzmat24.com'+'?token_valid=False')
 
             if redirect_url and len(redirect_url) > 3:
                 return CustomRedirect(redirect_url+'?token_valid=True&message=Credentials Valid&uidb64='+uidb64+'&token='+token)
             else:
-                return CustomRedirect('http://127.0.0.1:7080'+'?token_valid=False')
+                return CustomRedirect('https://kyzmat24.com'+'?token_valid=False')
 
         except DjangoUnicodeDecodeError as identifier:
             try:
@@ -170,28 +169,6 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
-
-#удалить
-class ResetPasswordEmailView(generics.GenericAPIView):
-    serializer_class = SendResetPasswordSerializer
-    permission_classes = (AllowAny, )
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-
-        email = request.data.get('email', '')
-
-        if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email, ) 
-            user_uuid = user.username
-            relativeLink = "/api/users/email-verify/"
-            absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid
-            email_body = 'Здраствуйте, \nИспользуйте эту ссылку для сброса пароля  \n' + \
-                absurl
-            data = {'email_body': email_body, 'to_email': user.email,
-                    'email_subject': 'Kyzmat24, сброс пароля'}
-            Util.send_email(data)
-        return Response({'success': 'Успешно отправлено'}, status=status.HTTP_200_OK)
 
 class VerifyEmail(generics.GenericAPIView):
 	def get(self, request, pk):
