@@ -67,11 +67,10 @@ class RegisterView(generics.CreateAPIView):
         user_data = serializer.data
         user_uuid = user_data['username']
         user = User.objects.get(email=user_data['email'])
-        current_site = get_current_site(request).domain
         relativeLink = "/api/users/email-verify/"
         absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid 
         email_body = 'Добро пожаловать в Kyzmat24! \n' + absurl 
-        data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Verify Your Email'}
+        data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Потвердите свою личность'}
         Util.send_email(data)
         return Response(user_data, status=status.HTTP_201_CREATED)
 
@@ -86,21 +85,16 @@ class SendComfirmEmailView(generics.GenericAPIView):
         email = request.data.get('email', '')
 
         if User.objects.filter(email=email).exists():
-            user = User.objects.get(email=email)
-            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
-            token = PasswordResetTokenGenerator().make_token(user)
-            current_site = get_current_site(
-                request=request).domain
-        
-            redirect_url = request.data.get('redirect_url', '')
+            user = User.objects.get(email=email, ) 
+            user_uuid = user.username
             relativeLink = "/api/users/email-verify/"
-            absurl = 'http://'+current_site + relativeLink
-            email_body = 'Hello, \n Use link below to reset your password  \n' + \
-                absurl+"?redirect_url="+redirect_url
+            absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid
+            email_body = 'Здраствуйте, \nИспользуйте эту ссылку для верификации своего аккаунта  \n' + \
+                absurl
             data = {'email_body': email_body, 'to_email': user.email,
-                    'email_subject': 'Reset your passsword'}
+                    'email_subject': 'Потвердите свою личность'}
             Util.send_email(data)
-        return Response({'success': 'We have sent you a link to reset your password'}, status=status.HTTP_200_OK)
+        return Response({'success': 'Успешно отправлено'}, status=status.HTTP_200_OK)
 
 class VerifyEmail(generics.GenericAPIView):
 	def get(self, request, pk):
@@ -109,9 +103,9 @@ class VerifyEmail(generics.GenericAPIView):
 			if user:
 				user.verifed = True
 				user.save()
-			return Response({'email':'Succesfully activated'}, status=status.HTTP_200_OK)
+			return Response({'email':'Успешно верифирован'}, status=status.HTTP_200_OK)
 		except User.DoesNotExist:
-			return Response({'Not a valid token'}, status=status.HTTP_400_BAD_REQUEST)
+			return Response({'Неправильное имя пользователя'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GoogleLogin(SocialLoginView):
