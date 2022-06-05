@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from apps.users import views
-from django.urls import path, include
+from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -23,6 +23,8 @@ urlpatterns = [
     # path('password/reset/', views.ResetPasswordAPIView.as_view(), name = "password-rest"),
     path('email-verify/<str:pk>', views.VerifyEmail.as_view(), name = "email-verify"),
     path('send-confirm-email/', views.SendComfirmEmailView.as_view(), name = "confirm-email-send"),
+    path('send-reset-password-email/', views.ResetPasswordEmailView.as_view(), name = "confirm-email-send"),
+
 
     #contact
     path('contact/', views.ContactAPIViewSet.as_view(), name='contact'),

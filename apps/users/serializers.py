@@ -50,6 +50,14 @@ class SendConfirmEmailSerializer(serializers.Serializer):
         model = User 
         fields = ('email', )
 
+class SendResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+            min_length = 1,
+            )
+
+    class Meta:
+        model = User 
+        fields = ('email', )
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

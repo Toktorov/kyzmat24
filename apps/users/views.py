@@ -8,7 +8,7 @@ from apps.users.serializers import (UserSerializer, UserSerializerList, UserDeta
     MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, UserUpdateSerializer,
     ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
-    SendConfirmEmailSerializer,
+    SendConfirmEmailSerializer, SendResetPasswordSerializer
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -95,6 +95,27 @@ class SendComfirmEmailView(generics.GenericAPIView):
                 absurl
             data = {'email_body': email_body, 'to_email': user.email,
                     'email_subject': 'Потвердите свою личность'}
+            Util.send_email(data)
+        return Response({'success': 'Успешно отправлено'}, status=status.HTTP_200_OK)
+
+class ResetPasswordEmailView(generics.GenericAPIView):
+    serializer_class = SendResetPasswordSerializer
+    permission_classes = (AllowAny, )
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        email = request.data.get('email', '')
+
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email, ) 
+            user_uuid = user.username
+            relativeLink = "/api/users/email-verify/"
+            absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid
+            email_body = 'Здраствуйте, \nИспользуйте эту ссылку для сброса пароля  \n' + \
+                absurl
+            data = {'email_body': email_body, 'to_email': user.email,
+                    'email_subject': 'Kyzmat24, сброс пароля'}
             Util.send_email(data)
         return Response({'success': 'Успешно отправлено'}, status=status.HTTP_200_OK)
 
