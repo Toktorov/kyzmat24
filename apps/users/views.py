@@ -63,19 +63,19 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        user_data = serializer.data
-        user_uuid = user_data['username']
-        user = User.objects.get(email=user_data['email'])
-        relativeLink = "/api/users/email-verify/"
-        absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid 
-        email_body = 'Добро пожаловать в Kyzmat24! \n' + absurl 
-        data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Потвердите свою личность'}
-        Util.send_email(data)
-        return Response(user_data, status=status.HTTP_201_CREATED)
+    # def post(self, request):
+    #     serializer = self.serializer_class(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     user_data = serializer.data
+    #     user_uuid = user_data['username']
+    #     user = User.objects.get(email=user_data['email'])
+    #     relativeLink = "/api/users/email-verify/"
+    #     absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid 
+    #     email_body = 'Добро пожаловать в Kyzmat24! \n' + absurl 
+    #     data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Потвердите свою личность'}
+    #     Util.send_email(data)
+    #     return Response(user_data, status=status.HTTP_201_CREATED)
 
 class SendComfirmEmailView(generics.GenericAPIView):
     serializer_class = SendConfirmEmailSerializer
