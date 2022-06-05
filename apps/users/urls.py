@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
 from apps.users import views
-from django.urls import path
+from django.urls import path, include
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
@@ -20,10 +20,13 @@ urlpatterns = [
     path('update_password/<int:pk>', views.ChangePasswordView.as_view(), name = "update_password"),
     path('login/', views.MyObtainTokenPairView.as_view(), name = "example_view"),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # path('password/reset/', views.ResetPasswordAPIView.as_view(), name = "password-rest"),
+    path('password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     path('email-verify/<str:pk>', views.VerifyEmail.as_view(), name = "email-verify"),
     path('send-confirm-email/', views.SendComfirmEmailView.as_view(), name = "confirm-email-send"),
-    path('send-reset-password-email/', views.ResetPasswordEmailView.as_view(), name = "confirm-email-send"),
+    path('change-password/', views.ChangePasswordView.as_view(), name='change-password'),
+    path('request-reset-email/', views.RequestPasswordResetEmail.as_view(), name="request-reset-email"),
+    path('password-reset/<uidb64>/<token>/', views.PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
+    path('password-reset-complete', views.SetNewPasswordAPIView.as_view(), name='password-reset-complete'),
 
 
     #contact

@@ -8,7 +8,8 @@ from apps.users.serializers import (UserSerializer, UserSerializerList, UserDeta
     MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, UserUpdateSerializer,
     ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
-    SendConfirmEmailSerializer, SendResetPasswordSerializer
+    SendConfirmEmailSerializer, SendResetPasswordSerializer,
+    ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
     )
 from rest_framework_simplejwt.views import TokenObtainPairView
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -34,6 +35,7 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
+from django.http import HttpResponsePermanentRedirect
 # Create your views here.
 
 #UserAPI
@@ -57,6 +59,10 @@ class Util:
 	def send_email(data):
 		email = EmailMessage(subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
 		email.send()
+
+class CustomRedirect(HttpResponsePermanentRedirect):
+
+    allowed_schemes = ['https', 'http']
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -98,6 +104,74 @@ class SendComfirmEmailView(generics.GenericAPIView):
             Util.send_email(data)
         return Response({'success': 'Успешно отправлено'}, status=status.HTTP_200_OK)
 
+class RequestPasswordResetEmail(generics.GenericAPIView):
+    serializer_class = ResetPasswordEmailRequestSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+
+        email = request.data.get('email', '')
+
+        if User.objects.filter(email=email).exists():
+            user = User.objects.get(email=email)
+            uidb64 = urlsafe_base64_encode(smart_bytes(user.id))
+            token = PasswordResetTokenGenerator().make_token(user)
+            # current_site = get_current_site(
+            #     request=request).domain
+            relativeLink = reverse(
+                'password-reset-confirm', kwargs={'uidb64': uidb64, 'token': token})
+
+            redirect_url = request.data.get('redirect_url', '')
+            absurl = 'http://'+'127.0.0.1:7080' + relativeLink
+            email_body = 'Здрайствуйте, \n Воспользуйтесь ссылкой ниже, чтобы сбросить пароль  \n' + \
+                absurl+"?redirect_url="+redirect_url
+            data = {'email_body': email_body, 'to_email': user.email,
+                    'email_subject': 'Сбросить пароль'}
+            Util.send_email(data)
+        return Response({'success': 'We have sent you a link to reset your password'}, status=status.HTTP_200_OK)
+
+
+class PasswordTokenCheckAPI(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
+    def get(self, request, uidb64, token):
+
+        redirect_url = request.GET.get('redirect_url')
+
+        try:
+            id = smart_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(id=id)
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                if len(redirect_url) > 3:
+                    return CustomRedirect(redirect_url+'?token_valid=False')
+                else:
+                    return CustomRedirect('http://127.0.0.1:7080'+'?token_valid=False')
+
+            if redirect_url and len(redirect_url) > 3:
+                return CustomRedirect(redirect_url+'?token_valid=True&message=Credentials Valid&uidb64='+uidb64+'&token='+token)
+            else:
+                return CustomRedirect('http://127.0.0.1:7080'+'?token_valid=False')
+
+        except DjangoUnicodeDecodeError as identifier:
+            try:
+                if not PasswordResetTokenGenerator().check_token(user):
+                    return CustomRedirect(redirect_url+'?token_valid=False')
+                    
+            except UnboundLocalError as e:
+                return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class SetNewPasswordAPIView(generics.GenericAPIView):
+    serializer_class = SetNewPasswordSerializer
+
+    def patch(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
+
+#удалить
 class ResetPasswordEmailView(generics.GenericAPIView):
     serializer_class = SendResetPasswordSerializer
     permission_classes = (AllowAny, )
@@ -153,38 +227,38 @@ class UserUpdateAPIView(generics.UpdateAPIView):
     permission_classes = [AllowAny]
 
 class ChangePasswordView(generics.UpdateAPIView):
-        """
-        An endpoint for changing password.
-        """
-        serializer_class = ChangePasswordSerializer
-        model = User
-        permission_classes = (AllowAny,)
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = ChangePasswordSerializer
+    model = User
+    permission_classes = (IsAuthenticated,)
 
-        def get_object(self, queryset=None):
-            obj = self.request.user
-            return obj
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
 
-        def update(self, request, *args, **kwargs):
-            self.object = self.get_object()
-            serializer = self.get_serializer(data=request.data)
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
 
-            if serializer.is_valid():
-                # Проверить старый пароль
-                if not self.object.check_password(serializer.data.get("old_password")):
-                    return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-                # set_password также хеширует пароль, который получит пользователь
-                self.object.set_password(serializer.data.get("new_password"))
-                self.object.save()
-                response = {
-                    'status': 'success',
-                    'code': status.HTTP_200_OK,
-                    'message': 'Password updated successfully',
-                    'data': []
-                }
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            response = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+                'data': []
+            }
 
-                return Response(response)
+            return Response(response)
 
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
@@ -232,15 +306,13 @@ class MyObtainTokenPairView(TokenObtainPairView):
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
-    email_plaintext_message = random.randint(100000, 999999)
-
-    # reset_key = random.randint(100000, 999999)
+    email_plaintext_message = "{}?token={}".format(reverse('password_reset:reset-password-request'), reset_password_token.key)
 
     send_mail(
         # title:
         "Запрос на смену пароля.",
         # message:
-        f"Вы (или кто-то от вашего имени) запросил смену пароля для аккаунта {reset_password_token.user.username} (запрос выполнен с IP адреса 217.29.29.13), Для смены пароля пройдите по следующей ссылке: https://kyzmat24.com{email_plaintext_message}. или же введите {email_plaintext_message}",
+        f"Вы (или кто-то от вашего имени) запросил смену пароля для аккаунта {reset_password_token.user.username}, Для смены пароля пройдите по следующей ссылке: http://127.0.0.1:7080{email_plaintext_message}. или же введите {email_plaintext_message}",
         # from:
         "noreply@somehost.local",
         # to:
