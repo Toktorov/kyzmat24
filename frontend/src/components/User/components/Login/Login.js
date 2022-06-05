@@ -65,10 +65,10 @@ const Login = ({setStatus}) => {
                        placeholder="Введите пароль"/>
                 {
                     loading === true ? <div className="lds-ring">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
                     </div> : <>
                         <button className={'login-btn'} type="submit">Войти</button>
                         <p>Нет аккаунта? Пройди <button className={'login-btn-link'}

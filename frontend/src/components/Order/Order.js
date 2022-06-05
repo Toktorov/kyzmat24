@@ -19,7 +19,7 @@ const Order = () => {
         e.preventDefault();
         setLoading(true);
        axios
-           .post('api/order/create_order/', {
+           .post('/api/order/create_order/', {
 
                description,
                tel,

@@ -7,7 +7,7 @@ const CHANGE_STATUS = 'CHANGE_STATUS';
 
 const GET_BTNS = 'GET_BTNS';
 
-const GET_PROFILE = 'GET_PROFILE';
+const GET_SERVICE = 'GET_SERVICE';
 
 const SET_APP = 'SET_APP';
 
@@ -16,7 +16,7 @@ const ADD_ITEM = 'ADD_ITEM';
 const initState = {
     items: [],
     status: 'home',
-    profile: [],
+    service: {},
     btns:[],
     app: ''
 };
@@ -47,10 +47,10 @@ export default (state = initState, action) => {
             }
         }
 
-        case GET_PROFILE : {
+        case GET_SERVICE : {
             return {
                 ...state,
-                profile: action.arr
+                service: action.service
             }
         }
         case SET_APP :{
@@ -59,11 +59,7 @@ export default (state = initState, action) => {
                 app: action.change
             }
         }
-        case GET_ITEMS :{
-            return {
-                ...state
-            }
-        }
+
 
 
         default:
@@ -97,16 +93,14 @@ export const getBtns = () => {
 
 };
 
-export const getProfile = (idx) =>{
+export const getService = (id) =>{
   return (dispatch) =>{
       axios('https://kyzmat24.com/api/users/')
-          .then(({data}) => {
-              return dispatch({
-                  type: GET_PROFILE, arr: data.filter((item) => {
-                      return item.id === `${idx}`
-                  })
-              })
-          });
+          .then(({data}) =>{
+              return dispatch({type: GET_SERVICE, service: data.filter(item =>{
+                  return item.id == id
+                  })[0]})
+      })
   }
 };
 

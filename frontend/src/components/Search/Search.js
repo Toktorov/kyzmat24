@@ -107,7 +107,7 @@ const Search = () => {
                                         localStorage.setItem('id', JSON.stringify(item.id));
                                         saveSearch();
                                     }
-                                    } to={`/profile/${item.id}`}>{item.title.length > 20 ? `${item.title.slice(0, 19)}...` : item.title}</Link></h3>
+                                    } to={`/service/${item.id}`}>{item.title.length > 20 ? `${item.title.slice(0, 19)}...` : item.title}</Link></h3>
                                     <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
                                     <p className="item__text"><b>Локация :</b>{item.location}</p>
                                     <p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>

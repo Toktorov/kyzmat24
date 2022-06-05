@@ -8,12 +8,14 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const GET_ORDERS = 'GET_ORDERS';
 const SET_NEW_USER = 'SET_NEW_USER';
 const SET_ID = 'SET_ID';
+const GET_ACCEPT_ORDERS = 'GET_ACCEPT_ORDERS';
 
 const initState = {
     authTokens: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null,
     id: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('id')) : null,
     user:  localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')): null,
     orders: [],
+    acceptOrders:[],
     newUser: false,
 };
 
@@ -60,6 +62,14 @@ export default (state = initState, action) => {
                 id: action.id
             }
         }
+        case GET_ACCEPT_ORDERS:{
+            return {
+                ...state,
+
+                    acceptOrders: action.acceptOrders
+
+            }
+        }
 
         default:
             return state
@@ -99,5 +109,22 @@ export const setNewUser = (boolean) =>{
 export const setId = (id) =>{
   return (dispatch) =>{
    dispatch({type: SET_ID, id:id})
+  }
+};
+
+export const getAcceptOrders = () =>{
+  return (dispatch) =>{
+      axios.get('https://kyzmat24.com/api/order/accept_order/')
+          .then(({data}) =>{
+
+              return dispatch({type: GET_ACCEPT_ORDERS, acceptOrders: data.reduce((acc, rec)=>{
+                      if (rec.user.id === initState.id){
+                          return [...acc, rec.order]
+                      } else {
+                          return acc
+                      }
+                  }, [])
+              })
+          })
   }
 };

@@ -83,7 +83,7 @@ setState(localStorage.getItem('category'));
                                         dispatch(setStatus('profile'));
                                         localStorage.setItem('id', JSON.stringify(item.id));
                                     }
-                                    } to={`/profile/${item.id}`}>{item.title.length > 15 ? `${item.title.substr(0, 15)}...`: item.title}</Link></h3>
+                                    } to={`/service/${item.id}`}>{item.title.length > 15 ? `${item.title.substr(0, 15)}...`: item.title}</Link></h3>
                                     <p className="item__descr">{item.description.length > 20 ? `${item.description.substr(0, 20)}...`: item.description}</p>
                                     <p className="item__text"><b>Локация :</b>{item.location.length > 10 ? `${item.location.substr(0, 10)}...`: item.location}</p>
                                     <p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.substr(0,10)}...`: item.places}</p>

@@ -3,33 +3,26 @@ import axios from "axios";
 import {setAuthTokens, setUser, setNewUser, setId} from "../../../../redux/reducers/user";
 import jwt_decode from "jwt-decode";
 import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from "react-router-dom";
 
 const SignUp = ({setStatus}) => {
     const id = useSelector(s => s.user.id);
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
     const [userStatus, setUserStatus] = useState(null);
     const dispatch = useDispatch();
-    const history = useHistory();
+
    const signUp = (e) => {
         setLoading(true);
         e.preventDefault();
-        axios.post('api/users/', {
+        axios.post('/api/users/register/', {
             headers: {
                 'Content-Type': 'application/json'
             },
             username,
-            email: "",
-            first_name: "",
-            last_name: "",
-            description: "",
-            profile_image: null,
-            location: "",
-            another: "",
-            password
-
+            password,
+            password2,
         }).then(() => {
             setLoading(true);
             e.preventDefault();
@@ -82,12 +75,14 @@ const SignUp = ({setStatus}) => {
                        placeholder="Введите логин"/>
                 <input required={true} type="password" onChange={e => setPassword(e.target.value)}
                        placeholder="Введите пароль"/>
+                <input required={true} type="password" onChange={e => setPassword2(e.target.value)}
+                       placeholder="Подтвердите пароль"/>
                 {
                     loading === true ? <div className="lds-ring">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
+                        <div> </div>
                     </div> : <>
                         <button className={'login-btn'} type="submit">Зарегистрироваться</button>
                         <p>Есть аккаунт? <button className={'login-btn-link'}
