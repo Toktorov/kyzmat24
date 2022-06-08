@@ -185,12 +185,10 @@ const User = () => {
 
                                     <button
                                         onClick={() => {
-                                            axios.put(`https://kyzmat24.com/api/users/update_password/${id}`, {
-                                                headers: {
-                                                    Authorization: `Bearer ${authTokens.access}`
-                                                },
+                                            axios.put(`/api/users/change_password/${id}/`, {
                                                 old_password: 'kuba2020',
-                                                new_password: 'admin',
+                                                password: 'admin',
+                                                password2: 'admin',
                                             }).then(response => console.log(response))
                                         }}
                                     >change password
@@ -199,8 +197,8 @@ const User = () => {
                                     <button onClick={() => {
                                         axios.post('/api/users/request-reset-email/',
                                             {
-                                                "email": "kuba.duishobaevich@gmail.com",
-                                                "redirect_url": "https://kyzmat24.com/api/users/password-reset-complete"
+                                                "email": user.email,
+                                                "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
                                             }
                                         )
                                             .then(response => console.log(response))

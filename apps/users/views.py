@@ -176,6 +176,9 @@ class ChangePasswordView(generics.UpdateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = ChangePasswordSerializer
 
+    def patch(self, request, *args, **kwargs):
+        return Response({'success': True, 'message': 'Успешное обновление пароля'}, status=status.HTTP_200_OK)
+
 class VerifyEmail(generics.GenericAPIView):
 	def get(self, request, pk):
 		try:

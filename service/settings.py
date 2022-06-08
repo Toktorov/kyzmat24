@@ -179,6 +179,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:7000",
     "http://localhost:8000",
     "http://localhost:9000",
+    "https://kyzmat24.com",
 ]
 
 SIMPLE_JWT = {

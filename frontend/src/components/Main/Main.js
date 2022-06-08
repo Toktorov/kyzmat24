@@ -29,7 +29,7 @@ const Main = () => {
                 <Route path={'/user/home/:id'} exact component={() => <User/>}/>
                 <Route exact path={'/user/tasks/'} component={() => <Tasks/>}/>
                 <Route exact path={'/user/orders/'} component={() => <Orders/>}/>
-                <Route exact path={'/api/users/:token'} component={() => <ResetPassword/>} />
+                <Route exact path={'/user/reset-password/:token'} component={() => <ResetPassword/>} />
             </Switch>
         </main>
     );

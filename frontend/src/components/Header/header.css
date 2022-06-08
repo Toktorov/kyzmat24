@@ -7,7 +7,7 @@
     position: fixed;
     width: 100%;
     z-index: 5;
-    background-color: rgba(49, 72, 95, 0.75);
+    background-color: orangered;
 }
 
 .header__menu {
