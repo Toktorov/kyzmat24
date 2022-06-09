@@ -316,4 +316,4 @@ class MediaCreateAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        return redirect('user_home', request.user.id)
+        return redirect('index')

@@ -59,7 +59,7 @@ urlpatterns = [
     path('user/tasks', TemplateView.as_view(template_name = 'index.html')),
     path('user/', TemplateView.as_view(template_name = 'index.html')),
     path('user/home/<int:id>', TemplateView.as_view(template_name = 'index.html'), name = "user_home"),
-    path('user/reset-password/<uidb64>/<token>/', TemplateView.as_view(template_name = 'index.html'), name = "user_password_reset"),
+    path('user/reset-password/', TemplateView.as_view(template_name = 'index.html'), name = "user_password_reset"),
     path('accounts/', include('allauth.urls')),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
