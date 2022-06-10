@@ -315,5 +315,5 @@ class MediaCreateAPIView(generics.CreateAPIView):
     serializer_class = MediaCreateSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request):
-        return redirect('index')
+    # def post(self, request):
+    #     return redirect('index')
