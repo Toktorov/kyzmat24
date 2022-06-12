@@ -55,7 +55,7 @@
     height: 285px;
     width: 300px;
     align-items: center;
-    box-shadow: 0 0 5px 5px rgba(92, 92, 92, 0.73);
+    box-shadow: 0 0 5px 5px rgba(218, 218, 218, 0.53);
     padding: 20px;
     margin-top: 15px;
 }
@@ -64,7 +64,7 @@
     text-decoration: none;
     font-size: 20px;
     font-weight: 400;
-    color: #000000;
+    color: orangered;
 }
 
 .item__descr {

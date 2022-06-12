@@ -37,7 +37,7 @@ const Header = () => {
     return (
 
         <header className='header'>
-            <h1 className='header__logo'><Link to={'/'}><img className={'logo'} src={logo} alt=""/></Link></h1>
+            <h1 className='header__logo'><Link to={'/'}>kyzmat24</Link></h1>
 
             <div className="header__nav">
                 <nav className={'header__menu'}>

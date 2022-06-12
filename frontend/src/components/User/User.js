@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp/SignUp";
 import axios from "axios";
 
 const User = () => {
+    var jQuery = window.$;
     const HELLO_RU = 'Мы рады, что вы проявили интерес к сервису  kyzmat24.\n' +
         '\n' +
         'Kyzmat24 - это сервис, с помощью которого вы можете вызвать нужного вам мастера.\n' +
@@ -79,6 +80,26 @@ const User = () => {
     let [loading, setLoading] = useState(true);
     let [notes, setNotes] = useState([]);
     const dispatch = useDispatch();
+
+
+    const sendFile = React.useCallback(
+        async () => {
+            try {
+                const data = new FormData();
+                data.append('file', photo, photo.name);
+                data.append('name', 'img');
+                data.append('user', id);
+                console.log(data.get('file'));
+                await axios.post('/api/users/media_create/', data).then(response => {
+                    alert('Вы успешно добавили');
+                    console.log(response)
+                })
+
+            } catch (error) {
+                console.log(error.response)
+            }
+        }
+    );
 
     const updateUser = (key, value) => {
         axios.put(`https://kyzmat24.com/api/users/update/${id}`, {
@@ -262,16 +283,45 @@ const User = () => {
                             <hr/>
                             <div className="home-bottom">
                                 <div className="bottom-form">
-                                    <form enctype="multipart/form-data" className="form-photo" method={"POST"} action={'/api/users/media_create/'} >
-                                        <label>
-                                            Добавить фото
-                                            <input name={'file'} required={true}
-                                                   type="file"  accept="image/*"/>
-                                        </label>
-                                        <input type="hidden" value={'img'} name={'name'}/>
-                                        <input type="hidden" value={''} name={'src'}/>
-                                        <input type="hidden" value={id} name={'user'}/>
-                                        <button type={'submit'} >Добавить
+                                    <form id={'formElem'}>
+
+                                        Добавить фото
+                                        <input
+                                            name={'file'}
+                                            type="file" onChange={e => {
+                                            console.log(e);
+                                            setPhoto(e.target.files[0]);
+
+                                        }}/>
+                                        <input type="hidden" name={'name'} value={'img'}/>
+                                        <input type="hidden" name={'user'} value={id}/>
+                                        <input type="hidden" name={'src'} value={""}/>
+                                        <button type={'button'} onClick={() => {
+                                            console.log(photo);
+                                            sendFile()
+
+                                            // let formElem = document.getElementById('fromElem');
+                                            // fetch('/api/users/media_create/', {
+                                            //     method: 'POST',
+                                            //     body: new FormData(formElem)
+                                            // }).then(response => response.json()).then(json => console.log(json))
+
+                                            // axios.post('/api/users/media_create/',{
+                                            //     name: 'img',
+                                            //     src: '',
+                                            //     user: id,
+                                            //     file: JSON.stringify(photo)
+                                            // },{
+                                            //     'Postman-Token': '<calculated when request is sent>',
+                                            //     'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+                                            //     'Content-Length': '<calculated when request is sent>',
+                                            //     'Host': '<calculated when request is sent>',
+                                            //     'User-Agent': 'PostmanRuntime/7.28.4',
+                                            //     'Accept': '*/*',
+                                            //     'Accept-Encoding': 'gzip, deflate, br',
+                                            //     'Connection': 'keep-alive'
+                                            // }).then(response => console.log(response)).catch(error => console.log(error.response))
+                                        }}>Добавить
                                         </button>
                                     </form>
                                     <hr/>
@@ -280,8 +330,8 @@ const User = () => {
                                             Добавьте ссылку на видео в ютуб чтобы добавить видое
                                             <input required={true} type="url"/>
                                         </label>
-                                        <input onClick="window.location.href = 'http://localhost:3000/user/home/11';"
-                                               type="submit" value="Submit request"/>
+                                        <input
+                                            type="submit" value="Submit request"/>
                                     </form>
                                 </div>
                                 <div className="bottom-row">

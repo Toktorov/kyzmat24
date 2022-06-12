@@ -5,6 +5,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {getService, setApp} from "../../redux/reducers/item";
 import {Link, useHistory, useParams} from "react-router-dom";
 import avatar from '../../img/avatar.jpg';
+import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faFacebook, faWhatsapp, faTelegramPlane, faInstagram} from "@fortawesome/free-brands-svg-icons";
 
 const Service = () => {
    const service = useSelector(s => s.item.service);
@@ -31,7 +34,7 @@ const Service = () => {
                                 <div className="profile__info">
                                     <Link className="close-link" to={"#"} onClick={() => {
                                         dispatch(goBack);
-                                    }}><span className={'close-profile'}> </span></Link>
+                                    }}> <FontAwesomeIcon icon={faRightFromBracket}/></Link>
                                     <div className="profile-top">
                                         {
                                             !service.profile_image
@@ -52,13 +55,13 @@ const Service = () => {
                                                     service.contact.length === 0 ? <p> --- </p> :
                                                         service.contact.map((item)=>{
                                                             if (item.name === 'facebook'){
-                                                                return <a key={item.src} href={item.src} target={'_blank'}><i className="fab fa-facebook"> </i></a>
+                                                                return <a key={item.src} href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faFacebook}/></a>
                                                             } else if (item.name === 'whatsapp'){
-                                                                return  <a key={item.src}  href={item.src} target={'_blank'}><i className="fab fa-whatsapp"> </i></a>
+                                                                return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faWhatsapp}/> </a>
                                                             } else if (item.name === 'instagram'){
-                                                                return  <a key={item.src}  href={item.src} target={'_blank'}><i className="fab fa-instagram"> </i></a>
+                                                                return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faInstagram}/></a>
                                                             } else if (item.name === 'telegram'){
-                                                                return <a key={item.src}  href={item.src} target={'_blank'}><i className="fab fa-telegram-plane"> </i></a>
+                                                                return <a key={item.src}  href={item.src} target={'_blank'}><FontAwesomeIcon icon={faTelegramPlane}/></a>
                                                             } else {
                                                                 return   <a key={item.src}  href={item.src} target={'_blank'}>{item.src}</a>
                                                             }

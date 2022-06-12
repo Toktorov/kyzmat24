@@ -9,7 +9,7 @@ const UserHeader = () => {
 
     return (
             <header>
-                <h1><Link className='header-link' to={'/'} ><img className={'logo'} src={logo} alt=""/></Link></h1>
+                <h1 className={'header__logo'}><Link to={'/'} >kyzmat24</Link></h1>
                 {user ?<>
                 <Link className='header-link' to={'/user/orders/'}>Заказы</Link>
                 <Link className='header-link' to={'/user/tasks/'}>Мои заказы</Link>

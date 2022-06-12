@@ -6,6 +6,7 @@ import Main from "./components/Main/Main";
 import UserHeader from "./components/UserHeader/UserHeader";
 import {useSelector} from "react-redux";
 import Reception from "./components/Reception/Reception";
+//import './libs/fontawesome/all.min.css';
 
 function App() {
 const app = useSelector(s => s.item.app);

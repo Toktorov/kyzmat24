@@ -8,6 +8,7 @@
     width: 100%;
     z-index: 5;
     background-color: orangered;
+    box-shadow: 0 3px 6px 0 rgba(128, 128, 128, 0.55);
 }
 
 .header__menu {
@@ -52,12 +53,7 @@
     text-decoration: none;
 
 }
-.logo{
-    width: 300px;
-    object-fit: cover;
-    object-position: 50% 45%;
-    height: 50px;
-}
+
 
 .mobile-btn {
     display: none;

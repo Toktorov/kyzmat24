@@ -9,6 +9,7 @@ header{
     width: 100%;
     z-index: 5;
     background-color: orangered;
+    box-shadow: 0 3px 6px 0 rgba(128, 128, 128, 0.55);
 }
 
 .header-link{
@@ -19,20 +20,6 @@ header{
     text-decoration: none;
 }
 
-
-.logout{
-    position: absolute;
-    right: 15px;
-    top: 70px;
-    background-color: #ed4c5c;
-    border: 1px solid #ed4c5c;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: .5s;
-}
-.logout:hover{
-    background-color: white;
-    color: #ed4c5c;
+.header__logo{
+    text-transform: uppercase;
 }

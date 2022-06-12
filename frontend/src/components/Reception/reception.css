@@ -33,10 +33,10 @@
 }
 .reception__btn{
     padding: 10px 20px;
-    background-color: #00D363;
+    background-color: orangered;
     color: #ffffff;
     border-radius: 5px;
-    border: 1px solid #00D363;
+    border: 1px solid orangered;
     cursor: pointer;
     transition: .5s;
     font-size: 17px;
@@ -45,7 +45,7 @@
 }
 .reception__btn:hover{
     background-color: #FFFFFF;
-    color: #00D363;
+    color: orangered;
 }
 
 .reception__content{

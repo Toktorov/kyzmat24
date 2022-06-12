@@ -23,7 +23,7 @@
 }
 .category__btns button {
     padding: 10px 20px;
-    background-color: #00D363;
+    background-color: orangered;
     color: #ffffff;
     border-radius: 7px;
     cursor: pointer;
@@ -32,8 +32,8 @@
 }
 .category__btns button:hover{
     background-color: #ffffff;
-    color: #00D363;
-    border-color: #00D363;
+    color: orangered;
+    border-color: orangered;
 }
 .active{
     background-color: #158af2!important;

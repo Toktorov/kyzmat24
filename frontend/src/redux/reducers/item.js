@@ -75,7 +75,7 @@ export const setStatus = (state) =>{
 
 export const getItems = () => {
     return (dispatch) => {
-        axios('https://kyzmat24.com/api/users/')
+        axios('/api/users/users')
             .then(({data}) => {
                 return dispatch({type: GET_ITEMS, arr: data})
             })
@@ -95,7 +95,7 @@ export const getBtns = () => {
 
 export const getService = (id) =>{
   return (dispatch) =>{
-      axios('https://kyzmat24.com/api/users/')
+      axios('/api/users/users')
           .then(({data}) =>{
               return dispatch({type: GET_SERVICE, service: data.filter(item =>{
                   return item.id == id
