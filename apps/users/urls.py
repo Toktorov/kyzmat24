@@ -34,7 +34,7 @@ urlpatterns = [
     path('contact/delete/<int:pk>', views.ContactDeleteAPIView.as_view(), name = 'contact_delete_api'),
     path('contact/update/<int:pk>', views.ContactUpdateAPIView.as_view(), name = 'contact_update_api'),
 
-    #media
+    #Media
     path('media/', views.MediaAPIViewSet.as_view(), name='media'),
     path('media_create/', views.MediaCreateAPIView.as_view(), name='media_create'),
     path('media/delete/<int:pk>', views.MediaDeleteAPIView.as_view(), name = 'media_delete_api'),
