@@ -195,7 +195,7 @@ class MediaCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Media
-        fields = "__all__"
+        fields = ('name', 'file', 'src', 'user')
 
 class AcceptOrderSerializer(serializers.ModelSerializer):
     

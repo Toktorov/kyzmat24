@@ -26,7 +26,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
+from apps.users import views
 
 schema_view = get_schema_view(
     openapi.Info(

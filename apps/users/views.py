@@ -34,7 +34,8 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
-from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect, HttpResponse
+
 # Create your views here.
 
 #UserAPI
@@ -310,10 +311,15 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
     serializer_class = MediaSerializer
     permission_classes = [AllowAny]
 
-class MediaCreateAPIView(generics.CreateAPIView):
+class MediaCreateAPIView(viewsets.ModelViewSet):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
     permission_classes = [AllowAny]
 
-    # def post(self, request):
-    #     return redirect('index')
+    def post(self, request, *args, **kwargs):
+        name = request.data['name']
+        file = request.data['file']
+        src = request.data['src']
+        user = request.data['user']
+        Media.objects.create(name=name, file=file, src = src, user = user)
+        return HttpResponse({'message': 'Media created'}, status=200)

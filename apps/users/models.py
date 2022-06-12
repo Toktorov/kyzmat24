@@ -86,9 +86,13 @@ class Contact(models.Model):
         verbose_name = "Контакт"
         verbose_name_plural = "Контакты"
         
+def upload_path(instance, filname):
+    return '/'.join(['media_files   ', str(instance.name), filname])
+    
+
 class Media(models.Model):
     name = models.CharField(max_length = 100, verbose_name="Имя")
-    file = models.FileField(upload_to = 'media_files/', blank=True, null = True)
+    file = models.FileField(upload_to = upload_path, blank=True, null = True)
     src = models.CharField(max_length = 250, blank=True, null = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
