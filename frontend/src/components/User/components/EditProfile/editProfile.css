@@ -1,0 +1,28 @@
+.editProfile{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(92, 92, 92, 0.5);
+}
+.editProfile-forms{
+    background-color: orangered;
+    color: white;
+    width: 500px;
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    padding: 10px;
+}
+.ditProfile-forms-right{
+    width: 60%;
+}
+.ditProfile-forms-right input{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    color: white;
+}

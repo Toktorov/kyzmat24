@@ -20,18 +20,6 @@
     width: 300px;
 }
 
-.top-left label {
-    display: block;
-}
-
-.top-left input {
-    display: block;
-    background-color: #00a353;
-    color: #f0f1f8;
-    padding: 10px;
-    cursor: pointer;
-}
-
 .home-bottom {
     margin-top: 15px;
 }
@@ -48,56 +36,11 @@
     flex-wrap: wrap;
     justify-content: space-between;
     row-gap: 15px;
+    position: relative;
 }
 
 .bottom-media {
     width: 30%;
-}
-
-.bottom-media button {
-    background-color: red;
-    color: #FFFFFF;
-    border: 1px solid red;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: .5s;
-}
-
-.bottom-media button:hover {
-    color: red;
-    background-color: #FFFFFF;
-}
-
-
-.bottom-form button {
-    background-color: #158af2;
-    border: 1px solid #158af2;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    margin-left: 5px;
-    margin-top: 2px;
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: .5s;
-}
-
-.bottom-form button:hover {
-    background-color: #FFFFFF;
-    color: #158af2;
-}
-
-.top-right button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: .5s;
-}
-
-.top-right button:hover {
-    color: #00a353;
 }
 
 .welcome {
@@ -126,4 +69,24 @@
     color: white;
     cursor: pointer;
     box-shadow: 0 0 37px 13px rgba(249, 0, 0, 0.2);
+}
+
+.button-create-media{
+    position: absolute;
+    top: -17px;
+    left: 0;
+    background-color: transparent;
+    color: orangered;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+.button-create-media:active{
+    font-size: 22px;
+}
+.edit-profile-button{
+    background-color: transparent;
+    color: orangered;
+    border: none;
+    cursor: pointer;
 }

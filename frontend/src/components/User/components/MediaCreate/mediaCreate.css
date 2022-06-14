@@ -1,0 +1,129 @@
+.mediaCreate {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(92, 92, 92, 0.5);
+}
+
+.mediaCreate-forms {
+    background-color: orangered;
+    color: white;
+    width: 500px;
+    height: 300px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.mediaCreate-btns {
+    text-align: center;
+    margin-top: 70px;
+}
+
+.mediaCreate-btns button {
+    margin: 0 5px;
+    background-color: white;
+    border: 1px solid white;
+    color: orangered;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+    line-height: 110%;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.mediaCreate-btns button:hover {
+    background-color: transparent;
+    color: white;
+}
+
+.mediaCreate-btns button:active {
+    transform: scale(1.1);
+}
+
+.mediaCreate-forms form {
+    width: 80%;
+    margin: 100px auto;
+    position: relative;
+    height: 50px;
+}
+.mediaCreate-forms form p{
+    position: absolute;
+    top: -45px;
+}
+.mediaCreate-forms-input-video{
+    padding: 5px 10px;
+    font-size: 20px;
+    line-height: 110%;
+    background-color: transparent;
+    border: none;
+    color: white;
+    border-bottom: 1px solid white;
+    outline: none;
+}
+.mediaCreate-forms-input-photo {
+    width: 0.1px;
+    height: 0.1px;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.mediaCreate-forms-label-photo{
+    background-color: white;
+    color: orangered;
+    margin-left: 10px;
+    font-size: 20px;
+    line-height: 110%;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.mediaCreate-forms-label-photo:active{
+   transform: scale(1.1);
+}
+
+.mediaCreate-forms-btns button{
+background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.mediaCreate-forms-btns button:hover{
+    background-color: white;
+    color: orangered;
+}
+.mediaCreate-forms-btns button:active{
+ transition: 0s;
+    transform: scale(1.1);
+}
+
+.mediaCreate-forms-btns{
+    display: flex;
+    column-gap: 10px;
+    margin-top: 10px;
+}
+
+.mediaCreateClose{
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background-color: red;
+    color: white;
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.mediaCreateClose:active{
+    transform: scale(1.1);
+}

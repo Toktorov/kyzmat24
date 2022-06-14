@@ -33,6 +33,7 @@ const Login = ({setStatus}) => {
         }).catch((error) => {
             setUserStatus(false);
             setLoading(false);
+            console.log(error)
         })
     };
 
@@ -40,7 +41,7 @@ const Login = ({setStatus}) => {
         if (localStorage.getItem('user')){
 
         } else {
-            axios(`/api/users/${id}`).then(({data})=>{
+            axios(`/api/users/users/${id}`).then(({data})=>{
                 dispatch(setUser(data));
                 localStorage.setItem('user', JSON.stringify(data))
             });

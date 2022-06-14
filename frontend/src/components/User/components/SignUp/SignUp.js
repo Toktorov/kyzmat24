@@ -53,7 +53,7 @@ const SignUp = ({setStatus}) => {
         if (localStorage.getItem('user')){
 
         } else {
-            axios(`/api/users/${id}`).then(({data})=>{
+            axios(`/api/users/users/${id}`).then(({data})=>{
                 dispatch(setUser(data));
                 localStorage.setItem('user', JSON.stringify(data));
                 dispatch(setNewUser(true));

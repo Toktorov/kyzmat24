@@ -3,11 +3,15 @@ import {setAuthTokens, setUser, logoutUser, setNewUser} from "../../redux/reduce
 import './user.css'
 import {useHistory} from 'react-router-dom'
 
+import {faPlus,faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Login from "./components/Login/Login";
 import {useDispatch, useSelector} from "react-redux";
 import {setApp} from "../../redux/reducers/item";
 import SignUp from "./components/SignUp/SignUp";
-import axios from "axios";
+import ReactPlayer from "react-player";
+import MediaCreate from "./components/MediaCreate/MediaCreate";
+import EditProfile from "./components/EditProfile/EditProfile";
 
 const User = () => {
     var jQuery = window.$;
@@ -69,50 +73,19 @@ const User = () => {
         'Кардарды колдоо кызматы жумуш күндөрү саат 9:00дөн 18:00гө чейин иштейт. Ишемби-Жекшемби күндөрү дем алыш.';
     const history = useHistory();
     const [update, setUpdate] = useState(null);
-    const [change, setChange] = useState('');
     const [status, setStatus] = useState('login');
     const newUser = useSelector(s => s.user.newUser);
-    const id = useSelector(s => s.user.id);
-    const [avatar, setAvatar] = useState('');
-    const [photo, setPhoto] = useState('');
     const authTokens = useSelector(s => s.user.authTokens);
     const user = useSelector(s => s.user.user);
+    const [showMediaCreate, setShowMediaCreate] = useState(false);
+    const [showEditProfile, setShowEditProfile] = useState(false);
     let [loading, setLoading] = useState(true);
-    let [notes, setNotes] = useState([]);
     const dispatch = useDispatch();
 
 
-    const sendFile = React.useCallback(
-        async () => {
-            try {
-                const data = new FormData();
-                data.append('file', photo, photo.name);
-                data.append('name', 'img');
-                data.append('user', id);
-                console.log(data.get('file'));
-                await axios.post('/api/users/media_create/', data).then(response => {
-                    alert('Вы успешно добавили');
-                    console.log(response)
-                })
 
-            } catch (error) {
-                console.log(error.response)
-            }
-        }
-    );
 
-    const updateUser = (key, value) => {
-        axios.put(`https://kyzmat24.com/api/users/update/${id}`, {
-            ...user,
-            [key]: value,
-        }).then(response => {
-            console.log(response);
-            axios(`/api/users/${id}`).then(({data}) => {
-                dispatch(setUser(data));
-                localStorage.setItem('user', JSON.stringify(data))
-            })
-        })
-    };
+
 
 
     let updateToken = async () => {
@@ -164,7 +137,8 @@ const User = () => {
 
     useEffect(() => {
         dispatch(setApp('order'));
-        console.log(window.location)
+        console.log(window.location);
+
         //  axios(`/api/users/${id}`).then(({data})=> dispatch(setUser(data)));
     }, []);
     useEffect(() => {
@@ -175,6 +149,12 @@ const User = () => {
 
     return (
         <section>
+            {
+                showEditProfile ? <EditProfile setShowEditProfile={setShowEditProfile}/>: ''
+            }
+            {
+                showMediaCreate ? <MediaCreate setShowMediaCreate={setShowMediaCreate}/> : ''
+            }
             {
                 newUser ? <div className={'welcome'}><p> {HELLO_RU} <br/> <br/>{HELLO_KG}</p>
                     <button onClick={() => {
@@ -198,188 +178,54 @@ const User = () => {
                                     <img className={'avatar'}
                                          src="https://klike.net/uploads/posts/2019-03/1551511801_1.jpg"
                                          alt=""/>
-                                    <label>
-                                        Изменить/добавить фото
-                                        <input onChange={(e) => setAvatar(e.target.value)} accept='image/*'
-                                               type="file"/>
-                                    </label>
-
-                                    <button
-                                        onClick={() => {
-                                            axios.put(`/api/users/change_password/${id}/`, {
-                                                old_password: 'kuba2020',
-                                                password: 'admin',
-                                                password2: 'admin',
-                                            }).then(response => console.log(response))
-                                        }}
-                                    >change password
-                                    </button>
-
-                                    <button onClick={() => {
-                                        axios.post('/api/users/request-reset-email/',
-                                            {
-                                                "email": user.email,
-                                                "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
-                                            }
-                                        )
-                                            .then(response => console.log(response))
-                                    }}>reset
-                                    </button>
-
                                 </div>
                                 <div className="top-right">
-                                    <h2 className={'home-title'}>{user.username} <span>{user.id}</span>
-                                        <button onClick={() => {
-                                            setUpdate('username');
-                                        }}><i className="far fa-edit"> </i></button>
-                                    </h2>
-
-                                    {
-                                        update === 'description'
-                                            ? <>
-                                                <input value={change} onChange={(e) => setChange(e.target.value)}
-                                                       type="text"/>
-                                                <button onClick={() => setUpdate(null)}>cancel</button>
-                                                <button onClick={() => {
-                                                    updateUser('description', change);
-                                                    setUpdate(null)
-                                                }}>save
-                                                </button>
-                                            </>
-                                            : <p className={'home-descr'}><b>Описание</b> {user.description}
-                                                <button onClick={() => {
-                                                    setUpdate('description');
-                                                    setChange(user.description)
-                                                }}><i className="far fa-edit"> </i></button>
-                                            </p>
-                                    }
-
-
-                                    <p><b>Категория:</b> категория
-                                        <button onClick={() => {
-                                            setUpdate('category')
-                                        }}><i className="far fa-edit"> </i></button>
-                                    </p>
-                                    <p><b>Локация:</b> {user.location}
-                                        <button onClick={() => {
-                                            setUpdate('location')
-                                        }}><i className="far fa-edit"> </i></button>
-                                    </p>
+                                    <h2 className={'home-title'}>{user.username} <span>{user.id}</span></h2>
+                                    <p className={'home-descr'}><b>Описание</b> {user.description} </p>
+                                    <p><b>Категория:</b> {user.category}</p>
+                                    <p><b>Локация:</b> {user.location} </p>
                                     <p><b>Доп-но:</b> доп. инф.</p>
                                     <p><b>Контакты: </b>{user.contact.map((item) => {
                                         return <span key={item.id}>{item.src}</span>
                                     })}</p>
-                                    <a href={"#"}>Редактивровать профиль <i className="far fa-edit"> </i></a>
-                                    <button onClick={() => {
-                                        axios.post('/api/users/contact_create/', {
-                                            "name": "tel",
-                                            "src": "0559996474",
-                                            "user": id
-                                        }).then((response) => console.log(response))
-                                    }}>Добавить контакт
-                                    </button>
+                                    <button onClick={()=> setShowEditProfile(true)} className={'edit-profile-button'}>Редактивровать профиль <FontAwesomeIcon icon={faPenToSquare} /></button>
+
                                 </div>
                             </div>
                             <hr/>
                             <div className="home-bottom">
-                                <div className="bottom-form">
-                                    <form id={'formElem'}>
 
-                                        Добавить фото
-                                        <input
-                                            name={'file'}
-                                            type="file" onChange={e => {
-                                            console.log(e);
-                                            setPhoto(e.target.files[0]);
-
-                                        }}/>
-                                        <input type="hidden" name={'name'} value={'img'}/>
-                                        <input type="hidden" name={'user'} value={id}/>
-                                        <input type="hidden" name={'src'} value={""}/>
-                                        <button type={'button'} onClick={() => {
-                                            console.log(photo);
-                                            sendFile()
-
-                                            // let formElem = document.getElementById('fromElem');
-                                            // fetch('/api/users/media_create/', {
-                                            //     method: 'POST',
-                                            //     body: new FormData(formElem)
-                                            // }).then(response => response.json()).then(json => console.log(json))
-
-                                            // axios.post('/api/users/media_create/',{
-                                            //     name: 'img',
-                                            //     src: '',
-                                            //     user: id,
-                                            //     file: JSON.stringify(photo)
-                                            // },{
-                                            //     'Postman-Token': '<calculated when request is sent>',
-                                            //     'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                                            //     'Content-Length': '<calculated when request is sent>',
-                                            //     'Host': '<calculated when request is sent>',
-                                            //     'User-Agent': 'PostmanRuntime/7.28.4',
-                                            //     'Accept': '*/*',
-                                            //     'Accept-Encoding': 'gzip, deflate, br',
-                                            //     'Connection': 'keep-alive'
-                                            // }).then(response => console.log(response)).catch(error => console.log(error.response))
-                                        }}>Добавить
-                                        </button>
-                                    </form>
-                                    <hr/>
-                                    <form className="form-video">
-                                        <label>
-                                            Добавьте ссылку на видео в ютуб чтобы добавить видое
-                                            <input required={true} type="url"/>
-                                        </label>
-                                        <input
-                                            type="submit" value="Submit request"/>
-                                    </form>
-                                </div>
                                 <div className="bottom-row">
-                                    <div className="bottom-media">
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&usqp=CAU"
-                                            alt=""/>
-                                        <button>delete</button>
-                                    </div>
-                                    <div className="bottom-media">
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&usqp=CAU"
-                                            alt=""/>
-                                        <button>delete</button>
-                                    </div>
-                                    <div className="bottom-media">
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&usqp=CAU"
-                                            alt=""/>
-                                        <button>delete</button>
-                                    </div>
-                                    <div className="bottom-media">
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&usqp=CAU"
-                                            alt=""/>
-                                        <button>delete</button>
-                                    </div>
-                                    <div className="bottom-media">
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&usqp=CAU"
-                                            alt=""/>
-                                        <button>delete</button>
-                                    </div>
-                                    <div className="bottom-media">
-                                        <img
-                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-SaYWlXmVicHWYEEpRgrmFir507tWQk3pA&usqp=CAU"
-                                            alt=""/>
-                                        <button>delete</button>
-                                    </div>
+                                    <button
+                                        onClick={() => setShowMediaCreate(true)}
+                                        className={'button-create-media'}><FontAwesomeIcon icon={faPlus} /></button>
+                                    {
+                                        user.media.map(item => {
+                                            if (item.name === 'img') {
+                                                return (
+                                                    <div key={item.file} className="profile-images">
+                                                        <a data-fancybox="gallery" href={`${item.file}`}>
+                                                            <img className='profile-img' src={`${item.file}`} alt="картина"/>
+                                                        </a>
+                                                        <button>delete</button>
+                                                    </div>
+                                                )
+                                            } else {
+                                                return (
+                                                    <div key={item.src} className="profile-images">
+                                                        <a data-fancybox="gallery" href={`${item.src}`}>
+                                                            <ReactPlayer className='profile-video' url={item.src} controls={true} alt=""/>
+                                                        </a>
+                                                        <button>delete</button>
+                                                    </div>
+                                                )
+
+                                            }
+                                        })
+                                    }
                                 </div>
                             </div>
                         </div>
-
-                        <ul>
-                            {notes.map(note => (
-                                <li key={note.id}>{note.body}</li>
-                            ))}
-                        </ul>
 
                     </>
 

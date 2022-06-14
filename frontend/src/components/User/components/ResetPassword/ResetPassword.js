@@ -9,11 +9,11 @@ const ResetPassword = () => {
     const params = useParams();
     const authTokens = useSelector(s => s.user.authTokens);
     useEffect(()=>{
-        console.log(window.location.href.match('token=').index);
-        console.log(window.location.href[window.location.href.match('token=').index + 6 ] );
-        console.log(window.location.href.slice(window.location.href.match('token=').index + 6 ) );
-        console.log('http://localhost:3000/'.length);
-        console.log(`${window.location.href.slice(20)}`)
+        // console.log(window.location.href.match('token=').index);
+        // console.log(window.location.href[window.location.href.match('token=').index + 6 ] );
+        // console.log(window.location.href.slice(window.location.href.match('token=').index + 6 ) );
+        // console.log('http://localhost:3000/'.length);
+        // console.log(`${window.location.href.slice(20)}`)
     },[]);
     return (
         <div>
