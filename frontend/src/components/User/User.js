@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {setAuthTokens, setUser, logoutUser, setNewUser} from "../../redux/reducers/user";
+import {setAuthTokens, logoutUser, setNewUser} from "../../redux/reducers/user";
 import './user.css'
 import {useHistory} from 'react-router-dom'
 
@@ -102,7 +102,6 @@ const User = () => {
 
         if (response.status === 200) {
             dispatch(setAuthTokens(data));
-            //   dispatch(setUser(jwt_decode(data.access)));
             localStorage.setItem('authTokens', JSON.stringify(data))
         } else {
             dispatch(logoutUser())
@@ -139,7 +138,6 @@ const User = () => {
         dispatch(setApp('order'));
         console.log(window.location);
 
-        //  axios(`/api/users/${id}`).then(({data})=> dispatch(setUser(data)));
     }, []);
     useEffect(() => {
         if (user) {

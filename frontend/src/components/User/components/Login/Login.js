@@ -17,13 +17,14 @@ const Login = ({setStatus}) => {
     const loginUser = (e) => {
         setLoading(true);
         e.preventDefault();
-        axios.post('api/token/obtain', {
+        axios.post('/api/token/obtain', {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             },
                 username,
                 password
         }).then(({data}) => {
+            console.log(data);
             setUserStatus(true);
             setLoading(false);
             localStorage.setItem('authTokens', JSON.stringify(data));
@@ -38,10 +39,13 @@ const Login = ({setStatus}) => {
     };
 
     useEffect(()=>{
+        console.log("Hello");
         if (localStorage.getItem('user')){
 
         } else {
-            axios(`/api/users/users/${id}`).then(({data})=>{
+            console.log("World!");
+            axios(`/api/users/${id}`).then(({data})=>{
+                console.log(data);
                 dispatch(setUser(data));
                 localStorage.setItem('user', JSON.stringify(data))
             });

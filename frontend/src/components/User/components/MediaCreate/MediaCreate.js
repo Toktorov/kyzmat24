@@ -28,7 +28,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
                         console.log(response);
                         setLabelContentState(false);
                         setPhoto(null);
-                        axios(`/api/users/users/${id}`).then(({data}) => {
+                        axios(`/api/users/${id}`).then(({data}) => {
                             dispatch(setUser(data));
                             localStorage.setItem('user', JSON.stringify(data))
                         });
@@ -52,7 +52,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
                 alert('Вы успешно добавили');
                 console.log(response);
                 serVideoSrc(null);
-                axios(`/api/users/users/${id}`).then(({data}) => {
+                axios(`/api/users/${id}`).then(({data}) => {
                     dispatch(setUser(data));
                     localStorage.setItem('user', JSON.stringify(data))
                 });

@@ -20,9 +20,12 @@
 .ditProfile-forms-right{
     width: 60%;
 }
-.ditProfile-forms-right input{
+.ditProfile-forms-right input,
+.ditProfile-forms-right textarea{
     background-color: transparent;
     border: none;
     border-bottom: 1px solid white;
     color: white;
+    resize: none;
+    outline: none;
 }

@@ -23,16 +23,18 @@ const SignUp = ({setStatus}) => {
             username,
             password,
             password2,
-        }).then(() => {
+        }).then((response) => {
             setLoading(true);
             e.preventDefault();
-            axios.post('api/token/obtain', {
+            console.log('signUp', response);
+            axios.post('/api/token/obtain', {
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8',
                 },
                 username,
                 password
             }).then(({data}) => {
+                console.log('login', data);
                 setUserStatus(true);
                 localStorage.setItem('authTokens', JSON.stringify(data));
                 dispatch(setAuthTokens(data));
@@ -53,7 +55,7 @@ const SignUp = ({setStatus}) => {
         if (localStorage.getItem('user')){
 
         } else {
-            axios(`/api/users/users/${id}`).then(({data})=>{
+            axios(`/api/users/${id}`).then(({data})=>{
                 dispatch(setUser(data));
                 localStorage.setItem('user', JSON.stringify(data));
                 dispatch(setNewUser(true));

@@ -70,7 +70,9 @@ const EditProfile = ({setShowEditProfile}) => {
                     </label>
                     <label>
                         description:
-                        <input type="text" value={description} onChange={e => setDescription(e.target.value)}/>
+                        <textarea value={description} onChange={e => setDescription(e.target.value)}>
+
+                        </textarea>
                     </label>
                     <label>
                         location:
@@ -78,7 +80,7 @@ const EditProfile = ({setShowEditProfile}) => {
                             {
                                 typeof location !== 'string' ?
                                 location.map((item)=>{
-                                    return <option value="">{item}</option>
+                                    return <option value="" key={item}>{item}</option>
                                 }) : <option value="">{location}</option>
                             }
                         </select>
@@ -89,7 +91,7 @@ const EditProfile = ({setShowEditProfile}) => {
                             {
                                 typeof contact !== 'string' && contact.length !== 0 ?
                                     contact.map((item)=>{
-                                        return <option value="">{item.name}</option>
+                                        return <option value="" key={item.id}>{item.name}</option>
                                     }) : ''
                             }
                         </select>
