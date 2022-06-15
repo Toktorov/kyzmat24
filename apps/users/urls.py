@@ -5,8 +5,8 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 
 router = DefaultRouter()
-router.register('users', views.UserAPIViewSet, basename='users')
-router.register('media_create', views.MediaCreateAPIView, basename='media_create')
+router.register('', views.UserAPIViewSet, basename='users')
+# router.register('media_create', views.MediaCreateAPIView, basename='media_create')
 
 
 urlpatterns = [
@@ -37,7 +37,7 @@ urlpatterns = [
 
     #Media
     path('media/', views.MediaAPIViewSet.as_view(), name='media'),
-    # path('media_create/', views.MediaCreateAPIView.as_view(), name='media_create'),
+    path('media_create/', views.MediaCreateAPIView.as_view(), name='media_create'),
     path('media/delete/<int:pk>', views.MediaDeleteAPIView.as_view(), name = 'media_delete_api'),
     path('media/update/<int:pk>', views.MediaUpdateAPIView.as_view(), name = 'media_update_api'),
 ]

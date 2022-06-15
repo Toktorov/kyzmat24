@@ -311,15 +311,15 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
     serializer_class = MediaSerializer
     permission_classes = [AllowAny]
 
-class MediaCreateAPIView(viewsets.ModelViewSet):
+class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        name = request.data['name']
-        file = request.data['file']
-        src = request.data['src']
-        user = request.data['user']
-        Media.objects.create(name=name, file=file, src = src, user = user)
-        return HttpResponse({'message': 'Media created'}, status=200)
+    # def post(self, request, *args, **kwargs):
+    #     name = request.data['name']
+    #     file = request.data['file']
+    #     src = request.data['src']
+    #     user = request.data['user']
+    #     Media.objects.create(name=name, file=file, src = src, user = user)
+    #     return HttpResponse({'message': 'Media created'}, status=200)
