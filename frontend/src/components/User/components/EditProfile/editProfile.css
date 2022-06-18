@@ -22,6 +22,7 @@
 }
 .ditProfile-forms-right input,
 .ditProfile-forms-right textarea{
+    border-radius: 0;
     background-color: transparent;
     border: none;
     border-bottom: 1px solid white;

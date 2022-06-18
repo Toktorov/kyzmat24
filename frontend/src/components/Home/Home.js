@@ -33,7 +33,10 @@ const Home = () => {
                                 <h3 className="item__title"> <Link onClick={()=>{
                                     dispatch(setStatus('profile'));
                                 }
-                                } to={`/service/${item.id}`}>{item.username.length > 20 ? `${item.username.slice(0, 19)}...` : item.username}</Link></h3>
+                                } to={`/service/${item.id}`}>{item.first_name > 20 ?
+                                    `${item.first_name.slice(0, 19)}...` :
+                                    item.first_name ? item.first_name :
+                                    item.username.length > 20 ? `${item.username.slice(0, 19)}...` : item.username}</Link></h3>
                                 <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
                                 <p className="item__text"><b>Локация :</b>{item.location}</p>
                                 {/*<p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>*/}

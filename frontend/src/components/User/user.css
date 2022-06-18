@@ -90,3 +90,6 @@
     border: none;
     cursor: pointer;
 }
+.verified__message{
+    color: red;
+}

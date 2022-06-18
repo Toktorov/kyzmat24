@@ -14,13 +14,13 @@ const Search = () => {
     const [search, setSearch] = useState([]);
     const find = () => {
         setSearch(() => {
-            if (name.length === 0)return [];
+            if (name.length === 0) return [];
             return item.filter((el) => {
-                return el.title.toLowerCase().includes(name.toLowerCase()) || el.description.toLowerCase().includes(name.toLowerCase())
+                return el.first_name.toLowerCase().includes(name.toLowerCase()) || el.username.toLowerCase().includes(name.toLowerCase()) || el.description.toLowerCase().includes(name.toLowerCase())
             })
         })
     };
-    const saveSearch = () =>{
+    const saveSearch = () => {
         localStorage.setItem('array', JSON.stringify(search))
     };
     useEffect(() => {
@@ -36,12 +36,16 @@ const Search = () => {
                 <div className="search__filter">
                     <div className="search__left">
                         <input
-                            onKeyDown={(e) => e.code === 'Enter' && name.length !==0 ? find() : ''}
-                            onChange={(e) => setName(e.target.value)}
+                            onKeyDown={(e) => e.code === 'Enter' && name.length !== 0 ? find() : ''}
+                            onChange={(e) => {
+                                setName(e.target.value);
+                                find();
+                            }}
                             placeholder='Поиск...' type="search"/>
-                        <button className='search__btn' onClick={() =>{
-                          if(name.length !==0) find()
-                        }} type='button'>ПОИСК</button>
+                        <button className='search__btn' onClick={() => {
+                            if (name.length !== 0) find()
+                        }} type='button'>ПОИСК
+                        </button>
                     </div>
 
                     <select name="" id="" defaultValue="0" onChange={(e) => setRegion(e.target.value)}>
@@ -93,28 +97,32 @@ const Search = () => {
             </div>
             <div className='container'>
                 <div className="search__row">
-                        { search === null
+                    {search === null
                         ? <h2>Введите и делайте поиск</h2>
                         : search.length === 0
-                            ?<h2>Ничего не найдено( Проверьте правильно ли вы ввели и пробуйте снова!!</h2>
+                            ? <h2>Ничего не найдено( Проверьте правильно ли вы ввели и пробуйте снова!!</h2>
                             : search.map((item) => {
-                        return (
-                            <div className='item' key={item.id}>
-                                <img src={`${item.imgsrc}`} alt=""/>
-                                <div className='item__description'>
-                                    <h3 className="item__title"><Link onClick={() => {
-                                        dispatch(setStatus('profile'));
-                                        localStorage.setItem('id', JSON.stringify(item.id));
-                                        saveSearch();
-                                    }
-                                    } to={`/service/${item.id}`}>{item.title.length > 20 ? `${item.title.slice(0, 19)}...` : item.title}</Link></h3>
-                                    <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
-                                    <p className="item__text"><b>Локация :</b>{item.location}</p>
-                                    <p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
+                                return (
+                                    <div className='item' key={item.id}>
+                                        <img src={`${item.imgsrc}`} alt=""/>
+                                        <div className='item__description'>
+                                            <h3 className="item__title"><Link onClick={() => {
+                                                dispatch(setStatus('profile'));
+                                                localStorage.setItem('id', JSON.stringify(item.id));
+                                                saveSearch();
+                                            }
+                                            } to={`/service/${item.id}`}>{item.first_name > 20 ?
+                                                `${item.first_name.slice(0, 19)}...` :
+                                                item.first_name ? item.first_name :
+                                                    item.username.length > 20 ? `${item.username.slice(0, 19)}...` : item.username}</Link>
+                                            </h3>
+                                            <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
+                                            <p className="item__text"><b>Локация :</b>{item.location}</p>
+                                            {/*<p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>*/}
+                                        </div>
+                                    </div>
+                                )
+                            })}
                 </div>
             </div>
         </section>

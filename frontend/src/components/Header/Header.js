@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import './header.css'
 import {useDispatch, useSelector} from "react-redux";
 import {setApp, setStatus} from "../../redux/reducers/item";
-import logo from '../../img/logo.png';
 
 const Header = () => {
     const dispatch = useDispatch();

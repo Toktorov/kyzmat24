@@ -7,29 +7,31 @@
     top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: orangered;
+    border-radius: 20px;
 }
 .reception__form input, select{
     display: block;
     margin: 15px auto;
     padding: 5px 20px;
-    border-radius: 4px;
     border: none;
     outline: none;
     width: 100%;
 }
 .reception__form button{
     padding: 5px 40px;
-    background-color: orangered;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: orangered;
     border-radius: 5px;
-    border: 1px solid orangered;
+    border: 1px solid #ffffff;
     cursor: pointer;
     transition: .5s;
     font-size: 17px;
+    box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.2);
 }
 .reception__form button:hover{
-    background-color: #FFFFFF;
-    color: orangered;
+    background-color: orangered;
+    color: #ffffff;
 }
 .reception__form h4{
     color: #FFFFFF;

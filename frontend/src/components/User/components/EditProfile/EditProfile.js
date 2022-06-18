@@ -34,21 +34,34 @@ const EditProfile = ({setShowEditProfile}) => {
             })
         })
     };
+
+    const resetPassword = () => {
+        axios.post('/api/users/request-reset-email/',
+            {
+                "email": user.email,
+                "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
+            }
+        )
+            .then(response => console.log(response))
+    };
+
     return (
         <div className={'editProfile'}>
             <div className="editProfile-forms">
-<div className="editProfile-forms-left">
-    <label>
-        Изменить/добавить фото
-        <input onChange={(e) => setAvatar(e.target.value)} accept='image/*'
-               type="file"/>
-    </label>
-    <button onClick={()=>{
-        setShowEditProfile(false)
-    }}>Закрыть</button>
-    <p><b>Эта часть на стадии разработки</b></p>
-    <p><b>Тут работает только кнопка "Закрыть"</b></p>
-</div>
+                <div className="editProfile-forms-left">
+                    <label>
+                        Изменить/добавить фото
+                        <input onChange={(e) => setAvatar(e.target.value)} accept='image/*'
+                               type="file"/>
+                    </label>
+                    <button onClick={() => {
+                        setShowEditProfile(false)
+                    }}>Закрыть
+                    </button>
+                    <p><b>Эта часть на стадии разработки</b></p>
+                    <p><b>Тут работает только кнопка "Закрыть"</b></p>
+                    {/*<button onClick={()=> resetPassword()}>Сбросить пароль</button>*/}
+                </div>
 
 
                 <div className="ditProfile-forms-right">
@@ -57,7 +70,8 @@ const EditProfile = ({setShowEditProfile}) => {
                         <input type="text" value={username} onChange={e => setUserName(e.target.value)}/>
                     </label>
                     <label>
-                        firstName:
+                        <button type={'button'} onClick={() => updateUser('first_name', firstName)}>save</button>
+                        Как вас зовут или название организации:
                         <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
                     </label>
                     <label>
@@ -65,8 +79,10 @@ const EditProfile = ({setShowEditProfile}) => {
                         <input type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
                     </label>
                     <label>
+                        <button type={'button'} onClick={() => updateUser('email', email)}>save</button>
                         email:
                         <input type="text" value={email} onChange={e => setEmail(e.target.value)}/>
+
                     </label>
                     <label>
                         description:
@@ -79,9 +95,9 @@ const EditProfile = ({setShowEditProfile}) => {
                         <select name="" id="">
                             {
                                 typeof location !== 'string' ?
-                                location.map((item)=>{
-                                    return <option value="" key={item}>{item}</option>
-                                }) : <option value="">{location}</option>
+                                    location.map((item) => {
+                                        return <option value="" key={item}>{item}</option>
+                                    }) : <option value="">{location}</option>
                             }
                         </select>
                     </label>
@@ -90,7 +106,7 @@ const EditProfile = ({setShowEditProfile}) => {
                         <select name="" id="">
                             {
                                 typeof contact !== 'string' && contact.length !== 0 ?
-                                    contact.map((item)=>{
+                                    contact.map((item) => {
                                         return <option value="" key={item.id}>{item.name}</option>
                                     }) : ''
                             }
@@ -102,37 +118,37 @@ const EditProfile = ({setShowEditProfile}) => {
                     </label>
                 </div>
 
-            {/*<button*/}
-            {/*    onClick={() => {*/}
-            {/*        axios.put(`/api/users/change_password/${id}/`, {*/}
-            {/*            old_password: 'kuba2020',*/}
-            {/*            password: 'admin',*/}
-            {/*            password2: 'admin',*/}
-            {/*        }).then(response => console.log(response))*/}
-            {/*    }}*/}
-            {/*>change password*/}
-            {/*</button>*/}
+                {/*<button*/}
+                {/*    onClick={() => {*/}
+                {/*        axios.put(`/api/users/change_password/${id}/`, {*/}
+                {/*            old_password: 'kuba2020',*/}
+                {/*            password: 'admin',*/}
+                {/*            password2: 'admin',*/}
+                {/*        }).then(response => console.log(response))*/}
+                {/*    }}*/}
+                {/*>change password*/}
+                {/*</button>*/}
 
-            {/*<button onClick={() => {*/}
-            {/*    axios.post('/api/users/request-reset-email/',*/}
-            {/*        {*/}
-            {/*            "email": user.email,*/}
-            {/*            "redirect_url": "https://kyzmat24.com/user/reset-password/reset"*/}
-            {/*        }*/}
-            {/*    )*/}
-            {/*        .then(response => console.log(response))*/}
-            {/*}}>reset*/}
-            {/*</button>*/}
+                {/*<button onClick={() => {*/}
+                {/*    axios.post('/api/users/request-reset-email/',*/}
+                {/*        {*/}
+                {/*            "email": user.email,*/}
+                {/*            "redirect_url": "https://kyzmat24.com/user/reset-password/reset"*/}
+                {/*        }*/}
+                {/*    )*/}
+                {/*        .then(response => console.log(response))*/}
+                {/*}}>reset*/}
+                {/*</button>*/}
 
 
-            {/*<button onClick={() => {*/}
-            {/*    axios.post('/api/users/contact_create/', {*/}
-            {/*        "name": "tel",*/}
-            {/*        "src": "0559996474",*/}
-            {/*        "user": id*/}
-            {/*    }).then((response) => console.log(response))*/}
-            {/*}}>Добавить контакт*/}
-            {/*</button>*/}
+                {/*<button onClick={() => {*/}
+                {/*    axios.post('/api/users/contact_create/', {*/}
+                {/*        "name": "tel",*/}
+                {/*        "src": "0559996474",*/}
+                {/*        "user": id*/}
+                {/*    }).then((response) => console.log(response))*/}
+                {/*}}>Добавить контакт*/}
+                {/*</button>*/}
             </div>
         </div>
     );

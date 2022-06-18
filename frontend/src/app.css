@@ -44,6 +44,19 @@
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+input,
+select{
+    background-color: coral;
+    color: #ffffff;
+    box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    border: none;
+    outline: none;
+}
+input::placeholder{
+    color: rgba(240, 241, 248, 0.83);
+}
+
 
 .item img {
     height: 140px;

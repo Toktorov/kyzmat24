@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import "./header.css";
 import {useSelector} from "react-redux";
-import logo from '../../img/logo.png'
 
 const UserHeader = () => {
     const user = useSelector(s => s.user.user);

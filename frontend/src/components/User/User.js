@@ -178,7 +178,10 @@ const User = () => {
                                          alt=""/>
                                 </div>
                                 <div className="top-right">
-                                    <h2 className={'home-title'}>{user.username} <span>{user.id}</span></h2>
+                                    <h2 className={'home-title'}>{user.first_name ? user.first_name : user.username} <span>{user.id}</span></h2>
+                                    {
+                                        user.first_name ? <p><b>Имя пользователя:</b> {user.username}</p>: ''
+                                    }
                                     <p className={'home-descr'}><b>Описание</b> {user.description} </p>
                                     <p><b>Категория:</b> {user.category}</p>
                                     <p><b>Локация:</b> {user.location} </p>
@@ -187,7 +190,12 @@ const User = () => {
                                         return <span key={item.id}>{item.src}</span>
                                     })}</p>
                                     <button onClick={()=> setShowEditProfile(true)} className={'edit-profile-button'}>Редактивровать профиль <FontAwesomeIcon icon={faPenToSquare} /></button>
-
+                                    {
+                                        !user.verifed ? <>
+                                            <p className={'verified__message'}>Пройдите верификацию для безопасности! <a href="#">подробнее...</a></p>
+                                            <button>Пройти!</button>
+                                        </> : ''
+                                    }
                                 </div>
                             </div>
                             <hr/>

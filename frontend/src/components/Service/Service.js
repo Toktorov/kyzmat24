@@ -43,7 +43,10 @@ const Service = () => {
                                         }
 
                                         <div className="profile-contact">
-                                            <h2>{service.username}</h2>
+                                            <h2>{service.first_name ? service.first_name : service.username}</h2>
+                                            {
+                                                service.first_name ?  <p><b>Имя пользователя:</b> {service.username}</p> : ''
+                                            }
                                             <h3>{service.description}</h3>
                                             <p>Количество мест: <span>{service.places}</span></p>
                                             <p>Адресс: <span>{service.location}</span></p>
