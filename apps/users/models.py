@@ -47,6 +47,12 @@ class User(AbstractUser):
     password = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, null = True, blank = True)
     verifed = models.BooleanField(default=False, verbose_name="Верифицирован")
+    USER_STATUS = (
+        ('Free', 'Free'),
+        ('Usually', 'Usually'),
+        ('Pro', 'Pro'),
+    )
+    status_user = models.CharField(choices=USER_STATUS, default="Free", max_length=20)
 
     def __str__(self):
         return f"{self.username} -- {self.description}"

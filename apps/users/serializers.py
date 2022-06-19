@@ -147,7 +147,7 @@ class UsersSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'location', 'another')
+        fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'location', 'another', 'status_user')
 
 class IssueTokenRequestSerializer(Serializer):
     model = User
@@ -211,7 +211,7 @@ class UserSerializerList(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'id', 'username', 'first_name', 'last_name', 'email', 'verifed', 'profile_image', 'description', 
+            'id', 'username', 'first_name', 'last_name', 'email', 'verifed', 'status_user', 'profile_image', 'description', 
             'location', 'another', 'contact', 'media', 'orders'
         )
 
