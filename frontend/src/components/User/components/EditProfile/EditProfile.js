@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../../../redux/reducers/user";
+import {setNewUser, setUser} from "../../../../redux/reducers/user";
 import "./editProfile.css";
 
 const EditProfile = ({setShowEditProfile}) => {
@@ -10,7 +10,7 @@ const EditProfile = ({setShowEditProfile}) => {
     const [firstName, setFirstName] = useState(user.first_name);
     const [lastName, setLastName] = useState(user.last_name);
     const [email, setEmail] = useState(user.email);
-    const [profileImage, setProfileImage] = useState(user.profle_image);
+    const [profileImage, setProfileImage] = useState(null);
     const [description, setDescription] = useState(user.description);
     const [location, setLocation] = useState(user.location);
     const [contact, setContact] = useState(user.contact);
@@ -20,20 +20,37 @@ const EditProfile = ({setShowEditProfile}) => {
     const [update, setUpdate] = useState(null);
     const [change, setChange] = useState('');
     const id = useSelector(s => s.user.id);
-    const [avatar, setAvatar] = useState('');
     const dispatch = useDispatch();
     const updateUser = (key, value) => {
         axios.put(`https://kyzmat24.com/api/users/update/${id}`, {
-            ...user,
+            username: user.username,
             [key]: value,
         }).then(response => {
             console.log(response);
+            alert('Вы успешно поменяли');
             axios(`/api/users/${id}`).then(({data}) => {
                 dispatch(setUser(data));
                 localStorage.setItem('user', JSON.stringify(data))
             })
-        })
+        }).catch(error => console.log(error.response))
     };
+    const updateProfileImage = () =>{
+   if (profileImage){
+       const data = new FormData;
+       data.append('profile_image', profileImage, profileImage.name);
+       data.append('username', username);
+       axios.put(`https://kyzmat24.com/api/users/update/${id}`, data).then(response => {
+           console.log(response);
+           axios(`/api/users/${id}`).then(({data}) => {
+               dispatch(setUser(data));
+               localStorage.setItem('user', JSON.stringify(data))
+           })
+       }).catch(error => console.log(error.response))
+   } else {
+       alert('Выберите фото')
+   }
+    };
+
 
     const resetPassword = () => {
         axios.post('/api/users/request-reset-email/',
@@ -51,7 +68,8 @@ const EditProfile = ({setShowEditProfile}) => {
                 <div className="editProfile-forms-left">
                     <label>
                         Изменить/добавить фото
-                        <input onChange={(e) => setAvatar(e.target.value)} accept='image/*'
+                        <button onClick={()=> updateProfileImage()}>save</button>
+                        <input onChange={(e) => setProfileImage(e.target.files[0])} accept='image/*'
                                type="file"/>
                     </label>
                     <button onClick={() => {
@@ -75,6 +93,7 @@ const EditProfile = ({setShowEditProfile}) => {
                         <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
                     </label>
                     <label>
+                        <button type={'button'} onClick={() => updateUser('last_name', lastName)}>save</button>
                         lastName:
                         <input type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
                     </label>
@@ -85,6 +104,7 @@ const EditProfile = ({setShowEditProfile}) => {
 
                     </label>
                     <label>
+                        <button type={'button'} onClick={() => updateUser('description', description)}>save</button>
                         description:
                         <textarea value={description} onChange={e => setDescription(e.target.value)}>
 

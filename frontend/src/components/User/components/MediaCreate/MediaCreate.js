@@ -7,7 +7,7 @@ import {setUser} from "../../../../redux/reducers/user";
 const MediaCreate = ({setShowMediaCreate}) => {
     const [labelContentState, setLabelContentState] = useState(false);
     const labelPhotoContent = () => {
-        return labelContentState ? `${photo.name}` : '+'
+        return labelContentState ? `${photo.name}` : 'Выбрать фото'
     };
     const id = useSelector(s => s.user.id);
     const [select, setSelect] = useState(null);
@@ -82,11 +82,13 @@ const MediaCreate = ({setShowMediaCreate}) => {
                             </label>
 
                             <div className={'mediaCreate-forms-btns'}>
-                                <button type={'button'} onClick={() => {
-                                    console.log(photo);
-                                    sendPhoto()
-                                }}>Добавить
-                                </button>
+                                {
+                                    photo ?       <button type={'button'} onClick={() => {
+                                        console.log(photo);
+                                        sendPhoto()
+                                    }}>Добавить
+                                    </button> : ''
+                                }
                                 <button type={'button'} onClick={() => setSelect('video')}>Перейти на видео</button>
                             </div>
 
@@ -97,12 +99,15 @@ const MediaCreate = ({setShowMediaCreate}) => {
                                 <label >
                                     <input
                                         className={'mediaCreate-forms-input-video'}
+                                        placeholder={'Добавьте ссылку сюда..'}
                                         required={true} type="url" onChange={e => serVideoSrc(e.target.value)}/>
                                 </label>
                                 <div className="mediaCreate-forms-btns">
-                                    <button type={'button'} onClick={()=>{
-                                        sendVideo();
-                                    }}>Добавить</button>
+                                    {
+                                        videoSrc ?  <button type={'button'} onClick={()=>{
+                                            sendVideo();
+                                        }}>Добавить</button> : ''
+                                    }
                                     <button type={'button'} onClick={() => setSelect('photo')}>Перейти на фото</button>
                                 </div>
 

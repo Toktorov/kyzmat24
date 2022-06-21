@@ -77,7 +77,7 @@ export const getItems = () => {
     return (dispatch) => {
         axios('/api/users/')
             .then(({data}) => {
-                return dispatch({type: GET_ITEMS, arr: data})
+                return dispatch({type: GET_ITEMS, arr: data.filter(item => item.status_user !== 'Free')})
             })
     }
 

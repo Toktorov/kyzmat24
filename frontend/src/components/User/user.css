@@ -1,8 +1,7 @@
 
 .home {
     width: 1000px;
-    background-color: rgba(237, 235, 235, 0.81);
-    box-shadow: 0 0 5px 5px rgba(92, 92, 92, 0.73);
+    box-shadow: 0 0 5px 3px rgba(183, 183, 183, 0.6);
     position: absolute;
     top: 100px;
     left: 50%;
@@ -15,6 +14,21 @@
     column-gap: 15px;
     margin-bottom: 15px;
 }
+.top-right{
+    position: relative;
+}
+.refresh-btn{
+    position: absolute;
+    background-color: transparent;
+    color: orangered;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    right: -10px;
+}
+.refresh-btn:active{
+    transform: scale(1.2);
+}
 
 .avatar {
     width: 300px;
@@ -24,23 +38,64 @@
     margin-top: 15px;
 }
 
-.bottom-form {
-    display: flex;
-    column-gap: 40px;
-    justify-content: center;
-}
+
 
 .bottom-row {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     row-gap: 15px;
     position: relative;
 }
 
 .bottom-media {
     width: 30%;
+}
+
+.profile-images{
+    position: relative;
+}
+.profile-images-btn{
+    position: absolute;
+    color: orangered;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    transform: rotate(90deg);
+    left: 5px;
+}
+.popup-media{
+    position: absolute;
+    background-color: rgba(255, 69, 0, 0.75);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+.popup-media-button{
+    background-color: transparent;
+    border: 1px solid white;
+    padding: 3px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+.popup-media-button:active{
+    color: red;
+}
+
+.popup-media-confirm{
+    color: white;
+}
+.popup-media-deleteBtn{
+    text-transform: uppercase;
+    background-color: white;
+    color: red;
+}
+.popup-media-deleteBtn:active{
+    background-color: transparent;
+    color: white;
 }
 
 .welcome {

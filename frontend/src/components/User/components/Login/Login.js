@@ -39,11 +39,7 @@ const Login = ({setStatus}) => {
     };
 
     useEffect(()=>{
-        console.log("Hello");
-        if (localStorage.getItem('user')){
-
-        } else {
-            console.log("World!");
+        if (!localStorage.getItem('user')){
             axios(`/api/users/${id}`).then(({data})=>{
                 console.log(data);
                 dispatch(setUser(data));
