@@ -11,6 +11,7 @@ import Tasks from "../User/components/Tasks/Tasks";
 import Orders from "../User/components/Orders/Orders";
 import {useSelector} from "react-redux";
 import ResetPassword from "../User/components/ResetPassword/ResetPassword";
+import EditProfile from "../User/components/EditProfile/EditProfile";
 
 const Main = () => {
     const user = useSelector(s => s.user.user);
@@ -27,6 +28,7 @@ const Main = () => {
                 <Route exact path={'/order'} component={() => <Order/>}/>
                 <Route path={'/user'} exact component={() => <User/>}/>
                 <Route path={'/user/home/:id'} exact component={() => <User/>}/>
+                <Route path={'/user/edit'} exact component={() => <EditProfile/>}/>
                 <Route exact path={'/user/tasks/'} component={() => <Tasks/>}/>
                 <Route exact path={'/user/orders/'} component={() => <Orders/>}/>
                 <Route exact path={'/user/reset-password/:token'} component={() => <ResetPassword/>} />

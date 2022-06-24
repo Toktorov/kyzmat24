@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
 import {setAuthTokens, logoutUser, setNewUser, setUser} from "../../redux/reducers/user";
 import './user.css'
 import {useHistory} from 'react-router-dom'
@@ -166,7 +167,7 @@ const User = () => {
             }
             {
                 user ?
-                    <>
+                    <div className={'container'}>
                         <div className={'home'}>
                             <button onClick={() => {
                                 dispatch(logoutUser());
@@ -196,6 +197,7 @@ const User = () => {
                                     <p className={'home-descr'}><b>Описание</b> {user.description} </p>
                                     <p><b>Категория:</b> {user.category}</p>
                                     <p><b>Локация:</b> {user.location} </p>
+                                    <p><b>Email:</b> {user.email} </p>
                                     <p><b>Доп-но:</b> доп. инф.</p>
                                     <p><b>Контакты: </b>{
                                         user.contact.length === 0 ? '---' :
@@ -213,7 +215,7 @@ const User = () => {
                                                 }
                                             })
                                     }</p>
-                                    <button onClick={()=> setShowEditProfile(true)} className={'edit-profile-button'}>Редактивровать профиль <FontAwesomeIcon icon={faPenToSquare} /></button>
+                                    <Link to={"/user/edit"} className={'edit-profile-button'}>Редактивровать профиль <FontAwesomeIcon icon={faPenToSquare} /></Link>
                                     {
                                         !user.verifed ? <>
                                             <p className={'verified__message'}>Пройдите верификацию для безопасности! <a href="#">подробнее...</a></p>
@@ -225,6 +227,7 @@ const User = () => {
                                             <p className={'verified__message'}>Ваш профиль не публичный! Чтобы сделать его публичным <button onClick={()=> setShowUpdateProfile(true)}>НАЖМИТЕ!</button></p>
                                         </> : ''
                                     }
+
                                 </div>
                             </div>
                             <hr/>
@@ -277,7 +280,7 @@ const User = () => {
                             </div>
                         </div>
 
-                    </>
+                    </div>
 
                     : status === 'login' ? <Login setStatus={setStatus}/> : <SignUp setStatus={setStatus}/>
             }

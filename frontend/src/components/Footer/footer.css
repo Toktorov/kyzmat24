@@ -1,0 +1,7 @@
+
+.footer{
+    height: 300px;
+}
+.footer p:first-child{
+    margin-top: 50px;
+}

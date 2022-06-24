@@ -27,92 +27,94 @@ const Service = () => {
     return (
 
 
-                    <div className="profile">
+        <section className="profile">
+            <div className="container">
+                    {
+                        JSON.stringify(service) === "{}" || JSON.stringify(service) === "[]" ? '' :
+                            <div className="profile__info">
+                                <Link className="close-link" to={"#"} onClick={() => {
+                                    dispatch(goBack);
+                                }}> <FontAwesomeIcon icon={faRightFromBracket}/></Link>
+                                <div className="profile-top">
+                                    {
+                                        !service.profile_image
+                                            ? <img src={avatar} alt=""/>
+                                            :  <img src={service.profile_image} alt=""/>
+                                    }
 
-                        {
-                            JSON.stringify(service) === "{}" || JSON.stringify(service) === "[]" ? '' :
-                                <div className="profile__info">
-                                    <Link className="close-link" to={"#"} onClick={() => {
-                                        dispatch(goBack);
-                                    }}> <FontAwesomeIcon icon={faRightFromBracket}/></Link>
-                                    <div className="profile-top">
+                                    <div className="profile-contact">
+                                        <h2>{service.first_name ? service.first_name : service.username}</h2>
                                         {
-                                            !service.profile_image
-                                                ? <img src={avatar} alt=""/>
-                                                :  <img src={service.profile_image} alt=""/>
+                                            service.last_name ? <p>{service.first_name} {service.last_name}</p>: ''
                                         }
-
-                                        <div className="profile-contact">
-                                            <h2>{service.first_name ? service.first_name : service.username}</h2>
+                                        {
+                                            service.first_name ?  <p><b>Имя пользователя:</b> {service.username}</p> : ''
+                                        }
+                                        <h3>{service.description}</h3>
+                                        <p>Количество мест: <span>{service.places}</span></p>
+                                        <p>Адресс: <span>{service.location}</span></p>
+                                        <p>Телефон: <a href={`tel: ${service.tel}`}>{service.tel}</a></p>
+                                        <p>Email: <a href={`mailto: ${service.email}`}>{service.email}</a></p>
+                                        <p>Дополнительные контакты:</p>
+                                        <div className="profile-social">
                                             {
-                                                service.last_name ? <p>{service.first_name} {service.last_name}</p>: ''
-                                            }
-                                            {
-                                                service.first_name ?  <p><b>Имя пользователя:</b> {service.username}</p> : ''
-                                            }
-                                            <h3>{service.description}</h3>
-                                            <p>Количество мест: <span>{service.places}</span></p>
-                                            <p>Адресс: <span>{service.location}</span></p>
-                                            <p>Телефон: <a href={`tel: ${service.tel}`}>{service.tel}</a></p>
-                                            <p>Email: <a href={`mailto: ${service.email}`}>{service.email}</a></p>
-                                            <p>Дополнительные контакты:</p>
-                                            <div className="profile-social">
-                                                {
-                                                    service.contact.length === 0 ? <p> --- </p> :
-                                                        service.contact.map((item)=>{
-                                                            if (item.name === 'facebook'){
-                                                                return <a key={item.src} href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faFacebook}/></a>
-                                                            } else if (item.name === 'whatsapp'){
-                                                                return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faWhatsapp}/> </a>
-                                                            } else if (item.name === 'instagram'){
-                                                                return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faInstagram}/></a>
-                                                            } else if (item.name === 'telegram'){
-                                                                return <a key={item.src}  href={item.src} target={'_blank'}><FontAwesomeIcon icon={faTelegramPlane}/></a>
-                                                            } else {
-                                                                return   <a key={item.src}  href={item.src} target={'_blank'}>{item.src}</a>
-                                                            }
-                                                        })
-                                                }
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    <div className="profile-bottom">
-                                        <h3>ФОТО/ВИДЕО</h3>
-                                        <div className="profile-media">
-                                            {
-                                                !service.media  ?  <p>Пользователь пока не загрузил</p> :
-                                                    service.media.map((item) => {
-                                                        if (item.name === 'img') {
-                                                            return (
-                                                                <div key={item.file} className="profile-images">
-                                                                    <a data-fancybox="gallery" href={`${item.file}`}>
-                                                                        <img className='profile-img' src={`${item.file}`} alt="картина"/>
-                                                                    </a>
-                                                                </div>
-                                                            )
-                                                        } else {
-                                                            return (
-                                                                <div key={item.src} className="profile-images">
-                                                                    <a data-fancybox="gallery" href={`${item.src}`}>
-                                                                        <ReactPlayer className='profile-video' url={item.src} controls={true} alt=""/>
-                                                                    </a>
-                                                                </div>
-                                                            )
-
+                                                service.contact.length === 0 ? <p> --- </p> :
+                                                    service.contact.map((item)=>{
+                                                        if (item.name === 'facebook'){
+                                                            return <a key={item.src} href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faFacebook}/></a>
+                                                        } else if (item.name === 'whatsapp'){
+                                                            return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faWhatsapp}/> </a>
+                                                        } else if (item.name === 'instagram'){
+                                                            return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faInstagram}/></a>
+                                                        } else if (item.name === 'telegram'){
+                                                            return <a key={item.src}  href={item.src} target={'_blank'}><FontAwesomeIcon icon={faTelegramPlane}/></a>
+                                                        } else if (item.name === 'tel'){
+                                                            return <a href={`tel:${item.src}`}>{item.src}</a>
+                                                        }else{
+                                                            return   <a key={item.src}  href={item.src} target={'_blank'}>{item.name}</a>
                                                         }
-                                                    })}
+                                                    })
+                                            }
 
                                         </div>
-
-
-
                                     </div>
                                 </div>
-                        }
+                                <hr/>
+                                <div className="profile-bottom">
+                                    <h3>ФОТО/ВИДЕО</h3>
+                                    <div className="profile-media">
+                                        {
+                                            !service.media  ?  <p>Пользователь пока не загрузил</p> :
+                                                service.media.map((item) => {
+                                                    if (item.name === 'img') {
+                                                        return (
+                                                            <div key={item.file} className="profile-images">
+                                                                <a data-fancybox="gallery" href={`${item.file}`}>
+                                                                    <img className='profile-img' src={`${item.file}`} alt="картина"/>
+                                                                </a>
+                                                            </div>
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <div key={item.src} className="profile-images">
+                                                                <a data-fancybox="gallery" href={`${item.src}`}>
+                                                                    <ReactPlayer className='profile-video' url={item.src} controls={true} alt=""/>
+                                                                </a>
+                                                            </div>
+                                                        )
 
-                    </div>
+                                                    }
+                                                })}
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                    }
+            </div>
+        </section>
 
 
 

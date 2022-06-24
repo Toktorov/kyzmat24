@@ -6,8 +6,12 @@ import {setUser} from "../../../../redux/reducers/user";
 
 const MediaCreate = ({setShowMediaCreate}) => {
     const [labelContentState, setLabelContentState] = useState(false);
+    const [loading, setLoading] = useState(false);
     const labelPhotoContent = () => {
-        return labelContentState ? `${photo.name}` : 'Выбрать фото'
+        if (labelContentState){
+            return photo.name.length > 10 ? photo.name.slice(0, 10) + '...' : photo.name
+        }
+        return  'Выбрать фото'
     };
     const id = useSelector(s => s.user.id);
     const [select, setSelect] = useState(null);
@@ -18,6 +22,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
         async () => {
             if (photo) {
                 try {
+                    setLoading(true);
                     const data = new FormData();
                     data.append('file', photo, photo.name);
                     data.append('name', 'img');
@@ -30,7 +35,8 @@ const MediaCreate = ({setShowMediaCreate}) => {
                         setPhoto(null);
                         axios(`/api/users/${id}`).then(({data}) => {
                             dispatch(setUser(data));
-                            localStorage.setItem('user', JSON.stringify(data))
+                            localStorage.setItem('user', JSON.stringify(data));
+                            setLoading(false)
                         });
                     })
 
@@ -43,6 +49,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
     );
     const sendVideo = () => {
         if (videoSrc.includes('https://youtu.be/')){
+            setLoading(true);
             axios.post('/api/users/media_create/', {
                 name: 'video',
                 user: id,
@@ -54,7 +61,8 @@ const MediaCreate = ({setShowMediaCreate}) => {
                 serVideoSrc(null);
                 axios(`/api/users/${id}`).then(({data}) => {
                     dispatch(setUser(data));
-                    localStorage.setItem('user', JSON.stringify(data))
+                    localStorage.setItem('user', JSON.stringify(data));
+                    setLoading(false)
                 });
             })
         } else {
@@ -83,13 +91,19 @@ const MediaCreate = ({setShowMediaCreate}) => {
 
                             <div className={'mediaCreate-forms-btns'}>
                                 {
-                                    photo ?       <button type={'button'} onClick={() => {
-                                        console.log(photo);
-                                        sendPhoto()
-                                    }}>Добавить
-                                    </button> : ''
+                                    loading ? <div className="lds-dual-ring"> </div>:
+                                        <>
+                                            {
+                                                photo ? <button type={'button'} onClick={() => {
+                                                    console.log(photo);
+                                                    sendPhoto()
+                                                }}>Добавить
+                                                </button> : ''
+                                            }
+                                            <button type={'button'} onClick={() => setSelect('video')}>Перейти на видео</button>
+                                            </>
                                 }
-                                <button type={'button'} onClick={() => setSelect('video')}>Перейти на видео</button>
+
                             </div>
 
                         </form> :
@@ -104,11 +118,17 @@ const MediaCreate = ({setShowMediaCreate}) => {
                                 </label>
                                 <div className="mediaCreate-forms-btns">
                                     {
-                                        videoSrc ?  <button type={'button'} onClick={()=>{
-                                            sendVideo();
-                                        }}>Добавить</button> : ''
+                                        loading ? <div className="lds-dual-ring"> </div>:
+                                            <>
+                                                {
+                                                    videoSrc ?  <button type={'button'} onClick={()=>{
+                                                        sendVideo();
+                                                    }}>Добавить</button> : ''
+                                                }
+                                                <button type={'button'} onClick={() => setSelect('photo')}>Перейти на фото</button>
+                                            </>
                                     }
-                                    <button type={'button'} onClick={() => setSelect('photo')}>Перейти на фото</button>
+
                                 </div>
 
                             </form>

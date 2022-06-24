@@ -1,32 +1,120 @@
-.editProfile{
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    z-index: 5;
+
+.editProfile-row {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(92, 92, 92, 0.5);
+    margin-top: 100px;
+    box-shadow: 0 0 5px 3px rgba(206, 206, 206, 0.15);
+    padding: 25px;
 }
-.editProfile-forms{
-    background-color: orangered;
-    color: white;
-    width: 500px;
-    border-radius: 20px;
-    position: relative;
-    display: flex;
-    padding: 10px;
+
+.editProfile-select-btns {
+    width: 30%;
+    border-right: 1px solid #e1e1e1;
+    padding-right: 20px;
 }
-.ditProfile-forms-right{
-    width: 60%;
+
+.editProfile-forms {
+    width: 70%;
+    padding-left: 20px;
 }
-.ditProfile-forms-right input,
-.ditProfile-forms-right textarea{
-    border-radius: 0;
+
+.editProfile-forms-label{
+    margin-bottom: 20px;
+}
+
+.editProfile-forms-button {
+    margin-left: 5px;
     background-color: transparent;
+    border: 1px solid #e1e1e1;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.editProfile-forms-button-selected {
+    background-color: orangered;
+    color: #ffffff;
     border: none;
-    border-bottom: 1px solid white;
-    color: white;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.editProfile-forms-button-selected:hover {
+    background-color: red;
+}
+
+.editProfile-forms-button-selected:active {
+    transform: scale(1.1);
+    transition: 0s;
+}
+
+.editProfile-forms input,
+.editProfile-forms textarea,
+.editProfile-forms select {
+    border-radius: 0;
+    border: 1px solid #e1e1e1;
+    background-color: transparent;
+    color: #000000;
     resize: none;
     outline: none;
+}
+.editProfile-forms textarea{
+    display: block;
+    width: 273px;
+    height: 100px;
+}
+.editProfile-forms-button-descr{
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+.editProfile-forms input::placeholder {
+    color: #858585;
+}
+
+.editProfile-input-profilePhoto {
+    width: 0.1px;
+    height: 0.1px;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.editProfile-label-profilePhoto {
+    border: 1px solid orangered;
+    padding: 5px;
+    cursor: pointer;
+}
+.editProfile-label-profilePhoto-text{
+    margin-bottom: 5px;
+}
+
+.editProfile-select-btns-button{
+    width: 100%;
+    padding: 20px;
+    background-color: transparent;
+    border: none;
+    border-left: 3px solid transparent;
+    border-radius: 3px;
+}
+.editProfile-select-btns-button:hover{
+    background-color: #f0f0f0;
+}
+.editProfile-select-btns-button-active{
+    border-color: black;
+}
+
+.editProfile-contact-li{
+    margin-top: 5px;
+}
+.editProfile-contact-li-button{
+    cursor: pointer;
+}
+.editProfile-contact-li span{
+    margin-left: 5px;
+}
+
+.editPreloader{
+    display: inline-block;
 }

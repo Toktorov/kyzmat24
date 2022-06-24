@@ -6,7 +6,7 @@ import Main from "./components/Main/Main";
 import UserHeader from "./components/UserHeader/UserHeader";
 import {useSelector} from "react-redux";
 import Reception from "./components/Reception/Reception";
-//import './libs/fontawesome/all.min.css';
+import Footer from "./components/Footer/Footer";
 
 function App() {
 const app = useSelector(s => s.item.app);
@@ -31,6 +31,7 @@ const app = useSelector(s => s.item.app);
                        <Route path={'/service/:id'} exact component={()=>    <Reception />}/>
                    </Switch>
                    <Main />
+                   <Footer/>
                </BrowserRouter>
            </div>
 

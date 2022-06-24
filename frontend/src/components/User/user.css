@@ -1,11 +1,7 @@
 
 .home {
-    width: 1000px;
-    box-shadow: 0 0 5px 3px rgba(183, 183, 183, 0.6);
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    transform: translate(-50%, 0);
+    margin-top: 100px;
+    box-shadow: 0 0 5px 3px rgba(206, 206, 206, 0.15);
     padding: 15px;
 }
 
