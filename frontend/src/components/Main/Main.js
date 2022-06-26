@@ -7,14 +7,12 @@ import Reviews from "../Reviews/Reviews";
 import Service from "../Service/Service";
 import Order from "../Order/Order";
 import User from "../User/User";
-import Tasks from "../User/components/Tasks/Tasks";
+import AcceptedOrders from "../User/components/AcceptedOrders/AcceptedOrders";
 import Orders from "../User/components/Orders/Orders";
-import {useSelector} from "react-redux";
 import ResetPassword from "../User/components/ResetPassword/ResetPassword";
 import EditProfile from "../User/components/EditProfile/EditProfile";
 
 const Main = () => {
-    const user = useSelector(s => s.user.user);
 
     return (
 
@@ -29,7 +27,7 @@ const Main = () => {
                 <Route path={'/user'} exact component={() => <User/>}/>
                 <Route path={'/user/home/:id'} exact component={() => <User/>}/>
                 <Route path={'/user/edit'} exact component={() => <EditProfile/>}/>
-                <Route exact path={'/user/tasks/'} component={() => <Tasks/>}/>
+                <Route exact path={'/user/tasks/'} component={() => <AcceptedOrders/>}/>
                 <Route exact path={'/user/orders/'} component={() => <Orders/>}/>
                 <Route exact path={'/user/reset-password/:token'} component={() => <ResetPassword/>} />
             </Switch>

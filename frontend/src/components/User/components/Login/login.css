@@ -58,3 +58,20 @@
 }
 
 
+.login-preloader{
+    display: flex;
+    justify-content: center;
+}
+@media screen and (max-width: 450px){
+
+    .login form {
+        width: 320px;
+    }
+}
+
+@media screen and (max-width: 390px){
+
+    .login form {
+        width: 290px;
+    }
+}

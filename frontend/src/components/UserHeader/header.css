@@ -12,7 +12,7 @@ header{
     box-shadow: 0 3px 6px 0 rgba(128, 128, 128, 0.55);
 }
 
-.header-link{
+.header__link{
     font-size: 15px;
     font-weight: 500;
     font-family: "Roboto", sans-serif;

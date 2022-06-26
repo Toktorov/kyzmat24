@@ -7,21 +7,21 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
     const dispatch = useDispatch();
-    const [firstName, setFirstName] = useState(user.first_name);
-    const [lastName, setLastName] = useState(user.last_name);
-    const [email, setEmail] = useState(user.email);
-    const [description, setDescription] = useState(user.description);
-    const [location, setLocation] = useState(user.location);
-    const [another, setAnother] = useState(user.another);
+    const [firstName, setFirstName] = useState(user ? user.first_name: '');
+    const [lastName, setLastName] = useState(user ? user.last_name: '');
+    const [email, setEmail] = useState(user ? user.email: '');
+    const [description, setDescription] = useState(user ? user.description: '');
+    const [location, setLocation] = useState( user ? user.location: '');
+    const [another, setAnother] = useState(user ? user.another: '');
     const [profileImage, setProfileImage] = useState(null);
 
-const profileImageText = () =>{
-    if (profileImage){
-        return profileImage.name.length > 10 ? profileImage.name.slice(0, 10) + '...' : profileImage.name
-    } else {
-        return 'Выбрать фото'
-    }
-};
+    const profileImageText = () => {
+        if (profileImage) {
+            return profileImage.name.length > 10 ? profileImage.name.slice(0, 10) + '...' : profileImage.name
+        } else {
+            return 'Выбрать фото'
+        }
+    };
 
     const updateUser = (key, value) => {
         if (key === editSelect) {
@@ -32,11 +32,8 @@ const profileImageText = () =>{
             }).then(response => {
                 console.log(response);
                 alert('Вы успешно поменяли');
-                axios(`/api/users/${id}`).then(({data}) => {
-                    dispatch(setUser(data));
-                    localStorage.setItem('user', JSON.stringify(data));
-                    setLoading('')
-                })
+                dispatch(setUser());
+                setLoading('');
             }).catch(error => console.log(error.response))
         }
     };
@@ -48,11 +45,8 @@ const profileImageText = () =>{
             data.append('username', user.username);
             axios.put(`https://kyzmat24.com/api/users/update/${id}`, data).then(response => {
                 console.log(response);
-                axios(`/api/users/${id}`).then(({data}) => {
-                    dispatch(setUser(data));
-                    localStorage.setItem('user', JSON.stringify(data));
-                    setLoading('')
-                })
+                dispatch(setUser());
+                setLoading('');
             }).catch(error => console.log(error.response))
         } else {
             alert('Выберите фото')
@@ -77,14 +71,14 @@ const profileImageText = () =>{
                 {
                     loading === 'profile_image' ? <div className={'editPreloader'}>
                             <div className="lds-ellipsis">
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
-                                <div> </div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
                             </div>
                         </div> :
                         <button
-                            className={editSelect === "profile_image" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
+                            className={editSelect === "profile_image" ? 'editProfile-forms-button editProfile-forms-button-first editProfile-forms-button-selected' : 'editProfile-forms-button editProfile-forms-button-first'}
                             onClick={() => updateProfileImage()}>сохранить
                         </button>
                 }
@@ -98,12 +92,12 @@ const profileImageText = () =>{
                 {
                     loading === 'first_name' ? <div className={'editPreloader'}>
                         <div className="lds-ellipsis">
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
-                    </div> :<button
+                    </div> : <button
                         className={editSelect === "first_name" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
                         type={'button'} onClick={() => updateUser('first_name', firstName)}>сохранить
                     </button>
@@ -120,10 +114,10 @@ const profileImageText = () =>{
                 {
                     loading === 'last_name' ? <div className={'editPreloader'}>
                         <div className="lds-ellipsis">
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div> : <button
                         className={editSelect === "last_name" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
@@ -141,12 +135,12 @@ const profileImageText = () =>{
                 {
                     loading === 'email' ? <div className={'editPreloader'}>
                         <div className="lds-ellipsis">
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
-                    </div> :<button
+                    </div> : <button
                         className={editSelect === "email" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
                         type={'button'} onClick={() => updateUser('email', email)}>сохранить
                     </button>
@@ -163,10 +157,10 @@ const profileImageText = () =>{
                 {
                     loading === 'description' ? <div className={'editPreloader'}>
                         <div className="lds-ellipsis">
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
                     </div> : <button
                         className={editSelect === "description"

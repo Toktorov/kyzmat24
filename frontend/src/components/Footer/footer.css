@@ -5,3 +5,6 @@
 .footer p:first-child{
     margin-top: 50px;
 }
+.footer-mt{
+    margin-top: 100vh;
+}

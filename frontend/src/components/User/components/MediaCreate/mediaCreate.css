@@ -128,3 +128,34 @@ background-color: transparent;
 .mediaCreateClose:active{
     transform: scale(1.1);
 }
+
+
+
+@media screen and (max-width: 560px) {
+
+    .mediaCreate-forms {
+        width: 400px;
+        height: 250px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .mediaCreate-forms {
+        width: 260px;
+        height: 200px;
+    }
+    .mediaCreate-forms-input-video{
+        font-size: 14px;
+    }
+    .mediaCreate-forms form {
+        margin: 50px auto;
+    }
+    .mediaCreate-forms-label-photo{
+        margin-left: 0;
+        font-size: 14px;
+    }
+    .mediaCreate-forms-btns button{
+        font-size: 12px;
+    }
+
+}

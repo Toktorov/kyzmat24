@@ -23,12 +23,11 @@
     height: 100%;
 }
 
-.reception .container h2{
-    font-size: 56px;
+.reception__content h2{
+    font-size: 32px;
     color: #fff;
     font-weight: 400;
     margin-bottom: 0;
-    text-transform: capitalize;
 }
 .reception__btn{
     padding: 10px 20px;
@@ -55,17 +54,27 @@
     width: 40%;
 }
 
+@media screen and (max-width: 1200px){
+    .bg-img,
+    .reception{
+        height: 450px;
+    }
+}
+
 @media screen and (max-width: 1000px) {
     .reception__content{
         flex-direction: column;
         align-items: flex-start;
     }
+    .bg-img,
+    .reception{
+        height: 390px;
+    }
 }
 
 @media screen and (max-width: 760px) {
-
-    .reception .container h2{
-        font-size: 40px;
+    .reception__content h2 {
+        font-size: 26px;
     }
     .reception__content{
         column-gap: 20px;
@@ -82,27 +91,40 @@
 }
 @media screen and (max-width: 560px) {
 
-    .reception .container h2 {
-        font-size: 24px;
+    .reception__content h2 {
+        font-size: 20px;
     }
     .reception__btn {
-        font-size: 11px;
+        font-size: 13px;
         line-height: 117%;
         padding: 7px 14px;
     }
+    .reception__content{
+        row-gap: 10px;
+        margin-top: 70px;
+    }
+
     .bg-img, .reception {
         height: 241px;
     }
 }
 
 @media screen and (max-width: 450px) {
-    .reception .container h2 {
-        font-size: 14px;
+    .reception__btn{
+        width: 163px;
     }
-    .reception__btn {
-        font-size: 8px;
-        line-height: 110%;
-        padding: 2px 5px;
+
+}
+@media screen and (max-width: 390px) {
+    .bg-img, .reception {
+        height: 180px;
+    }
+    .reception__content h2 {
+        font-size: 15px;
+    }
+    .reception__content {
+        row-gap: 5px;
+        margin-top: 70px;
     }
 }
 

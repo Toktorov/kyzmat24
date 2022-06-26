@@ -97,6 +97,7 @@
     border: none;
     border-left: 3px solid transparent;
     border-radius: 3px;
+    cursor: pointer;
 }
 .editProfile-select-btns-button:hover{
     background-color: #f0f0f0;
@@ -117,4 +118,79 @@
 
 .editPreloader{
     display: inline-block;
+}
+
+
+
+
+@media screen and (max-width: 760px) {
+.editProfile-row{
+    flex-wrap: wrap;
+    padding: 5px;
+}
+    .editProfile-forms {
+        width: 100%;
+         padding-top: 10px;
+    }
+    .editProfile-select-btns {
+        width: 100%;
+        border-right: transparent;
+        padding: 5px;
+        border-bottom: 1px solid #e1e1e1;
+        display: flex;
+    }
+    .editProfile-select-btns-button {
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    .editProfile-select-btns-button-active {
+        border-color: black;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .editProfile-forms-button-contact{
+        margin-top: 5px;
+        margin-left: 1px;
+    }
+}
+
+@media screen and (max-width: 560px) {
+
+    .editProfile-select-btns-button {
+        padding: 10px;
+    }
+    .editProfile-forms-button-contact{
+        margin-left: 0;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .editProfile-forms-button{
+        padding: 3px 9px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .editProfile-select-btns{
+        flex-wrap: wrap;
+    }
+    .editProfile-select-btns-button{
+        width: 50%;
+        border: 1px solid transparent;
+    }
+    .editProfile-select-btns-button-active{
+        border-color: black;
+    }
+    .editProfile-forms-button {
+        margin-top: 5px;
+        margin-left: 0;
+    }
+    .editProfile-forms-button-first{
+        margin-left: 5px;
+    }
+    .editProfile-forms textarea{
+        width: 174px;
+    }
 }

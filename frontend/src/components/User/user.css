@@ -3,6 +3,7 @@
     margin-top: 100px;
     box-shadow: 0 0 5px 3px rgba(206, 206, 206, 0.15);
     padding: 15px;
+    position: relative;
 }
 
 .home-top {
@@ -42,6 +43,7 @@
     flex-wrap: wrap;
     row-gap: 15px;
     position: relative;
+    justify-content: center;
 }
 
 .bottom-media {
@@ -143,4 +145,105 @@
 }
 .verified__message{
     color: red;
+}
+.logout-popup-bg{
+    top: 0;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(92, 92, 92, 0.5);
+}
+.logout-popup{
+    background-color: orangered;
+    padding: 10px;
+    border-radius: 10px;
+}
+.logout-message{
+    color: #ffffff;
+}
+
+.logout-btn{
+    position: absolute;
+    right: 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #e1e1e1;
+    z-index: 4;
+}
+.logout-btn-cancel,
+.logout-btn-logout{
+    margin-top: 5px;
+    border: 1px solid #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-btn-cancel{
+    background-color: #ffffff;
+    color: orangered;
+}
+.logout-btn-logout{
+    background-color: transparent;
+    color: #ffffff;
+    margin-left: 5px;
+}
+
+.logout-btn-cancel:active,
+.logout-btn-logout:active{
+    transform: scale(1.1);
+}
+
+
+
+
+@media screen and (max-width: 760px) {
+    .avatar {
+        width: 225px;
+    }
+    .home-title{
+        font-size: 20px;
+    }
+    .top-right p{
+        font-size: 15px;
+        word-wrap: break-word;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .avatar {
+        width: 170px;
+    }
+    .mediaCreate-forms {
+        width: 400px;
+        height: 250px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .avatar {
+        width: 126px;
+    }
+    .home-title {
+        font-size: 17px;
+    }
+    .top-right p {
+        font-size: 12px;
+    }
+
+}
+
+@media screen and (max-width: 390px) {
+    .avatar {
+        width: 100px;
+    }
+    .home-top{
+        flex-wrap: wrap;
+    }
 }

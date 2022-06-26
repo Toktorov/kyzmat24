@@ -18,7 +18,7 @@ const Reception = () => {
                 {
                     status !== 'addItem' && status !== 'profile'
                         ? <div className={'reception__content'}>
-                            <h2>Более 1000 услуг</h2>
+                            <h2>Добро пожаловать в KYZMAT.COM!</h2>
                             <Link className={'reception__btn'} to={'/order'} onClick={() => {
                                 dispatch(setStatus('addItem'));
                                 localStorage.setItem('status', status)

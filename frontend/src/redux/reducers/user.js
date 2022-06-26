@@ -1,7 +1,4 @@
-import jwt_decode from 'jwt-decode';
 import axios from "axios";
-
-
 const SET_AUTH_TOKENS = 'SET_AUTH_TOKENS';
 const SET_USER = 'SET_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
@@ -10,10 +7,11 @@ const SET_NEW_USER = 'SET_NEW_USER';
 const SET_ID = 'SET_ID';
 const GET_ACCEPT_ORDERS = 'GET_ACCEPT_ORDERS';
 
+
 const initState = {
     authTokens: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null,
     id: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('id')) : null,
-    user:  localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')): null,
+    user: null,
     orders: [],
     acceptOrders:[],
     newUser: false,
@@ -36,7 +34,7 @@ export default (state = initState, action) => {
         }
         case LOGOUT_USER: {
             localStorage.removeItem('authTokens');
-            localStorage.removeItem('user');
+            localStorage.removeItem('id');
             return {
                 ...state,
                 authTokens: null,
@@ -81,9 +79,14 @@ export const setAuthTokens = (authTokens) => {
     }
 };
 
-export const setUser = (user) => {
+export const setUser = () => {
     return (dispatch) => {
-        dispatch({type: SET_USER, user})
+        axios(`/api/users/${initState.id}`)
+            .then(({data})=>{
+                localStorage.setItem('user', JSON.stringify(data));
+                return  dispatch({type: SET_USER, user: data})
+            });
+
     }
 };
 export const logoutUser = () => {

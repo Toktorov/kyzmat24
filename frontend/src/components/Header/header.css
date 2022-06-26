@@ -1,4 +1,5 @@
 .header {
+    top: 0;
     display: flex;
     justify-content: space-between;
     padding: 0 50px;
@@ -24,20 +25,13 @@
     font-weight: 500;
     font-family: "Roboto", sans-serif;
     border-bottom: 1px solid transparent;
-    transition: .5s;
 }
 
-.header__link:hover {
-    color: #00D363;
-}
 
 .header__link-active {
     border-color: #FFFFFF;
 }
 
-.header__link-active:hover {
-    border-color: #00D363;
-}
 
 .header__link-form {
     text-decoration: none;
@@ -85,23 +79,19 @@
 
 
 @media screen and (max-width: 900px) {
-.header__menu{
-    column-gap: 25px;
-}
+    .header__menu {
+        column-gap: 25px;
+    }
 }
 
 @media screen and (max-width: 750px) {
-    .header__logo{
+    .header__logo {
         position: absolute;
-        top: 0;
-        left: 5px;
+        left: 15px;
+        z-index: 6;
     }
-    .header__link-form{
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translate(0, -50%);
-    }
+
+
     .mobile-btn {
         width: 55px;
         height: 45px;
@@ -110,72 +100,80 @@
         align-items: center;
         cursor: pointer;
         position: absolute;
-        left: 5px;
-        bottom: -7px;
+        right: 15px;
+        bottom: 13px;
+        z-index: 6;
     }
 
-    .show-mobile-btn span {
-        background: transparent;
-    }
-
-    .show-mobile-btn span::before,
-    .show-mobile-btn span::after {
+    .header::before {
+        content: '';
+        position: absolute;
+        display: inline-block;
         top: 0;
-        bottom: 0;
-        margin: auto;
-    }
-
-    .show-mobile-btn span::before {
-        transform: rotate(45deg);
-    }
-
-    .show-mobile-btn span::after {
-        transform: rotate(-45deg)
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: orangered;
+        z-index: 4;
     }
 
     .header__menu {
         display: flex;
-        flex-direction: column;
+        background-color: #f03f00;
         justify-content: center;
         align-items: center;
         position: fixed;
-        background-color: rgba(0, 211, 99, 0.91);
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: -100%;
         transition: .7s;
+        top: 30px;
+        width: 100%;
+        padding: 10px 0;
+        left: 0;
     }
 
     .show-menu {
-        left: 0;
-        overflow: scroll;
+        top: 68px;
     }
 
-    .header__link {
-        margin-top: 10px;
-        border: 1px solid #ffffff;
-        width: 170px;
-        padding: 15px 0;
-        text-align: center;
-        text-decoration: none;
-        color: #fff;
-        font-size: 15px;
-        font-weight: 500;
-        font-family: "Roboto", sans-serif;
-        transition: .5s;
-    }
 }
 
 @media screen and (max-width: 470px) {
-    .header{
+    .header {
         padding: 0 10px;
         height: 58px;
     }
-    .header__logo{
+
+    .header__link {
+        font-size: 12px;
+    }
+    .header__menu {
+        top: 20px;
+    }
+
+    .show-menu {
+        top: 58px;
+    }
+
+    .header__logo {
         font-size: 25px;
     }
+    .mobile-btn{
+        bottom: 5px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .header__menu {
+        top: -5px;
+    }
+    .show-menu {
+        top: 58px;
+    }
+}
+@media screen and (max-width: 390px) {
+.show-menu{
+    flex-wrap: wrap;
+}
     .header__link-form{
-        font-size: 12px;
+        margin-top: 5px;
     }
 }

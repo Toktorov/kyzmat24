@@ -80,12 +80,14 @@ const SignUp = ({setStatus}) => {
                 <input required={true} type="password" onChange={e => setPassword2(e.target.value)}
                        placeholder="Подтвердите пароль"/>
                 {
-                    loading === true ? <div className="lds-ring">
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                    </div> : <>
+                    loading === true ? <div className={'login-preloader'}>
+                        <div className="lds-ring lds-ring-white">
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                        </div>
+                    </div>: <>
                         <button className={'login-btn'} type="submit">Зарегистрироваться</button>
                         <p>Есть аккаунт? <button className={'login-btn-link'}
                                                  onClick={() => setStatus('login')}>Войти</button></p>

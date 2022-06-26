@@ -18,11 +18,8 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                 .then(response => {
                     alert('Вы успешно сохранили');
                     console.log('contact', response);
-                    axios(`/api/users/${id}`).then(({data}) => {
-                        setLoading('');
-                        dispatch(setUser(data));
-                        localStorage.setItem('user', JSON.stringify(data))
-                    })
+                    dispatch(setUser());
+                    setLoading('');
                 })
         } else {
             alert('Заполните форму полностью')
@@ -35,14 +32,10 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
             .then(response => {
                 console.log(response);
                 alert('Вы успешно удалили');
-                axios(`/api/users/${id}`).then(({data}) => {
-                    setLoading('');
-                    dispatch(setUser(data));
-                    localStorage.setItem('user', JSON.stringify(data))
-                })
+                dispatch(setUser());
+                setLoading('');
             })
     };
-
     return (
         <>
             <div className={'editProfile-forms-label'}>
@@ -108,14 +101,16 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                 {
                     loading === 'create_contact' ? <div className={'editPreloader'}>
                         <div className="lds-ellipsis">
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
-                            <div> </div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
                         </div>
-                    </div> :   <button
-                        className={editSelect === "contact" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                        onClick={() =>{
+                    </div> : <button
+                        className={editSelect === "contact" ?
+                            'editProfile-forms-button editProfile-forms-button-contact editProfile-forms-button-selected'
+                            : 'editProfile-forms-button editProfile-forms-button-contact'}
+                        onClick={() => {
                             createContact();
                         }
                         }>сохранить
@@ -126,19 +121,26 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                 <p>Ваши контакты:</p>
                 <ul className={'editProfile-contact-ul'}>
                     {
+                        user ?
                         user.contact.map(item => {
                             return <li className={'editProfile-contact-li'}>
-                                {item.name} : {item.src}
+                                {item.name} : {item.name === 'telegram'
+                                ? item.src.slice(13)
+                                : item.name === 'instagram'
+                                    ? item.src.slice(26)
+                                    : item.name === 'whatsapp'
+                                        ? item.src.slice(14)
+                                        : item.src}
 
                                 {
                                     loading === item.id ? <div className={'editPreloader'}>
-                                        <div className="lds-ellipsis">
-                                            <div> </div>
-                                            <div> </div>
-                                            <div> </div>
-                                            <div> </div>
-                                        </div>
-                                    </div>:
+                                            <div className="lds-ellipsis">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                        </div> :
                                         <>
                                             {
                                                 deleteContactConfirm === item.id ?
@@ -146,21 +148,23 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                                                         <span>Вы уверены?</span>
                                                         <button
                                                             className={'editProfile-forms-button editProfile-contact-li-button'}
-                                                            onClick={()=> setDeleteContactConfirm(null)}
-                                                        >Отмена</button>
+                                                            onClick={() => setDeleteContactConfirm(null)}
+                                                        >Отмена
+                                                        </button>
                                                         <button
                                                             className={'editProfile-forms-button editProfile-contact-li-button'}
-                                                            onClick={()=>{
+                                                            onClick={() => {
                                                                 deleteContact(item.id);
                                                             }
                                                             }
-                                                        >Удалить</button>
+                                                        >Удалить
+                                                        </button>
                                                     </>
                                                     :
                                                     <button
-                                                        onClick={()=>{
+                                                        onClick={() => {
                                                             setDeleteContactConfirm(item.id);
-                                                        } }
+                                                        }}
                                                         className={'editProfile-forms-button editProfile-contact-li-button'}>Удалить
                                                     </button>
                                             }
@@ -168,9 +172,8 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                                 }
 
 
-
                             </li>
-                        })
+                        }) : ''
                     }
                 </ul>
             </div>

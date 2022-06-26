@@ -33,11 +33,8 @@ const MediaCreate = ({setShowMediaCreate}) => {
                         console.log(response);
                         setLabelContentState(false);
                         setPhoto(null);
-                        axios(`/api/users/${id}`).then(({data}) => {
-                            dispatch(setUser(data));
-                            localStorage.setItem('user', JSON.stringify(data));
-                            setLoading(false)
-                        });
+                        dispatch(setUser());
+                        setLoading(false);
                     })
 
                 } catch (error) {
@@ -59,11 +56,8 @@ const MediaCreate = ({setShowMediaCreate}) => {
                 alert('Вы успешно добавили');
                 console.log(response);
                 serVideoSrc(null);
-                axios(`/api/users/${id}`).then(({data}) => {
-                    dispatch(setUser(data));
-                    localStorage.setItem('user', JSON.stringify(data));
-                    setLoading(false)
-                });
+                dispatch(setUser());
+                setLoading(false);
             })
         } else {
             alert('Ссылка неверная')

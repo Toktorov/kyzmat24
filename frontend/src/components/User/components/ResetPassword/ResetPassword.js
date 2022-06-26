@@ -25,7 +25,9 @@ const ResetPassword = () => {
                         "token": window.location.href.slice(window.location.href.match('token=').index + 6 ),
                         "uidb64": "MQ"
                     },{
-                        Authorization: `Bearer ${authTokens.access}`
+                        headers:{
+                            Authorization: `Bearer ${authTokens.access}`
+                        }
                     }).then(response => console.log(response))
                 }}>Save</button>
             </form>

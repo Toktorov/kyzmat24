@@ -4,9 +4,10 @@ import axios from "axios";
 import {setAuthTokens, setUser, setId} from "../../../../redux/reducers/user";
 import jwt_decode from "jwt-decode";
 import {useDispatch, useSelector} from "react-redux";
-
+import {useHistory} from 'react-router-dom';
 
 const Login = ({setStatus}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const id = useSelector(s => s.user.id);
     const [userStatus, setUserStatus] = useState(null);
@@ -30,7 +31,8 @@ const Login = ({setStatus}) => {
             localStorage.setItem('authTokens', JSON.stringify(data));
              dispatch(setAuthTokens(data));
              dispatch(setId(jwt_decode(data.access).user_id));
-             localStorage.setItem('id', `${jwt_decode(data.access).user_id}`)
+             localStorage.setItem('id', `${jwt_decode(data.access).user_id}`);
+            dispatch(setUser());
         }).catch((error) => {
             setUserStatus(false);
             setLoading(false);
@@ -39,13 +41,7 @@ const Login = ({setStatus}) => {
     };
 
     useEffect(()=>{
-        if (!localStorage.getItem('user')){
-            axios(`/api/users/${id}`).then(({data})=>{
-                console.log(data);
-                dispatch(setUser(data));
-                localStorage.setItem('user', JSON.stringify(data))
-            });
-        }
+
 
     },[id]);
 
@@ -65,12 +61,14 @@ const Login = ({setStatus}) => {
                 <input required={true} type="password" name="password" onChange={e => setPassword(e.target.value)}
                        placeholder="Введите пароль"/>
                 {
-                    loading === true ? <div className="lds-ring">
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                        <div> </div>
-                    </div> : <>
+                    loading === true ? <div className={'login-preloader'}>
+                        <div className="lds-ring lds-ring-white">
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                        </div>
+                    </div>: <>
                         <button className={'login-btn'} type="submit">Войти</button>
                         <p>Нет аккаунта? Пройди <button className={'login-btn-link'}
                                                         onClick={() => setStatus('signUp')}>регистрацию</button></p>

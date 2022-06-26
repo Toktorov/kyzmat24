@@ -50,8 +50,7 @@ const Service = () => {
                                         {
                                             service.first_name ?  <p><b>Имя пользователя:</b> {service.username}</p> : ''
                                         }
-                                        <h3>{service.description}</h3>
-                                        <p>Количество мест: <span>{service.places}</span></p>
+                                        <p><b>Описание: </b>{service.description}</p>
                                         <p>Адресс: <span>{service.location}</span></p>
                                         <p>Телефон: <a href={`tel: ${service.tel}`}>{service.tel}</a></p>
                                         <p>Email: <a href={`mailto: ${service.email}`}>{service.email}</a></p>
@@ -88,18 +87,22 @@ const Service = () => {
                                                 service.media.map((item) => {
                                                     if (item.name === 'img') {
                                                         return (
-                                                            <div key={item.file} className="profile-images">
-                                                                <a data-fancybox="gallery" href={`${item.file}`}>
-                                                                    <img className='profile-img' src={`${item.file}`} alt="картина"/>
-                                                                </a>
+                                                            <div className={'col-4'} key={item.file}>
+                                                                <div className="profile-images">
+                                                                    <a data-fancybox="gallery" href={`${item.file}`}>
+                                                                        <img className='profile-img' src={`${item.file}`} alt="картина"/>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         )
                                                     } else {
                                                         return (
-                                                            <div key={item.src} className="profile-images">
-                                                                <a data-fancybox="gallery" href={`${item.src}`}>
-                                                                    <ReactPlayer className='profile-video' url={item.src} controls={true} alt=""/>
-                                                                </a>
+                                                            <div className={'col-4'} key={item.src} >
+                                                                <div className="profile-images">
+                                                                    <a data-fancybox="gallery" href={`${item.src}`}>
+                                                                        <ReactPlayer className='profile-video' url={item.src} controls={true} alt=""/>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         )
 

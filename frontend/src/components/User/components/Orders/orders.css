@@ -4,9 +4,15 @@
 
 .orders__item{
     background-color: rgba(255, 255, 255, 0.75);
-    box-shadow: 0 0 15px 10px rgba(92, 92, 92, 0.3);
+    box-shadow: 0 0 10px 5px rgba(202, 202, 202, 0.3);
     padding: 15px;
     margin-bottom: 20px;
+}
+.orders__item-btns{
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 5px;
 }
 
 .orders__item-get,
@@ -16,28 +22,26 @@
     padding: 5px 15px;
     color: #f0f1f8;
     border-radius: 5px;
-    margin-top: 10px;
     cursor: pointer;
     transition: .5s;
 }
 
 .orders__item-get{
-    background-color: #00D363;
-    border: 1px solid #00d363;
+    background-color: orangered;
+    border: 1px solid orangered;
 }
 .orders__item-get:hover{
-    background-color: #f0f1f8;
-    color: #00D363;
+    background-color: transparent;
+    color: orangered;
 }
 
 .orders__item-more{
-    background-color: #158af2;
-    border:1px solid #158af2;
-    margin-left: 5px;
+    background-color: #ffffff;
+    border:1px solid transparent;
     text-decoration: none;
+    color: orangered;
 }
 .orders__item-more:hover{
-    background-color: #f0f1f8;
-    color: #158af2;
+    border-color: orangered;
 }
 
