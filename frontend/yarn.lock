@@ -1592,6 +1592,11 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@shopify/react-csrf@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@shopify/react-csrf/-/react-csrf-3.0.1.tgz#a864f80d8c91dacc2b5b61ba97c25da6d4fae415"
+  integrity sha512-Cqobi+KD/y1ZxohJdr0GRAKZQcdUPsLrFeuWhz5F0/dMxTc7nGUAIUzW7VZmdMph15XXR22wrMBx9ijpHSThFA==
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"

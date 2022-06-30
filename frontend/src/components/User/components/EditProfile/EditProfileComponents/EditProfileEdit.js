@@ -32,7 +32,7 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
             }).then(response => {
                 console.log(response);
                 alert('Вы успешно поменяли');
-                dispatch(setUser());
+                dispatch(setUser(id));
                 setLoading('');
             }).catch(error => console.log(error.response))
         }
@@ -45,7 +45,7 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
             data.append('username', user.username);
             axios.put(`https://kyzmat24.com/api/users/update/${id}`, data).then(response => {
                 console.log(response);
-                dispatch(setUser());
+                dispatch(setUser(id));
                 setLoading('');
             }).catch(error => console.log(error.response))
         } else {

@@ -38,10 +38,7 @@ const UpdateProfile = ({setShowUpdateProfile}) => {
        axios.put(`https://kyzmat24.com/api/users/update/${id}`, data)
            .then(response => {
                console.log(response);
-               axios(`/api/users/${id}`).then(({data}) => {
-                   dispatch(setUser(data));
-                   localStorage.setItem('user', JSON.stringify(data))
-               })
+              dispatch(setUser(id))
            }).catch(error => console.log(error.response))
    } else {
        alert('Заполните все обязательные поля!')

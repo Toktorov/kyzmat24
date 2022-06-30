@@ -79,9 +79,9 @@ export const setAuthTokens = (authTokens) => {
     }
 };
 
-export const setUser = () => {
+export const setUser = (id) => {
     return (dispatch) => {
-        axios(`/api/users/${initState.id}`)
+        axios(`/api/users/${id}`)
             .then(({data})=>{
                 localStorage.setItem('user', JSON.stringify(data));
                 return  dispatch({type: SET_USER, user: data})

@@ -33,7 +33,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
                         console.log(response);
                         setLabelContentState(false);
                         setPhoto(null);
-                        dispatch(setUser());
+                        dispatch(setUser(id));
                         setLoading(false);
                     })
 
@@ -56,7 +56,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
                 alert('Вы успешно добавили');
                 console.log(response);
                 serVideoSrc(null);
-                dispatch(setUser());
+                dispatch(setUser(id));
                 setLoading(false);
             })
         } else {

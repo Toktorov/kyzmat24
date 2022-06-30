@@ -31,18 +31,18 @@ const Service = () => {
             <div className="container">
                     {
                         JSON.stringify(service) === "{}" || JSON.stringify(service) === "[]" ? '' :
-                            <div className="profile__info">
+                            <div className="profile__block">
                                 <Link className="close-link" to={"#"} onClick={() => {
                                     dispatch(goBack);
                                 }}> <FontAwesomeIcon icon={faRightFromBracket}/></Link>
                                 <div className="profile-top">
                                     {
                                         !service.profile_image
-                                            ? <img src={avatar} alt=""/>
-                                            :  <img src={service.profile_image} alt=""/>
+                                            ? <div className={"profile-image"}><img  src={avatar} alt=""/></div>
+                                            :  <div className={"profile-image"}><img  src={service.profile_image} alt=""/></div>
                                     }
 
-                                    <div className="profile-contact">
+                                    <div className="profile-title">
                                         <h2>{service.first_name ? service.first_name : service.username}</h2>
                                         {
                                             service.last_name ? <p>{service.first_name} {service.last_name}</p>: ''
@@ -51,11 +51,13 @@ const Service = () => {
                                             service.first_name ?  <p><b>Имя пользователя:</b> {service.username}</p> : ''
                                         }
                                         <p><b>Описание: </b>{service.description}</p>
+                                    </div>
+                                    <div className="profile-info">
                                         <p>Адресс: <span>{service.location}</span></p>
                                         <p>Телефон: <a href={`tel: ${service.tel}`}>{service.tel}</a></p>
                                         <p>Email: <a href={`mailto: ${service.email}`}>{service.email}</a></p>
                                         <p>Дополнительные контакты:</p>
-                                        <div className="profile-social">
+                                        <div className="profile-contact">
                                             {
                                                 service.contact.length === 0 ? <p> --- </p> :
                                                     service.contact.map((item)=>{

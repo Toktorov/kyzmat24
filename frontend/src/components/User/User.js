@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {setNewUser, setUser} from "../../redux/reducers/user";
+import {setAuthTokens, setId, setNewUser, setUser} from "../../redux/reducers/user";
 import './user.css'
 import {useHistory} from 'react-router-dom';
 import altAvatar from '../../img/avatar.jpg';
@@ -17,6 +17,8 @@ import PopupMedia from "./PopupMedia";
 import UpdateProfile from "./components/UpdateProfile/UpdateProfile";
 import {faFacebook, faInstagram, faTelegramPlane, faWhatsapp} from "@fortawesome/free-brands-svg-icons";
 import LogoutPopup from "./LogoutPopup";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 const User = () => {
     const HELLO_RU = 'Мы рады, что вы проявили интерес к сервису  kyzmat24.\n' +
@@ -88,6 +90,31 @@ const User = () => {
     const [showLogoutPopup, setShowLogoutPopup] = useState(false);
     const dispatch = useDispatch();
 
+    const loginUser = (e , username, password, setLoading, setUserStatus) => {
+        setLoading(true);
+        e.preventDefault();
+        axios.post('/api/token/obtain', {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            username,
+            password
+        }).then(({data}) => {
+            console.log(data);
+            setUserStatus(true);
+            setLoading(false);
+            localStorage.setItem('authTokens', JSON.stringify(data));
+            dispatch(setAuthTokens(data));
+            dispatch(setId(jwt_decode(data.access).user_id));
+            localStorage.setItem('id', `${jwt_decode(data.access).user_id}`);
+            dispatch(setUser(jwt_decode(data.access).user_id));
+        }).catch((error) => {
+            setUserStatus(false);
+            setLoading(false);
+            console.log(error)
+        })
+    };
+
 
     useEffect(() => {
         if (user && authTokens) {
@@ -98,7 +125,7 @@ const User = () => {
     useEffect(() => {
        dispatch(setApp('order'));
        if (id){
-           dispatch(setUser());
+           dispatch(setUser(id));
        }
     }, []);
 
@@ -130,12 +157,6 @@ const User = () => {
                     <div className={'container'}>
                         {
                             user ? <div className={'home'}>
-
-                                    <button onClick={()=>{
-                                        setShowLogoutPopup(true);
-                                    }}
-                                            className={'logout-btn'}>выйти</button>
-
                                 <div className="home-top">
 
                                     <div className="top-left">
@@ -153,6 +174,8 @@ const User = () => {
                                             user.first_name ? <p><b>Имя пользователя:</b> {user.username}</p>: ''
                                         }
                                         <p className={'home-descr'}><b>Описание:</b> {user.description} </p>
+                                    </div>
+                                    <div className="top-right2">
                                         <p><b>Категория:</b> {user.category}</p>
                                         <p><b>Локация:</b> {user.location} </p>
                                         <p><b>Email:</b> {user.email} </p>
@@ -185,7 +208,10 @@ const User = () => {
                                                 <p className={'verified__message'}>Ваш профиль не публичный! Чтобы сделать его публичным <button onClick={()=> setShowUpdateProfile(true)}>НАЖМИТЕ!</button></p>
                                             </> : ''
                                         }
-
+                                        <button onClick={()=>{
+                                            setShowLogoutPopup(true);
+                                        }}
+                                                className={'logout-btn'}>выйти</button>
                                     </div>
                                 </div>
                                 <hr/>
@@ -252,7 +278,7 @@ const User = () => {
                         }
                     </div>
 
-                    : status === 'login' ? <Login setStatus={setStatus}/> : <SignUp setStatus={setStatus}/>
+                    : status === 'login' ? <Login loginUser={loginUser} setStatus={setStatus}/> : <SignUp loginUser={loginUser} setStatus={setStatus}/>
             }
         </section>
     );

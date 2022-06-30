@@ -4,7 +4,7 @@ import {setAuthTokens, setUser, setNewUser, setId} from "../../../../redux/reduc
 import jwt_decode from "jwt-decode";
 import {useDispatch, useSelector} from "react-redux";
 
-const SignUp = ({setStatus}) => {
+const SignUp = ({setStatus, loginUser}) => {
     const id = useSelector(s => s.user.id);
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
@@ -25,45 +25,14 @@ const SignUp = ({setStatus}) => {
             password2,
         }).then((response) => {
             setLoading(true);
-            e.preventDefault();
-            console.log('signUp', response);
-            axios.post('/api/token/obtain', {
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8',
-                },
-                username,
-                password
-            }).then(({data}) => {
-                console.log('login', data);
-                setUserStatus(true);
-                localStorage.setItem('authTokens', JSON.stringify(data));
-                dispatch(setAuthTokens(data));
-                dispatch(setId(jwt_decode(data.access).user_id));
-                localStorage.setItem('id', `${jwt_decode(data.access).user_id}`);
-            }).catch((error) => {
-                setUserStatus(false);
-                setLoading(false);
-            });
-
-
+            loginUser(e, username, password, setLoading, setUserStatus)
         }).catch(() => {
             setUserStatus(false);
             setLoading(false);
         });
     };
-    useEffect(()=>{
-        if (localStorage.getItem('user')){
 
-        } else {
-            axios(`/api/users/${id}`).then(({data})=>{
-                dispatch(setUser(data));
-                localStorage.setItem('user', JSON.stringify(data));
-                dispatch(setNewUser(true));
-                setLoading(false);
-            });
-        }
 
-    },[id]);
     return (
         <div className={'login'}>
             <form onSubmit={signUp}>

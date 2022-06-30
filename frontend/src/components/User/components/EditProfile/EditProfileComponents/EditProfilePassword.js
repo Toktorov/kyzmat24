@@ -35,34 +35,34 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
     return (
         <>
             <div className="editProfile-forms-label">
-                {/*<p>Сменить пароль</p>*/}
-                {/*<input*/}
-                {/*    onChange={e => {*/}
-                {/*        setOldPassword(e.target.value);*/}
-                {/*        if (oldPassword && password && password2) setEditSelect('changePassword')*/}
-                {/*    }}*/}
-                {/*    type="text" placeholder={'Введите старый пароль'}/>*/}
-                {/*<input*/}
-                {/*    onChange={e => {*/}
-                {/*        setPassword(e.target.value);*/}
-                {/*        if (oldPassword && password && password2) setEditSelect('changePassword')*/}
-                {/*    }}*/}
-                {/*    type="text" placeholder={'Введите новый пароль'}/>*/}
-                {/*<input*/}
-                {/*    onChange={e =>{*/}
-                {/*        setPassword2(e.target.value);*/}
-                {/*        if (oldPassword && password && password2) setEditSelect('changePassword')*/}
-                {/*    }}*/}
-                {/*    type="text" placeholder={'Подтвердите пароль'}/>*/}
-                {/*<button*/}
-                {/*    className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}*/}
-                {/*onClick={()=> changePassword(oldPassword, password, password2)}*/}
-                {/*>*/}
-                {/*    сохранить*/}
-                {/*</button>*/}
+                <p>Сменить пароль</p>
+                <input
+                    onChange={e => {
+                        setOldPassword(e.target.value);
+                        if (oldPassword && password && password2) setEditSelect('changePassword')
+                    }}
+                    type="text" placeholder={'Введите старый пароль'}/>
+                <input
+                    onChange={e => {
+                        setPassword(e.target.value);
+                        if (oldPassword && password && password2) setEditSelect('changePassword')
+                    }}
+                    type="text" placeholder={'Введите новый пароль'}/>
+                <input
+                    onChange={e =>{
+                        setPassword2(e.target.value);
+                        if (oldPassword && password && password2) setEditSelect('changePassword')
+                    }}
+                    type="text" placeholder={'Подтвердите пароль'}/>
+                <button
+                    className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
+                onClick={()=> changePassword(oldPassword, password, password2)}
+                >
+                    сохранить
+                </button>
             </div>
             <p>Настройки пароли</p>
-            {/*<button onClick={() => resetPassword()}>Сбросить пароль</button>*/}
+            <button onClick={() => resetPassword()}>Сбросить пароль</button>
         </>
     );
 };

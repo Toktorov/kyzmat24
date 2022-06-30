@@ -18,7 +18,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                 .then(response => {
                     alert('Вы успешно сохранили');
                     console.log('contact', response);
-                    dispatch(setUser());
+                    dispatch(setUser(id));
                     setLoading('');
                 })
         } else {
@@ -32,7 +32,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
             .then(response => {
                 console.log(response);
                 alert('Вы успешно удалили');
-                dispatch(setUser());
+                dispatch(setUser(id));
                 setLoading('');
             })
     };

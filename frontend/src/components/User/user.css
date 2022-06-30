@@ -7,13 +7,23 @@
 }
 
 .home-top {
-    display: flex;
-    column-gap: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "top-left top-right" "top-left top-right2";
     margin-bottom: 15px;
 }
 .top-right{
     position: relative;
+    grid-area: top-right;
 }
+.top-left{
+    grid-area: top-left;
+    padding: 5px;
+}
+.top-right2{
+    grid-area: top-right2;
+}
+
 .refresh-btn{
     position: absolute;
     background-color: transparent;
@@ -28,7 +38,7 @@
 }
 
 .avatar {
-    width: 300px;
+    width: 100%;
 }
 
 .home-bottom {
@@ -167,14 +177,11 @@
 }
 
 .logout-btn{
-    position: absolute;
-    right: 15px;
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
     background-color: transparent;
     border: 1px solid #e1e1e1;
-    z-index: 4;
 }
 .logout-btn-cancel,
 .logout-btn-logout{
@@ -204,9 +211,9 @@
 
 
 @media screen and (max-width: 760px) {
-    .avatar {
-        width: 225px;
-    }
+   .home-top{
+       grid-template-areas: "top-left top-right" "top-right2 top-right2";
+   }
     .home-title{
         font-size: 20px;
     }
@@ -217,33 +224,22 @@
 }
 
 @media screen and (max-width: 560px) {
-    .avatar {
-        width: 170px;
-    }
+
     .mediaCreate-forms {
         width: 400px;
         height: 250px;
     }
+    .home-top{
+        grid-template-columns: 1fr;
+        grid-template-areas: "top-left" "top-right" "top-right2";
+    }
 }
 
 @media screen and (max-width: 450px) {
-    .avatar {
-        width: 126px;
-    }
-    .home-title {
-        font-size: 17px;
-    }
-    .top-right p {
-        font-size: 12px;
-    }
+
 
 }
 
 @media screen and (max-width: 390px) {
-    .avatar {
-        width: 100px;
-    }
-    .home-top{
-        flex-wrap: wrap;
-    }
+
 }

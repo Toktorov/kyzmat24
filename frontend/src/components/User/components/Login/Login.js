@@ -1,55 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './login.css';
-import axios from "axios";
-import {setAuthTokens, setUser, setId} from "../../../../redux/reducers/user";
-import jwt_decode from "jwt-decode";
-import {useDispatch, useSelector} from "react-redux";
-import {useHistory} from 'react-router-dom';
 
-const Login = ({setStatus}) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
-    const id = useSelector(s => s.user.id);
+const Login = ({setStatus, loginUser}) => {
     const [userStatus, setUserStatus] = useState(null);
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const loginUser = (e) => {
-        setLoading(true);
-        e.preventDefault();
-        axios.post('/api/token/obtain', {
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-                username,
-                password
-        }).then(({data}) => {
-            console.log(data);
-            setUserStatus(true);
-            setLoading(false);
-            localStorage.setItem('authTokens', JSON.stringify(data));
-             dispatch(setAuthTokens(data));
-             dispatch(setId(jwt_decode(data.access).user_id));
-             localStorage.setItem('id', `${jwt_decode(data.access).user_id}`);
-            dispatch(setUser());
-        }).catch((error) => {
-            setUserStatus(false);
-            setLoading(false);
-            console.log(error)
-        })
-    };
-
-    useEffect(()=>{
-
-
-    },[id]);
-
     return (
         <div className={'login'}>
             <form onSubmit={(e)=>{
-                loginUser(e);
-              //  getUser();
+                loginUser(e, username, password, setLoading, setUserStatus);
             }}>
                 <h3>Вход в аккаунт</h3>
                 {
