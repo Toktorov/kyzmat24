@@ -177,8 +177,8 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
 class ChangePasswordView(generics.UpdateAPIView):
 
     queryset = User.objects.all()
-    permission_classes = (AllowAny,)
     serializer_class = ChangePasswordSerializer
+    permission_classes = [AllowAny]
 
     def patch(self, request, *args, **kwargs):
         return Response({'success': True, 'message': 'Успешное обновление пароля'}, status=status.HTTP_200_OK)
