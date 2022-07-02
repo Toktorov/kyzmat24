@@ -24,11 +24,13 @@ const ResetPassword = () => {
                         "password": newPassword,
                         "token": window.location.href.slice(window.location.href.match('token=').index + 6 ),
                         "uidb64": "MQ"
-                    },{
-                        headers:{
-                            Authorization: `Bearer ${authTokens.access}`
-                        }
-                    }).then(response => console.log(response))
+                    }).then(response =>{
+                        console.log(response);
+                      alert('Вы успешно поменяли пароль')
+                    }).catch((error)=>{
+                        console.log(error.response);
+                        alert('Произошла ошибка(')
+                    })
                 }}>Save</button>
             </form>
         </div>

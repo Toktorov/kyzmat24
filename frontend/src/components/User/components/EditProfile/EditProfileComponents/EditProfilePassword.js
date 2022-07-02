@@ -10,27 +10,42 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
     const [password2, setPassword2] = useState('');
 
     const changePassword = (old_password, password, password2) => {
-        if (old_password && password && password2 && password === password2){
+        if (old_password && password && password2 && password === password2) {
             setLoading('changePassword');
             axios.put(`/api/users/change_password/${id}/`, {
                 old_password,
                 password,
                 password2
-            }).then(response => console.log(response))
-        } else if (old_password && password && password2 && password !== password2){
+            }).then(response => {
+                console.log(response);
+                alert('Вы успешно поменяли пароль')
+            }).catch(() => {
+                alert('Произошла ошибка(')
+            })
+        } else if (old_password && password && password2 && password !== password2) {
             alert('Пароли не совпадают(новый)')
         }
 
     };
 
     const resetPassword = () => {
-        axios.post('/api/users/request-reset-email/',
-            {
-                "email": user.email,
-                "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
-            }
-        )
-            .then(response => console.log(response))
+        if (user.email) {
+            axios.post('/api/users/request-reset-email/',
+                {
+                    "email": user.email,
+                    "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
+                }
+            )
+                .then(response => {
+                    console.log(response);
+                    alert(`Было оптравлено сообщение на адрес ${user.email}. Пожалуйста проверьте почту и следуйте инструкции в сообщении`)
+                }).catch(() => {
+                alert('Произошла ошибка(')
+            })
+        } else {
+            alert('Для сброса пароли сначала укажите свой email')
+        }
+
     };
     return (
         <>
@@ -49,14 +64,14 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                     }}
                     type="text" placeholder={'Введите новый пароль'}/>
                 <input
-                    onChange={e =>{
+                    onChange={e => {
                         setPassword2(e.target.value);
                         if (oldPassword && password && password2) setEditSelect('changePassword')
                     }}
                     type="text" placeholder={'Подтвердите пароль'}/>
                 <button
                     className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                onClick={()=> changePassword(oldPassword, password, password2)}
+                    onClick={() => changePassword(oldPassword, password, password2)}
                 >
                     сохранить
                 </button>
