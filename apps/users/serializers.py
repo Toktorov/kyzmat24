@@ -111,7 +111,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return attrs
 
     def validate_old_password(self, value):
-        user = self.context['request'].user
+        user = User.objects.get(password = self.old_password)
         if not user.check_password(value):
             raise serializers.ValidationError({"old_password": "Старый пароль неправильный"})
         return value
