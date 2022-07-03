@@ -95,33 +95,15 @@ class SetNewPasswordSerializer(serializers.Serializer):
             raise AuthenticationFailed('The reset link is invalid', 401)
         return super().validate(attrs)
 
-class ChangePasswordSerializer(serializers.ModelSerializer):
-    old_password = serializers.CharField(write_only=True, required=True)
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
 
-    class Meta:
-        model = User
-        fields = ('old_password', 'password', 'password2')
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Поля пароля не совпадают."})
-
-        return attrs
-
-    def validate_old_password(self, value):
-        user = User.objects.get(password = self.old_password)
-        if not user.check_password(value):
-            raise serializers.ValidationError({"old_password": "Старый пароль неправильный"})
-        return value
-
-    def update(self, instance, validated_data):
-
-        instance.set_password(validated_data['password'])
-        instance.save()
-
-        return instance
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    password2 = serializers.CharField(required=True)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
