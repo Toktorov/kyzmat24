@@ -18,18 +18,22 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                 password2
             }).then(response => {
                 console.log(response);
-                alert('Вы успешно поменяли пароль')
+                alert('Вы успешно поменяли пароль');
+                setLoading('');
             }).catch(() => {
-                alert('Произошла ошибка(')
+                alert('Произошла ошибка(');
+                setLoading('');
             })
         } else if (old_password && password && password2 && password !== password2) {
-            alert('Пароли не совпадают(новый)')
+            alert('Пароли не совпадают(новый)');
+            setLoading('');
         }
 
     };
 
     const resetPassword = () => {
         if (user.email) {
+            setLoading('resetPassword');
             axios.post('/api/users/request-reset-email/',
                 {
                     "email": user.email,
@@ -38,12 +42,15 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
             )
                 .then(response => {
                     console.log(response);
-                    alert(`Было оптравлено сообщение на адрес ${user.email}. Пожалуйста проверьте почту и следуйте инструкции в сообщении`)
+                    alert(`Было оптравлено сообщение на адрес ${user.email}. Пожалуйста проверьте почту и следуйте инструкции в сообщении`);
+                    setLoading('');
                 }).catch(() => {
-                alert('Произошла ошибка(')
+                alert('Произошла ошибка(');
+                setLoading('');
             })
         } else {
-            alert('Для сброса пароли сначала укажите свой email')
+            alert('Для сброса пароли сначала укажите свой email');
+            setLoading('');
         }
 
     };
@@ -69,15 +76,36 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                         if (oldPassword && password && password2) setEditSelect('changePassword')
                     }}
                     type="text" placeholder={'Подтвердите пароль'}/>
-                <button
-                    className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                    onClick={() => changePassword(oldPassword, password, password2)}
-                >
-                    сохранить
-                </button>
+                {
+                    loading === 'changePassword' ?  <div className={'editPreloader'}>
+                        <div className="lds-ellipsis">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div> :  <button
+                        className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
+                        onClick={() => changePassword(oldPassword, password, password2)}
+                    >
+                        сохранить
+                    </button>
+                }
+
             </div>
             <p>Настройки пароли</p>
-            <button onClick={() => resetPassword()}>Сбросить пароль</button>
+            {
+                loading === 'resetPassword' ?  <div className={'editPreloader'}>
+                    <div className="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div> :
+                    <button className={'editProfile-forms-button'} onClick={() => resetPassword()}>Сбросить пароль</button>
+
+            }
         </>
     );
 };

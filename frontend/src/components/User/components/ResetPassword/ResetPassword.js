@@ -1,13 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useParams} from 'react-router-dom';
 import './resetPassword.css';
-import {useSelector} from "react-redux";
 
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');
-    const params = useParams();
-    const authTokens = useSelector(s => s.user.authTokens);
     useEffect(()=>{
         // console.log(window.location.href.match('token=').index);
         // console.log(window.location.href[window.location.href.match('token=').index + 6 ] );
