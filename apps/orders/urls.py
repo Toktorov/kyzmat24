@@ -19,7 +19,6 @@ urlpatterns = [
     path('accept-update/<int:pk>', views.AcceptOrderUpdateAPIView.as_view(), name = 'order_update_api'),
     path('create_accept_order/', views.AcceptOrderCreateAPIView.as_view(), name='create_saccept_order'),
     path('update_status/<int:pk>', views.UpdateStatusSeriaizer.as_view(), name = "update_status")
-
 ]
 
 urlpatterns += router.urls
