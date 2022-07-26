@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setUser} from "../../../../../redux/reducers/user";
@@ -34,7 +34,12 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
                 alert('Вы успешно поменяли');
                 dispatch(setUser(id));
                 setLoading('');
-            }).catch(error => console.log(error.response))
+                setEditSelect('')
+            }).catch(error => {
+                setLoading('');
+                setEditSelect('');
+                console.log(error.response)
+            })
         }
     };
     const updateProfileImage = () => {
@@ -47,12 +52,28 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
                 console.log(response);
                 dispatch(setUser(id));
                 setLoading('');
-            }).catch(error => console.log(error.response))
+                setEditSelect('');
+            }).catch(error => {
+                setLoading('');
+                setEditSelect('');
+                console.log(error.response)
+            })
         } else {
             alert('Выберите фото')
         }
     };
-
+useEffect(()=>{
+     setFirstName(user ? user.first_name: '');
+     setLastName(user ? user.last_name: '');
+     setEmail(user ? user.email: '');
+     setDescription(user ? user.description: '');
+     setLocation( user ? user.location: '');
+     setAnother(user ? user.another: '');
+     setProfileImage(null);
+}, [user]);
+useEffect(()=>{
+    dispatch(setUser(id))
+}, []);
     return (
         <>
             <div className={'editProfile-forms-label'}>

@@ -1,20 +1,25 @@
 import React, {useEffect} from 'react';
 import './acceptedOrders.css';
 import {useDispatch, useSelector} from "react-redux";
-import {getAcceptOrders} from "../../../../redux/reducers/user";
+import {getAcceptOrders, logoutUser} from "../../../../redux/reducers/user";
 import axios from "axios";
 
 const AcceptedOrders = () => {
     const acceptOrders = useSelector(s => s.user.acceptOrders);
     const dispatch = useDispatch();
-    const cancelTheOrder = (orderId) => {
-        axios.put(`/api/order/accept-update/${orderId}`, {
-            status: false
-        }).then(response =>{
-            console.log('update', response);
-        })
-            .catch(error => console.log(error))
+    const cancelTheOrder = (orderId, acceptId) => {
+        axios.delete(`/api/order/accept_order/${acceptId}`)
+            .then(response => {
+                console.log('delete', response);
+                axios.put(`https://kyzmat24.com/api/order/accept-update/${orderId}`, {
+                    status: false
+                }).then(response => {
+                    console.log('update', response);
+                    dispatch(getAcceptOrders());
+                }).catch(error => console.log(error))
+            }).catch(error => console.log(error.response));
     };
+
 
     useEffect(() => {
         dispatch(getAcceptOrders());
@@ -50,9 +55,7 @@ const AcceptedOrders = () => {
                             }>Выполнено
                             </button>
                             <button onClick={() => {
-                                axios.put(`https://kyzmat24.com/api/order/accept-update/${item.id}`, {
-                                    status: false
-                                }).then(response => console.log('update', response)).catch(error => console.log(error))
+                                cancelTheOrder(item.id, item.acceptId)
                             }
                             } type={'button'} className={'accept-orders-btn refuse'}>Отказаться
                             </button>

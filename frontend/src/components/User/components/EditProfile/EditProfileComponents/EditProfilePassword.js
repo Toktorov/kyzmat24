@@ -5,6 +5,7 @@ import axios from "axios";
 const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) => {
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
+    const authTokens = useSelector(s => s.user.authTokens);
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
@@ -16,6 +17,10 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                 old_password,
                 password,
                 password2
+            }, {
+                headers:{
+                    Authorization: `Bearer ${authTokens.access}`
+                }
             }).then(response => {
                 console.log(response);
                 alert('Вы успешно поменяли пароль');
@@ -38,6 +43,11 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                 {
                     "email": user.email,
                     "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
+                },
+                {
+                    headers:{
+                        Authorization: `Bearer ${authTokens.access}`
+                    }
                 }
             )
                 .then(response => {

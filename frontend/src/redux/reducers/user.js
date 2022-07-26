@@ -122,7 +122,10 @@ export const getAcceptOrders = () =>{
 
               return dispatch({type: GET_ACCEPT_ORDERS, acceptOrders: data.reduce((acc, rec)=>{
                       if (rec.user.id === initState.id){
-                          return [...acc, rec.order]
+                          return [...acc, {
+                              acceptId: rec.id,
+                              ...rec.order
+                          }]
                       } else {
                           return acc
                       }
