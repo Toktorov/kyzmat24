@@ -45,7 +45,7 @@ class User(AbstractUser):
     location = models.CharField(max_length=250, blank = True, null = True, default="Пользователь не добавил местоположение")
     another = models.TextField(blank = True, null = True)
     password = models.CharField(max_length=100)
-    email = models.EmailField(max_length=255, null = True, blank = True)
+    email = models.EmailField(max_length=255, null = True, blank = True, unique=True)
     verifed = models.BooleanField(default=False, verbose_name="Верифицирован")
     USER_STATUS = (
         ('Free', 'Free'),
