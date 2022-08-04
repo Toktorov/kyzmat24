@@ -7,13 +7,14 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
     const dispatch = useDispatch();
-    const [firstName, setFirstName] = useState(user ? user.first_name: '');
-    const [lastName, setLastName] = useState(user ? user.last_name: '');
-    const [email, setEmail] = useState(user ? user.email: '');
-    const [description, setDescription] = useState(user ? user.description: '');
-    const [location, setLocation] = useState( user ? user.location: '');
-    const [another, setAnother] = useState(user ? user.another: '');
+    const [firstName, setFirstName] = useState(user ? user.first_name : '');
+    const [lastName, setLastName] = useState(user ? user.last_name : '');
+    const [email, setEmail] = useState(user ? user.email : '');
+    const [description, setDescription] = useState(user ? user.description : '');
+    const [location, setLocation] = useState(user ? user.location : '');
+    const [another, setAnother] = useState(user ? user.another : '');
     const [profileImage, setProfileImage] = useState(null);
+    const [emailUsers, setEmailUsers] = useState([]);
 
     const profileImageText = () => {
         if (profileImage) {
@@ -62,18 +63,36 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
             alert('Выберите фото')
         }
     };
-useEffect(()=>{
-     setFirstName(user ? user.first_name: '');
-     setLastName(user ? user.last_name: '');
-     setEmail(user ? user.email: '');
-     setDescription(user ? user.description: '');
-     setLocation( user ? user.location: '');
-     setAnother(user ? user.another: '');
-     setProfileImage(null);
-}, [user]);
-useEffect(()=>{
-    dispatch(setUser(id))
-}, []);
+
+    const updateEmail = () => {
+        axios('/api/users/')
+            .then(({data}) => {
+                setEmailUsers(data.filter((item) => {
+                    return item.email === email
+                }));
+                setTimeout(()=>{
+                    if (emailUsers.length === 0){
+                        updateUser('email', email)
+                    } else {
+                        alert('Аккаунт с таким email уже есть. Введите другой email')
+                    }
+                }, 400);
+
+            })
+    };
+
+    useEffect(() => {
+        setFirstName(user ? user.first_name : '');
+        setLastName(user ? user.last_name : '');
+        setEmail(user ? user.email : '');
+        setDescription(user ? user.description : '');
+        setLocation(user ? user.location : '');
+        setAnother(user ? user.another : '');
+        setProfileImage(null);
+    }, [user]);
+    useEffect(() => {
+        dispatch(setUser(id))
+    }, []);
     return (
         <>
             <div className={'editProfile-forms-label'}>
@@ -104,6 +123,7 @@ useEffect(()=>{
                         </button>
                 }
             </div>
+
             <div className={'editProfile-forms-label'}>
                 <p>Как вас зовут или название организации(компании):</p>
                 <input type="text" value={firstName} onChange={e => {
@@ -125,6 +145,7 @@ useEffect(()=>{
                 }
 
             </div>
+
             <div className={'editProfile-forms-label'}>
                 <p>Фамилия или полное название организации(компании):</p>
                 <input
@@ -147,6 +168,7 @@ useEffect(()=>{
                 }
 
             </div>
+
             <div className={'editProfile-forms-label'}>
                 <p>email:</p>
                 <input type="text" value={email} onChange={e => {
@@ -163,10 +185,11 @@ useEffect(()=>{
                         </div>
                     </div> : <button
                         className={editSelect === "email" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                        type={'button'} onClick={() => updateUser('email', email)}>сохранить
+                        type={'button'} onClick={() => updateEmail()}>сохранить
                     </button>
                 }
             </div>
+
             <div className={'editProfile-forms-label'}>
                 <p>описание:</p>
                 <textarea value={description} onChange={e => {
@@ -192,6 +215,7 @@ useEffect(()=>{
                 }
 
             </div>
+
             <div className={'editProfile-forms-label'}>
                 <p>локация:</p>
                 <select name="" id="">
