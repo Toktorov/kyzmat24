@@ -87,7 +87,8 @@ export const setUser = (id) => {
                 return  dispatch({type: SET_USER, user: data})
             }).catch(error => {
                 localStorage.removeItem('authTokens');
-                localStorage.removeItem('user')
+                localStorage.removeItem('user');
+                localStorage.removeItem('id');
         });
 
     }

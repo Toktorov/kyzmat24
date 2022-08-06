@@ -43,11 +43,6 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                 {
                     "email": user.email,
                     "redirect_url": "https://kyzmat24.com/user/reset-password/reset"
-                },
-                {
-                    headers:{
-                        Authorization: `Bearer ${authTokens.access}`
-                    }
                 }
             )
                 .then(response => {
