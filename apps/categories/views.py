@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics
-from apps.categories.models import Category
-from apps.categories.serializers import CategorySerializerList
+from apps.categories.models import Category, Location
+from apps.categories.serializers import CategorySerializerList, LocationSerializerList
 from rest_framework.permissions import AllowAny
 
 # Create your views here.
@@ -13,3 +13,8 @@ class CategoryAPIViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return CategorySerializerList
         return self.serializer_class
+
+class LocationAPIViewSet(viewsets.ModelViewSet):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializerList
+    permission_classes = [AllowAny]
