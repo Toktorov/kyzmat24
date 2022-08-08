@@ -1,33 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
-import {getItems, setApp, setStatus} from "../../redux/reducers/item";
+import {getItems, setApp, setStatus, getCategories} from "../../redux/reducers/item";
 import {Link} from "react-router-dom";
 import './search.css';
+import avatar from "../../img/avatar.jpg";
 
 const Search = () => {
     const [region, setRegion] = useState('0');
     const [city, setCity] = useState('0');
     const [name, setName] = useState('');
     const dispatch = useDispatch();
-    const item = useSelector((s) => s.item.items);
+    const items = useSelector((s) => s.item.items);
     const status = useSelector((s) => s.item.status);
+    const categories = useSelector(s => s.item.categories);
     const [search, setSearch] = useState([]);
+
+    const getSearchPattern = (strPattern) =>{
+     if (strPattern) return strPattern.toLowerCase().includes(name.toLowerCase())
+    };
     const find = () => {
         setSearch(() => {
             if (name.length === 0) return [];
-            return item.filter((el) => {
-                return el.first_name.toLowerCase().includes(name.toLowerCase()) || el.username.toLowerCase().includes(name.toLowerCase()) || el.description.toLowerCase().includes(name.toLowerCase())
+            return items.filter((el) => {
+                return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
             })
         })
     };
-    const saveSearch = () => {
-        localStorage.setItem('array', JSON.stringify(search))
-    };
+
     useEffect(() => {
         dispatch(setApp('kyzmat'));
         dispatch(getItems());
         dispatch(setStatus('search'));
         setSearch(JSON.parse(localStorage.getItem('array')));
+        dispatch(getCategories())
     }, []);
 
     return (
@@ -84,41 +89,42 @@ const Search = () => {
 
 
                     <select name="" id="" defaultValue="0">
-                        <option disabled value="0">Поиск по категории</option>
-                        <option value="1">Строительные</option>
-                        <option value="2">Автомобиль</option>
-                        <option value="3">Торжественные меропрития</option>
-                        <option value="4">Образование</option>
-                        <option value="5">Компьютерные</option>
-                        <option value="6">Отправка товаров</option>
-                        <option value="7">Траспорт</option>
+                        <option value="0">Поиск по категории</option>
+                        {
+                            categories.map((item)=>{
+                                return <option key={item.id} value={item.id}>{item.content}</option>
+                            })
+                        }
                     </select>
+
                 </div>
             </div>
             <div className='container'>
-                <div className="search__row">
+                <div className="search__row row">
                     {search === null
                         ? <h2>Введите и делайте поиск</h2>
                         : search.length === 0
                             ? <h2>Ничего не найдено( Проверьте правильно ли вы ввели и пробуйте снова!!</h2>
                             : search.map((item) => {
                                 return (
-                                    <div className='item' key={item.id}>
-                                        <img src={`${item.imgsrc}`} alt=""/>
-                                        <div className='item__description'>
-                                            <h3 className="item__title"><Link onClick={() => {
-                                                dispatch(setStatus('profile'));
-                                                localStorage.setItem('id', JSON.stringify(item.id));
-                                                saveSearch();
+                                    <div className={'col-4'} key={item.id}>
+                                        <div className='item' >
+                                            {
+                                                !item.profile_image ?
+                                                    <img src={avatar} alt=""/>:
+                                                    <img src={`${item.profile_image}`} alt=""/>
                                             }
-                                            } to={`/service/${item.id}`}>{item.first_name > 20 ?
-                                                `${item.first_name.slice(0, 19)}...` :
-                                                item.first_name ? item.first_name :
-                                                    item.username.length > 20 ? `${item.username.slice(0, 19)}...` : item.username}</Link>
-                                            </h3>
-                                            <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
-                                            <p className="item__text"><b>Локация :</b>{item.location}</p>
-                                            {/*<p className="item__text"><b>Количество мест : </b>{item.places.length > 10 ? `${item.places.slice(0, 9)}...` : item.places}</p>*/}
+                                            <div className='item__description'>
+                                                <h3 className="item__title"> <Link onClick={()=>{
+                                                    dispatch(setStatus('profile'));
+                                                }
+                                                } to={`/service/${item.id}`}>{item.first_name > 20 ?
+                                                    `${item.first_name.slice(0, 19)}...` :
+                                                    item.first_name ? item.first_name :
+                                                        item.username.length > 20 ? `${item.username.slice(0, 19)}...` : item.username}</Link></h3>
+                                                <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
+                                                <p className="item__text"><b>Локация :</b>{item.location.length > 30 ? `${item.location.slice(0, 29)}...` : item.location}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 )

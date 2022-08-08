@@ -12,15 +12,14 @@ import axios from "axios";
 function App() {
     const app = useSelector(s => s.item.app);
     const getCsrfToken = () => {
-        if (document.cookie.match(/csrftoken=/)) {
-            const start = document.cookie.match(/csrftoken=/).index + 10;
+            const start = document.cookie.indexOf('csrftoken=') + 10;
             const end = document.cookie.indexOf(';', start);
             if (end !== -1) {
                 return document.cookie.slice(start, end)
             } else {
                 return document.cookie.slice(start)
             }
-        }
+
     };
 
     useEffect(() => {

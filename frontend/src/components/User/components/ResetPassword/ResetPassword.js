@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {useParams} from "react-router-dom";
 import './resetPassword.css';
 
 const ResetPassword = () => {
     const [newPassword, setNewPassword] = useState('');
-    const token = window.location.href.slice(window.location.href.match('token=').index + 6 );
-    const start = window.location.href.match('uidb64=').index + 7;
+    const token = window.location.href.slice(window.location.href.indexOf('token=') + 6 );
+    const start = window.location.href.indexOf('uidb64=') + 7;
     const end = window.location.href.indexOf("&", start);
     const uidb64 = window.location.href.slice(start, end );
     useEffect(()=>{

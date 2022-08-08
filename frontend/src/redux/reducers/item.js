@@ -5,19 +5,18 @@ const GET_ITEMS = 'GET_ITEMS';
 
 const CHANGE_STATUS = 'CHANGE_STATUS';
 
-const GET_BTNS = 'GET_BTNS';
+const GET_CATEGORY = 'GET_CATEGORY';
 
 const GET_SERVICE = 'GET_SERVICE';
 
 const SET_APP = 'SET_APP';
 
-const ADD_ITEM = 'ADD_ITEM';
 
 const initState = {
     items: [],
     status: 'home',
     service: {},
-    btns:[],
+    categories:[],
     app: ''
 };
 
@@ -40,10 +39,10 @@ export default (state = initState, action) => {
             }
         }
 
-        case GET_BTNS : {
+        case GET_CATEGORY : {
             return {
                 ...state,
-                btns: action.arr
+                categories: action.arr
             }
         }
 
@@ -83,11 +82,11 @@ export const getItems = () => {
 
 };
 
-export const getBtns = () => {
+export const getCategories = () => {
     return (dispatch) => {
         axios('https://kyzmat24.com/api/category/')
         .then(({data}) => {
-            return dispatch({type: GET_BTNS, arr: data})
+            return dispatch({type: GET_CATEGORY, arr: data})
         }).catch(error => console.log(error.response))
     }
 

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getBtns, setApp, setStatus} from "../../redux/reducers/item";
+import {getCategories, setApp, setStatus} from "../../redux/reducers/item";
 import './order.css'
 import axios from "axios";
 
 const Order = () => {
      const [state, setState] = useState(null);
-    const btns = useSelector((s) => s.item.btns);
+    const categories = useSelector((s) => s.item.categories);
     const [description, setDescription] = useState('');
     const [tel, setTel] = useState('');
     const [email, setEmail] = useState('');
@@ -48,7 +48,7 @@ const Order = () => {
     useEffect(() => {
         dispatch(setApp('kyzmat'));
         dispatch(setStatus('addItem'));
-        dispatch(getBtns());
+        dispatch(getCategories());
     }, []);
 
     return (
@@ -97,10 +97,10 @@ const Order = () => {
                     <option value="4">Локация 4</option>
                 </select>
 
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                <select  onChange={(e) => setCategory(e.target.id)}>
                     <option value="0">Выберите категорию (необязательно)</option>
                     {
-                        btns.map((item) => {
+                        categories.map((item) => {
                             return <option key={`${item.id}`} value={item.id}>{item.content}</option>
                         })
                     }
