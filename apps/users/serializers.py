@@ -110,7 +110,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'id', 'username', 'email', 'first_name', 'last_name', 'description',
-            'profile_image', 'location', 'another','password',
+            'profile_image', 'user_location', 'user_category', 'another','password',
         )
 
     def create(self, validated_data):
@@ -129,7 +129,7 @@ class UsersSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
-        fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'location', 'another', 'status_user')
+        fields = ('username', 'first_name', 'last_name', 'email', 'description', 'profile_image', 'user_location', 'user_category', 'another', 'status_user')
 
 class IssueTokenRequestSerializer(Serializer):
     model = User
@@ -194,7 +194,7 @@ class UserSerializerList(serializers.ModelSerializer):
         model = User
         fields = (
             'id', 'username', 'first_name', 'last_name', 'email', 'verifed', 'status_user', 'profile_image', 'description', 
-            'location', 'another', 'contact', 'media', 'orders'
+            'user_location', 'user_category', 'another', 'contact', 'media', 'orders'
         )
 
 
@@ -203,7 +203,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User 
-        fields = ('id', 'username', 'description', 'profile_image', 'location', 'another', 'user_order')
+        fields = ('id', 'username', 'description', 'profile_image', 'user_location', 'user_category', 'another', 'user_order')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
