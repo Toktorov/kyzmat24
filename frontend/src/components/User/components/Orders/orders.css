@@ -45,3 +45,40 @@
     border-color: orangered;
 }
 
+.orders-categories-button{
+    padding: 10px 20px;
+    background-color: orangered;
+    color: #ffffff;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all .7s;
+    position: fixed;
+    left: 5px;
+    top: 80px;
+}
+.orders-category-btns{
+    height: 50vh;
+    overflow: auto;
+    padding: 10px;
+    position: fixed;
+    background-color: rgba(237, 235, 235, 0.81);
+    left: -100%;
+    top: 130px;
+    transition: .7s;
+}
+.orders-category-btns-show{
+    left: 0;
+}
+.orders-category-btns button{
+    display: block;
+    padding: 10px 0;
+    color: orangered;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid orangered;
+    cursor: pointer;
+}
+.message-for-empty{
+    margin-top: 50px;
+}

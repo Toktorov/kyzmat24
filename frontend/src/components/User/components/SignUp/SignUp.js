@@ -11,6 +11,7 @@ const SignUp = ({setStatus, loginUser}) => {
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [userStatus, setUserStatus] = useState(null);
+    const [errorMessage, setErrorMessage] = useState('');
     const dispatch = useDispatch();
 
    const signUp = (e) => {
@@ -25,22 +26,28 @@ const SignUp = ({setStatus, loginUser}) => {
             password2,
         }).then((response) => {
             setLoading(true);
-            loginUser(e, username, password, setLoading, setUserStatus)
-        }).catch(() => {
+            loginUser(e, username, password, setLoading, setUserStatus);
+        }).catch((error) => {
             setUserStatus(false);
             setLoading(false);
+            if (error.response.data.password){
+                setErrorMessage(error.response.data.password[0]);
+                console.log(error.response.data?.password[0]);
+            } else if(error.response.data.username){
+                setErrorMessage(error.response.data.username[0]);
+                console.log(error.response.data?.username[0])
+            }
         });
     };
 
 
     return (
         <div className={'login'}>
-            <form onSubmit={signUp}>
+            <form onSubmit={(e)=> signUp(e)}>
                 <h3>Регистрация</h3>
                 {
                     userStatus === false && loading === false ?
-                        <h4 className={'error'}>Пользователь с таким именем уже есть. Выберите другое имя и попрбуйте
-                            снова</h4> : ''
+                        <h4 className={'error'}>{errorMessage}</h4> : ''
                 }
                 <input required={true} type="text" onChange={(e) => setUsername(e.target.value)}
                        placeholder="Введите логин"/>

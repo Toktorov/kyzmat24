@@ -5,6 +5,7 @@ from apps.orders.serializers import (CategorySerializer,
     OrderDetailSerializer, AcceptOrderSerializer, AcceptOrderCreateSerializer,
     UpdateStatusSeriaizer, OrderAcceptUpdateSerializer, OrderCompletedSerializer
     )
+from django.shortcuts import render
 from apps.categories.models import Category
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 # Create your views here.
@@ -67,3 +68,8 @@ class UpdateStatusSeriaizer(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = UpdateStatusSeriaizer
     permission_classes = (AllowAny, )
+
+def handler404(request, exception):
+    response = render(request, "404/index.html")
+    response.status_code = 404
+    return response

@@ -158,7 +158,7 @@ const User = () => {
                 id ?
                     <div className={'container'}>
                         {
-                            user ? <div className={'home'}>
+                            user ? <div className={'user-home'}>
                                 <div className="home-top">
 
                                     <div className="top-left">

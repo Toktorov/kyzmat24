@@ -59,6 +59,9 @@ input::placeholder {
     color: rgba(240, 241, 248, 0.83);
 }
 
+section{
+    margin-top: 70px;
+}
 
 
 

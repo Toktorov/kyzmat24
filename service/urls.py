@@ -27,6 +27,9 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from apps.users import views
+from apps.orders.views import handler404
+
+# handler404 = 'apps.orders.views.handler404'
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -52,7 +55,11 @@ urlpatterns = [
     path('category/', TemplateView.as_view(template_name = 'index.html')),
     path('search/', TemplateView.as_view(template_name = 'index.html')),
     path('reviews/', TemplateView.as_view(template_name = 'index.html')),
-    path('addItem/', TemplateView.as_view(template_name = 'index.html')),
+    path('order/', TemplateView.as_view(template_name = 'index.html')),
+    path('user/edit/', TemplateView.as_view(template_name = 'index.html')),
+    path('user/tasks/', TemplateView.as_view(template_name = 'index.html')),
+    path('user/orders/', TemplateView.as_view(template_name = 'index.html')),
+    path('service/<int:id>', TemplateView.as_view(template_name = 'index.html')),
     path('profile/<int:id>', TemplateView.as_view(template_name = 'index.html')),
     path('order-table/', TemplateView.as_view(template_name = 'index.html')),
     path('user/orders', TemplateView.as_view(template_name = 'index.html')),

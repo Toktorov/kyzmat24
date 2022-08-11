@@ -3,7 +3,7 @@
     position: relative;
     background-color: rgba(255, 255, 255, 0.75);
     box-shadow: 0 0 15px 10px rgba(92, 92, 92, 0.3);
-    margin-top: -400px;
+    margin-top: 100px;
 }
 
 .close-link {
@@ -105,7 +105,7 @@
 
 @media screen and (max-width: 1200px) {
     .profile__block {
-        margin-top: -360px;
+        margin-top: 70px;
     }
 
 
@@ -113,7 +113,7 @@
 
 @media screen and (max-width: 1000px) {
     .profile__block {
-        margin-top: -300px;
+
     }
 
 
@@ -127,7 +127,7 @@
 
 @media screen and (max-width: 760px) {
     .profile__block {
-        margin-top: -260px;
+
     }
 .profile-top{
     grid-template-areas: "img title" "info info";
@@ -147,7 +147,7 @@
 
 @media screen and (max-width: 560px) {
     .profile__block {
-        margin-top: -130px;
+
     }
     .profile-title h2{
         font-size: 18px;
@@ -186,7 +186,7 @@
 
 @media screen and (max-width: 390px) {
     .profile__block {
-        margin-top: -81px;
+
     }
 
 

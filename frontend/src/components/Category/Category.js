@@ -25,22 +25,15 @@ const Category = () => {
 
     return (
         <section className='category'>
-            {
-                !showList ? <button className={"show-category-list-btn"}
+       <button className={"show-category-list-btn"}
                                     onClick={()=>{
-                        setShowList(true)
-                    }}>Открыть <br/> список <br className={'br'}/> категорий</button>
-                    : <button className={"show-category-list-btn show-category-list-btn-close"}
-                              onClick={()=>{
-                        setShowList(false)
-                    }}>Закрыть <br/> список  категорий</button>
-            }
-            <div className={showList ? 'category__btns category__btns-show': 'category__btns'}>
+                        setShowList(!showList)
+                    }}>категории</button>
 
-                <div className="container">
-                  <div className="category__btns-row">
+
+            <div className={showList ? 'category__btns category__btns-show': 'category__btns'}>
                             {
-                                categories.map((item) => {
+                               categories ? categories.map((item) => {
                                     return (
                                         <button
                                             key={`${item.id}`}
@@ -53,11 +46,8 @@ const Category = () => {
                                             }}>{item.content}
                                         </button>
                                     )
-                                })
+                                }) : ''
                             }
-                        </div>
-
-                </div>
             </div>
             <div className='container'>
                 <div className="category__row row">

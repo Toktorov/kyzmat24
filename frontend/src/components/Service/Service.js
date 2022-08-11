@@ -20,10 +20,8 @@ const Service = () => {
 
     useEffect(() => {
       dispatch(getService(params.id));
-        dispatch(setApp('kyzmat'))
+        dispatch(setApp('kyzmat'));
     }, []);
-
-
     return (
 
 

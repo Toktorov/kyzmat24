@@ -11,12 +11,14 @@ const GET_SERVICE = 'GET_SERVICE';
 
 const SET_APP = 'SET_APP';
 
+const GET_LOCATIONS = 'GET_LOCATIONS';
 
 const initState = {
     items: [],
     status: 'home',
     service: {},
     categories:[],
+    locations: [],
     app: ''
 };
 
@@ -58,7 +60,12 @@ export default (state = initState, action) => {
                 app: action.change
             }
         }
-
+            case GET_LOCATIONS:{
+                return {
+                    ...state,
+                    locations: action.locations
+                }
+            }
 
 
         default:
@@ -84,7 +91,7 @@ export const getItems = () => {
 
 export const getCategories = () => {
     return (dispatch) => {
-        axios('https://kyzmat24.com/api/category/')
+        axios('/api/category/category/')
         .then(({data}) => {
             return dispatch({type: GET_CATEGORY, arr: data})
         }).catch(error => console.log(error.response))
@@ -100,6 +107,13 @@ export const getService = (id) =>{
                   return item.id == id
                   })[0]})
       })
+  }
+};
+
+export const getLocations = () =>{
+  return (dispatch)=>{
+      axios.get("/api/category/location/")
+          .then(({data})=> dispatch({type: GET_LOCATIONS, locations: data}))
   }
 };
 

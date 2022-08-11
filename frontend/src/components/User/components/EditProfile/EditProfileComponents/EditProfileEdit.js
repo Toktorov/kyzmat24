@@ -2,96 +2,74 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
 import {setUser} from "../../../../../redux/reducers/user";
+import {getLocations} from "../../../../../redux/reducers/item";
 
 const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
+    const locations = useSelector(s => s.item.locations);
     const dispatch = useDispatch();
-    const [firstName, setFirstName] = useState(user ? user.first_name : '');
-    const [lastName, setLastName] = useState(user ? user.last_name : '');
-    const [email, setEmail] = useState(user ? user.email : '');
+    const [first_name, setFirst_name] = useState(user ? user.first_name : '');
+    const [last_name, setLast_name] = useState(user ? user.last_name : '');
     const [description, setDescription] = useState(user ? user.description : '');
     const [location, setLocation] = useState(user ? user.location : '');
     const [another, setAnother] = useState(user ? user.another : '');
-    const [profileImage, setProfileImage] = useState(null);
-    const [emailUsers, setEmailUsers] = useState([]);
+    const [profile_image, setProfile_image] = useState(null);
 
     const profileImageText = () => {
-        if (profileImage) {
-            return profileImage.name.length > 10 ? profileImage.name.slice(0, 10) + '...' : profileImage.name
+        if (profile_image) {
+            return profile_image.name.length > 10 ? profile_image.name.slice(0, 10) + '...' : profile_image.name
         } else {
             return 'Выбрать фото'
         }
     };
 
-    const updateUser = (key, value) => {
-        if (key === editSelect) {
-            setLoading(key);
-            axios.put(`https://kyzmat24.com/api/users/update/${id}`, {
-                username: user.username,
-                [key]: value,
-            }).then(response => {
+    const updateUser = () => {
+setLoading(true);
+        const data = new FormData;
+
+         if (profile_image){
+             data.append('profile_image', profile_image, profile_image.name);
+             data.append('username', user.username);
+             data.append('first_name', first_name);
+             data.append('last_name', last_name);
+             data.append('description', description);
+             data.append('location', location);
+         } else {
+             data.append('username', user.username);
+             data.append('first_name', first_name);
+             data.append('last_name', last_name);
+             data.append('description', description);
+             data.append('location', location);
+         }
+
+
+            axios.put(`https://kyzmat24.com/api/users/update/${id}`, data).then(response => {
                 console.log(response);
                 alert('Вы успешно поменяли');
                 dispatch(setUser(id));
                 setLoading('');
                 setEditSelect('')
             }).catch(error => {
-                setLoading('');
+                setLoading(false);
                 setEditSelect('');
                 console.log(error.response)
             })
-        }
-    };
-    const updateProfileImage = () => {
-        if (profileImage) {
-            setLoading('profile_image');
-            const data = new FormData;
-            data.append('profile_image', profileImage, profileImage.name);
-            data.append('username', user.username);
-            axios.put(`https://kyzmat24.com/api/users/update/${id}`, data).then(response => {
-                console.log(response);
-                dispatch(setUser(id));
-                setLoading('');
-                setEditSelect('');
-            }).catch(error => {
-                setLoading('');
-                setEditSelect('');
-                console.log(error.response)
-            })
-        } else {
-            alert('Выберите фото')
-        }
+
     };
 
-    const updateEmail = () => {
-        axios('/api/users/')
-            .then(({data}) => {
-                setEmailUsers(data.filter((item) => {
-                    return item.email === email
-                }));
-                setTimeout(()=>{
-                    if (emailUsers.length === 0){
-                        updateUser('email', email)
-                    } else {
-                        alert('Аккаунт с таким email уже есть. Введите другой email')
-                    }
-                }, 400);
-
-            })
-    };
 
     useEffect(() => {
-        setFirstName(user ? user.first_name : '');
-        setLastName(user ? user.last_name : '');
-        setEmail(user ? user.email : '');
+        setFirst_name(user ? user.first_name : '');
+        setLast_name(user ? user.last_name : '');
         setDescription(user ? user.description : '');
         setLocation(user ? user.location : '');
         setAnother(user ? user.another : '');
-        setProfileImage(null);
+        setProfile_image(null);
     }, [user]);
     useEffect(() => {
-        dispatch(setUser(id))
+        dispatch(setUser(id));
+        dispatch(getLocations());
     }, []);
     return (
         <>
@@ -103,91 +81,31 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
                     }
                     <input className={'editProfile-input-profilePhoto'}
                            onChange={(e) => {
-                               setProfileImage(e.target.files[0]);
+                               setProfile_image(e.target.files[0]);
                                setEditSelect('profile_image')
                            }} accept='image/*'
                            type="file"/>
                 </label>
-                {
-                    loading === 'profile_image' ? <div className={'editPreloader'}>
-                            <div className="lds-ellipsis">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div> :
-                        <button
-                            className={editSelect === "profile_image" ? 'editProfile-forms-button editProfile-forms-button-first editProfile-forms-button-selected' : 'editProfile-forms-button editProfile-forms-button-first'}
-                            onClick={() => updateProfileImage()}>сохранить
-                        </button>
-                }
             </div>
 
             <div className={'editProfile-forms-label'}>
                 <p>Как вас зовут или название организации(компании):</p>
-                <input type="text" value={firstName} onChange={e => {
-                    setFirstName(e.target.value);
+                <input type="text" value={first_name} onChange={e => {
+                    setFirst_name(e.target.value);
                     setEditSelect('first_name')
                 }}/>
-                {
-                    loading === 'first_name' ? <div className={'editPreloader'}>
-                        <div className="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div> : <button
-                        className={editSelect === "first_name" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                        type={'button'} onClick={() => updateUser('first_name', firstName)}>сохранить
-                    </button>
-                }
+
 
             </div>
 
             <div className={'editProfile-forms-label'}>
                 <p>Фамилия или полное название организации(компании):</p>
                 <input
-                    type="text" value={lastName} onChange={e => {
-                    setLastName(e.target.value);
+                    type="text" value={last_name} onChange={e => {
+                    setLast_name(e.target.value);
                     setEditSelect('last_name')
                 }}/>
-                {
-                    loading === 'last_name' ? <div className={'editPreloader'}>
-                        <div className="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div> : <button
-                        className={editSelect === "last_name" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                        type={'button'} onClick={() => updateUser('last_name', lastName)}>сохранить
-                    </button>
-                }
 
-            </div>
-
-            <div className={'editProfile-forms-label'}>
-                <p>email:</p>
-                <input type="text" value={email} onChange={e => {
-                    setEmail(e.target.value);
-                    setEditSelect('email')
-                }}/>
-                {
-                    loading === 'email' ? <div className={'editPreloader'}>
-                        <div className="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div> : <button
-                        className={editSelect === "email" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                        type={'button'} onClick={() => updateEmail()}>сохранить
-                    </button>
-                }
             </div>
 
             <div className={'editProfile-forms-label'}>
@@ -198,40 +116,45 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
                 }}>
 
                         </textarea>
-                {
-                    loading === 'description' ? <div className={'editPreloader'}>
-                        <div className="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div> : <button
-                        className={editSelect === "description"
-                            ? 'editProfile-forms-button editProfile-forms-button-descr editProfile-forms-button-selected'
-                            : 'editProfile-forms-button editProfile-forms-button-descr'}
-                        type={'button'} onClick={() => updateUser('description', description)}>сохранить
-                    </button>
-                }
-
             </div>
 
             <div className={'editProfile-forms-label'}>
                 <p>локация:</p>
-                <select name="" id="">
+                <select name="" id="" defaultValue={location.id ? location.id : 0}
+                onChange={(e)=>{
+                    setLocation(e.target.value);
+                    setEditSelect("location")
+                }}
+                >
+                    <option value="0">{location}</option>
                     {
-                        typeof location !== 'string' ?
-                            location.map((item) => {
-                                return <option value="" key={item}>{item}</option>
-                            }) : <option value="">{location}</option>
+                            locations.map((item) => {
+                                return <option value={item.id} key={item.id}>{item.title}</option>
+                            })
                     }
                 </select>
             </div>
+
 
             <div className={'editProfile-forms-label'}>
                 <p>другое:</p>
                 <input type="text" value={another} onChange={e => setAnother(e.target.value)}/>
             </div>
+            {
+                loading? <div className={'editPreloader'}>
+                    <div className="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div> : <button
+                    className={editSelect
+                        ? 'editProfile-forms-button editProfile-forms-button-descr editProfile-forms-button-selected'
+                        : 'editProfile-forms-button editProfile-forms-button-descr'}
+                    type={'button'} onClick={() => updateUser('description', description)}>сохранить
+                </button>
+            }
         </>
     );
 };

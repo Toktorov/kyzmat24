@@ -8,16 +8,14 @@
 
 
 .category__btns {
+    height: 50vh;
+    overflow: auto;
+    padding: 10px;
     position: fixed;
     background-color: rgba(237, 235, 235, 0.81);
-    width: 100%;
-    height: 100vh;
-    top: 0;
     left: -100%;
-    transition: .5s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 130px;
+    transition: .7s;
 }
 
 .category__btns-show {
@@ -33,7 +31,16 @@
     overflow: auto;
 }
 
-.category__btns button,
+.category__btns button{
+    display: block;
+    padding: 10px 0;
+    color: orangered;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid orangered;
+    cursor: pointer;
+    background-color: transparent;
+}
 .show-category-list-btn{
     padding: 10px 20px;
     background-color: orangered;
@@ -42,30 +49,19 @@
     cursor: pointer;
     border: 1px solid transparent;
     transition: all .7s;
+    position: fixed;
+    left: 5px;
+    top: 80px;
 }
 
-.category__btns button:hover,
 .show-category-list-btn:hover{
     background-color: #ffffff;
     color: orangered;
     border-color: orangered;
 }
 
-.active {
-    background-color: #158af2 !important;
-}
-.show-category-list-btn{
-    position: sticky;
-    top: 100px;
-    z-index: 1;
-    margin: 5px;
-}
-.show-category-list-btn-close{
-    position: fixed;
-}
-.br{
-    display: none;
-}
+
+
 
 @media screen and (max-width: 760px) {
     .category__btns button,
