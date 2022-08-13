@@ -51,10 +51,9 @@ const Service = () => {
                                         <p><b>Описание: </b>{service.description}</p>
                                     </div>
                                     <div className="profile-info">
-                                        <p>Адресс: <span>{service.location}</span></p>
-                                        <p>Телефон: <a href={`tel: ${service.tel}`}>{service.tel}</a></p>
+                                        <p>Локация: <span>{service.user_location ? service.user_location: "---"}</span></p>
                                         <p>Email: <a href={`mailto: ${service.email}`}>{service.email}</a></p>
-                                        <p>Дополнительные контакты:</p>
+                                        <p>Контакты:</p>
                                         <div className="profile-contact">
                                             {
                                                 service.contact.length === 0 ? <p> --- </p> :

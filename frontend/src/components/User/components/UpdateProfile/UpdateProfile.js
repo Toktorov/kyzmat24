@@ -17,13 +17,11 @@ const UpdateProfile = ({setShowUpdateProfile}) => {
     const [contact, setContact] = useState(user.contact);
 
     const createContact = () =>{
-        if (firstName && profileImage && description.trim() !== 'Пользователь не добавил описание' && description && contact.length !== 0){
-            axios.post('https://kyzmat24.com/api/users/contact_create/', contact)
+            axios.post('/api/users/contact_create/', contact)
                 .then(response => console.log('contact',response))
-        }
     };
     const updateProfileFunc = () => {
-   if (firstName && profileImage && description.trim() !== 'Пользователь не добавил описание' && description && contact.length !== 0){
+   if (firstName && profileImage && description.trim() !== 'Пользователь не добавил описание' && description && contact){
        const data = new FormData();
        data.append('username', `${user.username}`);
        data.append('first_name', firstName);
@@ -32,13 +30,13 @@ const UpdateProfile = ({setShowUpdateProfile}) => {
            data.append('profile_image', profileImage, profileImage.name);
        }
        data.append('description', description);
-       data.append('contact', contact);
        data.append('status_user', 'Usually');
        createContact();
        axios.put(`https://kyzmat24.com/api/users/update/${id}`, data)
            .then(response => {
                console.log(response);
-              dispatch(setUser(id))
+              dispatch(setUser(id));
+              setShowUpdateProfile(false)
            }).catch(error => console.log(error.response))
    } else {
        alert('Заполните все обязательные поля!')

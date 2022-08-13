@@ -40,7 +40,7 @@ setLoading(true);
              data.append('first_name', first_name);
              data.append('last_name', last_name);
              data.append('description', description);
-             data.append('location', location);
+             data.append('user_location', location);
          }
 
 
@@ -120,13 +120,13 @@ setLoading(true);
 
             <div className={'editProfile-forms-label'}>
                 <p>локация:</p>
-                <select name="" id="" defaultValue={location.id ? location.id : 0}
+                <select name="" id="" defaultValue={location ? location.id : 0}
                 onChange={(e)=>{
                     setLocation(e.target.value);
                     setEditSelect("location")
                 }}
                 >
-                    <option value="0">{location}</option>
+                    <option value="0">Выбрать локацию</option>
                     {
                             locations.map((item) => {
                                 return <option value={item.id} key={item.id}>{item.title}</option>

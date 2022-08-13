@@ -17,7 +17,6 @@ const initState = {
     newUser: false,
 };
 
-
 export default (state = initState, action) => {
     switch (action.type) {
         case SET_AUTH_TOKENS: {
@@ -86,9 +85,7 @@ export const setUser = (id) => {
                 localStorage.setItem('user', JSON.stringify(data));
                 return  dispatch({type: SET_USER, user: data})
             }).catch(error => {
-                localStorage.removeItem('authTokens');
-                localStorage.removeItem('user');
-                localStorage.removeItem('id');
+               dispatch(logoutUser())
         });
 
     }

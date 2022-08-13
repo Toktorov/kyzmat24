@@ -124,11 +124,7 @@ const User = () => {
 
     useEffect(() => {
        dispatch(setApp('order'));
-       if (id && authTokens){
            dispatch(setUser(id));
-       } else {
-           localStorage.removeItem('id')
-       }
     }, []);
 
     return (

@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getCategories, setApp, setStatus} from "../../redux/reducers/item";
+import {getCategories, getLocations, setApp, setStatus} from "../../redux/reducers/item";
 import './order.css'
 import axios from "axios";
 
 const Order = () => {
      const [state, setState] = useState(null);
     const categories = useSelector((s) => s.item.categories);
+    const locations = useSelector(s => s.item.locations);
     const [description, setDescription] = useState('');
     const [tel, setTel] = useState('');
     const [email, setEmail] = useState('');
@@ -20,7 +21,6 @@ const Order = () => {
         setLoading(true);
        axios
            .post('/api/order/create_order/', {
-
                description,
                tel,
                email,
@@ -49,6 +49,7 @@ const Order = () => {
         dispatch(setApp('kyzmat'));
         dispatch(setStatus('addItem'));
         dispatch(getCategories());
+        dispatch(getLocations());
     }, []);
 
     return (
@@ -89,12 +90,13 @@ const Order = () => {
                            placeholder={'Введите email (необязательно)'} type="email"/>
                 </label>
 
-                <select value={location} onChange={e => setLocation(e.target.value)}>
+                <select value={location} defaultValue={"0"} onChange={e => setLocation(e.target.value)}>
                     <option value="0">Выберите локацию (необязательно)</option>
-                    <option value="recent">Локация 1</option>
-                    <option value="2">Локация 2</option>
-                    <option value="3">Локация 3</option>
-                    <option value="4">Локация 4</option>
+                    {
+                        locations.map((item)=>{
+                            return <option value={item.id}>{item.title}</option>
+                        })
+                    }
                 </select>
 
                 <select  onChange={(e) => setCategory(e.target.id)}>
