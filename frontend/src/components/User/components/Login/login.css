@@ -1,62 +1,29 @@
 
-
-.login form{
-    width: 400px;
-    background-color: orangered;
-    padding: 15px;
-    position: absolute;
-    border-radius: 20px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.login input,
-.login-btn{
-    width: 100%;
-    margin: 15px 0;
-    border: none;
-    outline: none;
-    padding: 10px;
-}
-.login form p{
-    color: #ffffff;
-}
-
-.login-btn{
-    background-color: #fff;
-    color: orangered;
-    border-radius: 20px;
-    border: 1px solid #fff;
-    cursor: pointer;
-    transition: .5s;
-}
-.login-btn:hover{
-    background-color: orangered;
-    color: #fff;
-}
-.login-btn-link{
-    text-decoration: underline;
-    border: none;
-    background-color: white;
-    color: #ff0000;
-    cursor: pointer;
-    padding: 1px 3px;
-    border-radius: 3px;
-}
-.login-btn-link:hover{
-    transform: scale(1.1);
-}
-.login h3{
-    text-align: center;
-    color: white;
-}
 .error{
     text-align: center;
     color: red;
-    background-color: white;
     border-radius: 10px;
 }
 
+.register_link{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+.register_link p,button{
+    font-size: 15px;
+    padding: 0;
+}
+#register_link2{
+    margin-left: 5px;
+    border: none ;
+    padding: 0;
+}
+#register_link2:hover{
+    border: none;
+    background-color: transparent;
+    color: orangered;
+}
 
 .login-preloader{
     display: flex;

@@ -15,10 +15,10 @@ const Reviews = () => {
     return (
 
         <section className={'review'}>
-            <div className={'container'}>
+            <div className={'kyzmat_form container'}>
                 <h2>Оставьте свой отзыв/Свои предложения :)</h2>
                 <p>Например предложите нам новую категорию...</p>
-                <form className={'review__form'}>
+                <form className={' review__form'}>
                     <label>
                         <input type="text " placeholder={'Введите...'}/>
                     </label>

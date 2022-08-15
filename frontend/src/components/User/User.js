@@ -163,7 +163,7 @@ const User = () => {
                                              alt=""/>
                                     </div>
 
-                                    <div className="top-right">
+                                    <div className="profile-title    top-right">
                                         <h2 className={'home-title'}>{user.first_name ? user.first_name : user.username} <span>{user.id}</span></h2>
                                         {
                                             user.last_name ? <p>{user.first_name} {user.last_name}</p>: ''
@@ -173,7 +173,7 @@ const User = () => {
                                         }
                                         <p className={'home-descr'}><b>Описание:</b> {user.description} </p>
                                     </div>
-                                    <div className="top-right2">
+                                    <div className="profile-info top-right2">
                                         <p><b>Категория:</b> {user.category}</p>
                                         <p><b>Локация:</b> {user.location} </p>
                                         <p><b>Email:</b> {user.email} </p>
@@ -194,6 +194,7 @@ const User = () => {
                                                     }
                                                 })
                                         }</p>
+                                        <div className="link_class">
                                         <p><Link to={"/user/edit"} className={'edit-profile-button'}>Редактивровать профиль <FontAwesomeIcon icon={faPenToSquare} /></Link></p>
                                         {
                                             !user.verifed ? <>
@@ -209,8 +210,9 @@ const User = () => {
                                         <button onClick={()=>{
                                             setShowLogoutPopup(true);
                                         }}
-                                                className={'logout-btn'}>выйти</button>
-                                    </div>
+                                                className={'logout-btn'}>Выйти</button>
+                                    </div>                                    </div>
+
                                 </div>
                                 <hr/>
                                 <div className="home-bottom">

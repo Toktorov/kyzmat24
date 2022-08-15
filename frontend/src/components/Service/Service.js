@@ -39,7 +39,7 @@ const Service = () => {
                                             ? <div className={"profile-image"}><img  src={avatar} alt=""/></div>
                                             :  <div className={"profile-image"}><img  src={service.profile_image} alt=""/></div>
                                     }
-
+                                        <div className="flex_block">
                                     <div className="profile-title">
                                         <h2>{service.first_name ? service.first_name : service.username}</h2>
                                         {
@@ -51,9 +51,9 @@ const Service = () => {
                                         <p><b>Описание: </b>{service.description}</p>
                                     </div>
                                     <div className="profile-info">
-                                        <p>Локация: <span>{service.user_location ? service.user_location: "---"}</span></p>
-                                        <p>Email: <a href={`mailto: ${service.email}`}>{service.email}</a></p>
-                                        <p>Контакты:</p>
+                                        <p><b>Локация:</b> <span>{service.user_location ? service.user_location: "---"}</span></p>
+                                        <p><b>Email:</b> <a href={`mailto: ${service.email}`}>{service.email}</a></p>
+                                        <p><b>Контакты:</b></p>
                                         <div className="profile-contact">
                                             {
                                                 service.contact.length === 0 ? <p> --- </p> :
@@ -76,6 +76,7 @@ const Service = () => {
 
                                         </div>
                                     </div>
+                                        </div>
                                 </div>
                                 <hr/>
                                 <div className="profile-bottom">

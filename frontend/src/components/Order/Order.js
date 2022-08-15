@@ -72,8 +72,8 @@ const Order = () => {
             }
 
 
-
-            <form className={'reception__form'} onSubmit={addItem}>
+            <div className={'form_section'}>
+            <form className={'kyzmat_form'} onSubmit={addItem}>
                 <h4>Добавьте объявление</h4>
                 <label>
                     <input required={true} value={description} onChange={(e) => setDescription(e.target.value)}
@@ -91,19 +91,19 @@ const Order = () => {
                 </label>
 
                 <select value={location} defaultValue={"0"} onChange={e => setLocation(e.target.value)}>
-                    <option value="0">Выберите локацию (необязательно)</option>
+                    <option className={'kyzmat_option'} value="0">Выберите локацию (необязательно)</option>
                     {
                         locations.map((item)=>{
-                            return <option value={item.id}>{item.title}</option>
+                            return <option className={'kyzmat_option'} value={item.id}>{item.title}</option>
                         })
                     }
                 </select>
 
                 <select  onChange={(e) => setCategory(e.target.id)}>
-                    <option value="0">Выберите категорию (необязательно)</option>
+                    <option className={'kyzmat_option'} value="0">Выберите категорию (необязательно)</option>
                     {
                         categories.map((item) => {
-                            return <option key={`${item.id}`} value={item.id}>{item.content}</option>
+                            return <option className={'kyzmat_option'} key={`${item.id}`} value={item.id}>{item.content}</option>
                         })
                     }
                 </select>
@@ -117,6 +117,7 @@ const Order = () => {
                 }
 
             </form>
+            </div>
         </>
     );
 };

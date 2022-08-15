@@ -8,8 +8,8 @@ const Login = ({setStatus, loginUser}) => {
     const [password, setPassword] = useState('');
 
     return (
-        <div className={'login'}>
-            <form onSubmit={(e)=>{
+        <div className={'form_section'}>
+            <form className={'box_block kyzmat_form'} onSubmit={(e)=>{
                 loginUser(e, username, password, setLoading, setUserStatus);
             }}>
                 <h3>Вход в аккаунт</h3>
@@ -31,9 +31,12 @@ const Login = ({setStatus, loginUser}) => {
                         </div>
                     </div>: <>
                         <button className={'login-btn'} type="submit">Войти</button>
-                        <p>Нет аккаунта? Пройди <button className={'login-btn-link'}
-                                                        onClick={() => setStatus('signUp')}>регистрацию</button></p>
-                    </>
+                        <div className="register_link">
+                        <p>Нет аккаунта? Пройди </p><button id={'register_link2'} className={'box_block'}
+                                                        onClick={() => setStatus('signUp')}>регистрацию</button>
+
+                    </div>
+                        </>
                 }
 
 

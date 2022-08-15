@@ -42,8 +42,8 @@ const SignUp = ({setStatus, loginUser}) => {
 
 
     return (
-        <div className={'login'}>
-            <form onSubmit={(e)=> signUp(e)}>
+        <div className={'form_section'}>
+            <form className={'kyzmat_form box_block'} onSubmit={(e)=> signUp(e)}>
                 <h3>Регистрация</h3>
                 {
                     userStatus === false && loading === false ?
@@ -65,8 +65,9 @@ const SignUp = ({setStatus, loginUser}) => {
                         </div>
                     </div>: <>
                         <button className={'login-btn'} type="submit">Зарегистрироваться</button>
-                        <p>Есть аккаунт? <button className={'login-btn-link'}
-                                                 onClick={() => setStatus('login')}>Войти</button></p>
+                        <div className="register_link">
+                        <p>Есть аккаунт?  </p><button id={'register_link2'} className={'login-btn-link box_block'}
+                                                 onClick={() => setStatus('login')}>Войти</button></div>
                     </>
                 }
 

@@ -2,7 +2,8 @@
 .profile__block {
     position: relative;
     background-color: rgba(255, 255, 255, 0.75);
-    box-shadow: 0 0 15px 10px rgba(92, 92, 92, 0.3);
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px 5px rgba(34, 60, 80, 0.24);
     margin-top: 100px;
 }
 
@@ -44,13 +45,11 @@
 }
 
 .profile-top {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "img title" "img info";
-    padding: 15px;
+    display: flex;
 }
 
 .profile-image {
+    max-width: 600px;
     grid-area: img;
     padding: 5px;
 }
@@ -59,12 +58,29 @@
     grid-area: title;
     padding: 5px;
 }
-
+.profile-title b{
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.6);
+}
+.profile-title p{
+    font-size: 17px;
+    font-weight: 400;
+}
+.profile-title h2{
+     font-size: 22px;
+     font-weight: 500;
+ }
 .profile-info {
     grid-area: info;
     padding: 5px;
 }
+.profile-info b{
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.6);
 
+}
 .profile-image img {
     width: 100%;
     height: auto;

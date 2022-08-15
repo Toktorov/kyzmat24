@@ -67,9 +67,9 @@ const Search = () => {
     }, [locations]);
     return (
         <section className='search'>
-            <div className="container">
-                <div className="search__filter">
-                    <div className="search__left">
+            <div className="container form_section2">
+                <div className="kyzmat_form search__filter">
+                        <div className=" search__left">
                         <input
                             onKeyDown={(e) => e.code === 'Enter' && name.length !== 0 ? find() : ''}
                             onChange={(e) => {
@@ -77,7 +77,7 @@ const Search = () => {
                                 find();
                             }}
                             placeholder='Поиск...' type="search"/>
-                        <button className='search__btn' onClick={() => {
+                        <button className='search__btn' id={'search_btn'} onClick={() => {
                             if (name.length !== 0) find()
                         }} type='button'>ПОИСК
                         </button>

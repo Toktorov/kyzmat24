@@ -92,7 +92,29 @@
 .popup-media-button:active{
     color: red;
 }
-
+.link_class{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.link_class p,button{
+    margin-top: 5px;
+}
+.link_class button{
+    padding: 5px 3      0px;
+    background-color: #ffffff;
+    color: orangered;
+    border-radius: 5px;
+    border: 1px solid orangered;
+    cursor: pointer;
+    transition: .6s;
+    font-size: 17px;
+    box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.2);
+}
+.link_class button:hover{
+    background-color: orangered;
+    color: #ffffff;
+}
 .popup-media-confirm{
     color: white;
 }
