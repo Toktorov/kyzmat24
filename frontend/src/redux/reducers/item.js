@@ -13,12 +13,15 @@ const SET_APP = 'SET_APP';
 
 const GET_LOCATIONS = 'GET_LOCATIONS';
 
+const SET_SHOW_POPUP = 'SET_SHOW_POPUP';
+
 const initState = {
     items: [],
     status: 'home',
     service: {},
     categories:[],
     locations: [],
+    showPopup: false,
     app: ''
 };
 
@@ -66,7 +69,12 @@ export default (state = initState, action) => {
                     locations: action.locations
                 }
             }
-
+            case SET_SHOW_POPUP:{
+                return {
+                    ...state,
+                    showPopup: action.showPopup
+                }
+            }
 
         default:
             return state
@@ -115,6 +123,12 @@ export const getLocations = () =>{
       axios.get("/api/category/location/")
           .then(({data})=> dispatch({type: GET_LOCATIONS, locations: data}))
   }
+};
+
+export const setShowPopup = (value) =>{
+    return (dispatch) =>{
+        return dispatch({type: SET_SHOW_POPUP, showPopup: value})
+    }
 };
 
 export const setApp = (app) =>{

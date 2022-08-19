@@ -3,47 +3,47 @@ import axios from "axios";
 import "./mediaCreate.css";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../../../redux/reducers/user";
+import {setShowPopup} from "../../../../redux/reducers/item";
+import PopupComponent from "../../../PopupComponent/PopupComponent";
 
 const MediaCreate = ({setShowMediaCreate}) => {
+    const showPopup = useSelector(s => s.item.showPopup);
+    const [message, setMessage] = useState('');
     const [labelContentState, setLabelContentState] = useState(false);
     const [loading, setLoading] = useState(false);
     const labelPhotoContent = () => {
-        if (labelContentState){
+        if (labelContentState) {
             return photo.name.length > 10 ? photo.name.slice(0, 10) + '...' : photo.name
         }
-        return  'Выбрать фото'
+        return 'Выбрать фото'
     };
     const id = useSelector(s => s.user.id);
     const [select, setSelect] = useState(null);
     const [photo, setPhoto] = useState(null);
-    const [videoSrc, serVideoSrc] = useState('');
+    const [videoSrc, setVideoSrc] = useState('');
     const dispatch = useDispatch();
-    const sendPhoto = React.useCallback(
-        async () => {
-            if (photo) {
-                try {
-                    setLoading(true);
-                    const data = new FormData();
-                    data.append('file', photo, photo.name);
-                    data.append('name', 'img');
-                    data.append('user', id);
-                    console.log(data.get('file'));
-                    await axios.post('/api/users/media_create/', data).then(response => {
-                        alert('Вы успешно добавили');
-                        console.log(response);
-                        setLabelContentState(false);
-                        setPhoto(null);
-                        dispatch(setUser(id));
-                        setLoading(false);
-                    })
+    const sendPhoto = () => {
+                setLoading(true);
+                const data = new FormData();
+                data.append('file', photo, photo.name);
+                data.append('name', 'img');
+                data.append('user', id);
+                console.log(data.get('file'));
+               axios.post('/api/users/media_create/', data).then(response => {
+                    setMessage('Вы успешно добавили');
+                    console.log(response);
+                    setLabelContentState(false);
+                    setPhoto(null);
+                    dispatch(setUser(id));
+                    setLoading(false);
+                }).catch( (error)=> {
+                console.log(error.response);
+                setMessage('Произошла ошибка')
+            }).finally(()=>{
+                dispatch(setShowPopup(true))
+               })
+        };
 
-                } catch (error) {
-                    console.log(error.response);
-                }
-            }
-
-        }
-    );
     const sendVideo = () => {
         if (videoSrc.includes('https://youtu.be/')){
             setLoading(true);
@@ -53,20 +53,28 @@ const MediaCreate = ({setShowMediaCreate}) => {
                 src: videoSrc,
                 file: null
             }).then((response) => {
-                alert('Вы успешно добавили');
+                setMessage('Вы успешно добавили');
                 console.log(response);
-                serVideoSrc(null);
+                setVideoSrc(null);
                 dispatch(setUser(id));
                 setLoading(false);
+            }).catch(()=>{
+                setMessage('Произошла ошибка')
+            }).finally(()=>{
+                dispatch(setShowPopup(true))
             })
         } else {
-            alert('Ссылка неверная')
+            setMessage('Ссылка неверная');
+            dispatch(setShowPopup(true))
         }
 
     };
 
     return (
         <div className={'mediaCreate'}>
+            {
+                showPopup ? <PopupComponent messageForUsers={message}/>: ''
+            }
             <div className={'mediaCreate-forms'}>
                 {
                     select === 'photo' ?
@@ -108,7 +116,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
                                     <input
                                         className={'mediaCreate-forms-input-video'}
                                         placeholder={'Добавьте ссылку сюда..'}
-                                        required={true} type="url" onChange={e => serVideoSrc(e.target.value)}/>
+                                        required={true} type="url" onChange={e => setVideoSrc(e.target.value)}/>
                                 </label>
                                 <div className="mediaCreate-forms-btns">
                                     {

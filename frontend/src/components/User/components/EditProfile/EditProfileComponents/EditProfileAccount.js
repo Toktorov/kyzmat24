@@ -7,8 +7,10 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
     const dispatch = useDispatch();
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
+    const categories = useSelector(s => s.item.categories);
     const [email, setEmail] = useState(user ? user.email : '');
     const [emailUsers, setEmailUsers] = useState([]);
+    const [category, setCategory] = useState(null);
 
     const updateEmail = () => {
         axios('/api/users/')
@@ -34,6 +36,18 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
                 }, 400);
 
             })
+    };
+    const createCategory = (categoryId) =>{
+        setLoading('category');
+      axios.put(`https://kyzmat24.com/api/users/update/${id}`, {
+          username: user.username,
+          user_category: categoryId
+      }).then((response)=>{
+          console.log(response);
+          alert('Вы успешно поменяли');
+          dispatch(setUser(id));
+          setLoading('')
+      })
     };
     useEffect(()=>{
         dispatch(setUser(id));
@@ -64,6 +78,31 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
                     </button>
                 }
             </div>
+            <label className="editProfile-forms-label">
+                <select onChange={(e)=>{
+                    setCategory(e.target.value)
+                }}>
+                    <option value="0">Выбрать категорию</option>
+                    {
+                        categories.map((item)=>{
+                            return <option value={item.id}>{item.content}</option>
+                        })
+                    }
+                </select>
+                {
+                    loading === 'category' ? <div className={'editPreloader'}>
+                        <div className="lds-ellipsis">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div> : <button
+                        className={'editProfile-forms-button'}
+                        type={'button'} onClick={() => createCategory(category)}>сохранить
+                    </button>
+                }
+            </label>
         </div>
     );
 };

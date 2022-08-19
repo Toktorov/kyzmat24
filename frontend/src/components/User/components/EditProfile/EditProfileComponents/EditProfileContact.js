@@ -1,43 +1,65 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {setUser} from "../../../../../redux/reducers/user";
 import {useDispatch, useSelector} from "react-redux";
+import {setShowPopup} from "../../../../../redux/reducers/item";
+import PopupComponent from "../../../../PopupComponent/PopupComponent";
 
 const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) => {
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
+    const showPopup = useSelector(s => s.item.showPopup);
     const dispatch = useDispatch();
 
     const [contact, setContact] = useState({});
     const [deleteContactConfirm, setDeleteContactConfirm] = useState(null);
+    const [message, setMessage] = useState('');
 
     const createContact = () => {
         if (JSON.stringify(contact) !== "{}" && contact.src) {
             setLoading('create_contact');
             axios.post('/api/users/contact_create/', contact)
                 .then(response => {
-                    alert('Вы успешно сохранили');
+                    setMessage("Успешно добавлено");
                     console.log('contact', response);
                     dispatch(setUser(id));
                     setLoading('');
-                })
+                }).catch(() => {
+                setMessage("Произошла ошибка. Проверьте соединение с интернентом")
+            })
         } else {
-            alert('Заполните форму полностью')
+            setMessage('Заполните форму полностью')
         }
-
+        dispatch(setShowPopup(true))
     };
     const deleteContact = (idContact) => {
         setLoading(idContact);
-        axios.delete(`/api/users/contact/delete/${idContact}`)
-            .then(response => {
-                console.log(response);
-                alert('Вы успешно удалили');
-                dispatch(setUser(id));
-                setLoading('');
+        if (user.contact.length === 1){
+            setMessage("У вас должен быть хотя-бы один контакт");
+            dispatch(setShowPopup(true));
+            setLoading('');
+            setDeleteContactConfirm(null)
+        } else {
+            axios.delete(`/api/users/contact/delete/${idContact}`)
+                .then(response => {
+                    console.log(response);
+                    setMessage('Вы успешно удалили');
+                    dispatch(setUser(id));
+                    setLoading('');
+                }).catch(()=>{
+                setMessage("Произошла ошибка. Проверьте соединение с интернентом")
+            }).finally(()=>{
+                dispatch(setShowPopup(true))
             })
+        }
     };
+    useEffect(()=>{
+        dispatch(setUser(id))
+    },[]);
     return (
-        <>
+        <>{
+            showPopup ? <PopupComponent messageForUsers={message}/>: ''
+        }
             <div className={'editProfile-forms-label'}>
                 <p>контакты:</p>
                 <select onChange={e => {
@@ -122,58 +144,58 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                 <ul className={'editProfile-contact-ul'}>
                     {
                         user ?
-                        user.contact.map(item => {
-                            return <li className={'editProfile-contact-li'}>
-                                {item.name} : {item.name === 'telegram'
-                                ? item.src.slice(13)
-                                : item.name === 'instagram'
-                                    ? item.src.slice(26)
-                                    : item.name === 'whatsapp'
-                                        ? item.src.slice(14)
-                                        : item.src}
+                            user.contact.map(item => {
+                                return <li className={'editProfile-contact-li'}>
+                                    {item.name} : {item.name === 'telegram'
+                                    ? item.src.slice(13)
+                                    : item.name === 'instagram'
+                                        ? item.src.slice(26)
+                                        : item.name === 'whatsapp'
+                                            ? item.src.slice(14)
+                                            : item.src}
 
-                                {
-                                    loading === item.id ? <div className={'editPreloader'}>
-                                            <div className="lds-ellipsis">
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                                <div></div>
-                                            </div>
-                                        </div> :
-                                        <>
-                                            {
-                                                deleteContactConfirm === item.id ?
-                                                    <>
-                                                        <span>Вы уверены?</span>
+                                    {
+                                        loading === item.id ? <div className={'editPreloader'}>
+                                                <div className="lds-ellipsis">
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                </div>
+                                            </div> :
+                                            <>
+                                                {
+                                                    deleteContactConfirm === item.id ?
+                                                        <>
+                                                            <span>Вы уверены?</span>
+                                                            <button
+                                                                className={'editProfile-forms-button editProfile-contact-li-button'}
+                                                                onClick={() => setDeleteContactConfirm(null)}
+                                                            >Отмена
+                                                            </button>
+                                                            <button
+                                                                className={'editProfile-forms-button editProfile-contact-li-button'}
+                                                                onClick={() => {
+                                                                    deleteContact(item.id);
+                                                                }
+                                                                }
+                                                            >Удалить
+                                                            </button>
+                                                        </>
+                                                        :
                                                         <button
-                                                            className={'editProfile-forms-button editProfile-contact-li-button'}
-                                                            onClick={() => setDeleteContactConfirm(null)}
-                                                        >Отмена
-                                                        </button>
-                                                        <button
-                                                            className={'editProfile-forms-button editProfile-contact-li-button'}
                                                             onClick={() => {
-                                                                deleteContact(item.id);
-                                                            }
-                                                            }
-                                                        >Удалить
+                                                                setDeleteContactConfirm(item.id);
+                                                            }}
+                                                            className={'editProfile-forms-button editProfile-contact-li-button'}>Удалить
                                                         </button>
-                                                    </>
-                                                    :
-                                                    <button
-                                                        onClick={() => {
-                                                            setDeleteContactConfirm(item.id);
-                                                        }}
-                                                        className={'editProfile-forms-button editProfile-contact-li-button'}>Удалить
-                                                    </button>
-                                            }
-                                        </>
-                                }
+                                                }
+                                            </>
+                                    }
 
 
-                            </li>
-                        }) : ''
+                                </li>
+                            }) : ''
                     }
                 </ul>
             </div>

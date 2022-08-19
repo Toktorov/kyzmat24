@@ -39,7 +39,6 @@ function App() {
 
 
         <div className="App">
-
             <BrowserRouter>
                 {
                     app === 'kyzmat'

@@ -1,0 +1,47 @@
+
+.popup-component{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(177, 177, 184, 0.43);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    z-index: 5;
+}
+.message-area{
+    background-color: white;
+    padding: 15px;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+.message-area button{
+    margin-top: 15px;
+    padding: 5px 40px;
+    background-color: #ffffff;
+    color: orangered;
+    border-radius: 5px;
+    border: 1px solid orangered;
+    cursor: pointer;
+    transition: .6s;
+    font-size: 17px;
+}
+.message-area button:hover{
+    background-color: orangered;
+    color: white;
+}
+.message-area button:active{
+    transition: 0s;
+    background-color: red;
+}
+
+.message-text{
+    font-size: 18px;
+}
+.message-area-bottom{
+    text-align: right;
+}

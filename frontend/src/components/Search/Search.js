@@ -6,45 +6,109 @@ import './search.css';
 import avatar from "../../img/avatar.jpg";
 
 const Search = () => {
+    const [search, setSearch] = useState([]);
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);
+    const [saveSearch, setSaveSearch] = useState([]);
+    const [selectedRegion, setSelectedRegion] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
+    const [filterCities, setFilterCities] = useState([]);
     const [name, setName] = useState('');
     const dispatch = useDispatch();
     const items = useSelector((s) => s.item.items);
-    const status = useSelector((s) => s.item.status);
     const categories = useSelector(s => s.item.categories);
     const locations = useSelector(s => s.item.locations);
-    const [search, setSearch] = useState([]);
 
     const getSearchPattern = (strPattern) => {
         if (strPattern) return strPattern.toLowerCase().includes(name.toLowerCase())
     };
     const find = () => {
-        setSearch(() => {
-            if (name.length === 0) return [];
-            return items.filter((el) => {
-                return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
-            })
-        });
+        switch (true) {
+            case search && search.length !== 0 :{
+                console.log('search !0');
+                setSearch(() => {
+                    if (name.length === 0) return [];
+                   return  search.filter((el) => {
+                        return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
+                    })
+                });
+                if (search && search.length !== 0){
+                    setSaveSearch([...search])
+                }
+                break;
+            }
+
+            case saveSearch.length !== 0 :{
+                console.log('save !0');
+                setSearch(() => {
+                    if (name.length === 0) return [];
+                  return saveSearch.filter((el) => {
+                        return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
+                    })
+                });
+                if (search && search.length !==0){
+                    setSaveSearch([...search])
+                }
+                break;
+            }
+
+            default :{
+                console.log("default");
+                setSearch(() => {
+                    if (name.length === 0) return [];
+                   return items.filter((el) => {
+                        return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
+                    })
+                });
+                if (search && search.length !==0){
+                    setSaveSearch([...search])
+                }
+            }
+
+        }
+
     };
-    const findRegion = (regionId) => {
-        if (regionId){
-            if (search) {
-                let cityServices = search.filter((item) => {
-                    return item.location_self === regionId
-                });
-                let regionServices = items.filter((item) => {
-                    return item.id === regionId
-                });
-                setSearch([...regionServices, ...cityServices])
+    const findFilter = (selectId, selectParameter) => {
+       if (selectId && search.length !== 0){
+            setSearch(search.filter((item) => {
+                return item[selectParameter] == selectId
+            }));
+           if (search && search.length !==0){
+               setSaveSearch([...search])
+           }
+        }  if (selectId){
+            setSearch(items.filter((item) => {
+                return item[selectParameter] == selectId
+            }));
+            if (search && search.length !==0){
+                setSaveSearch([...search])
+            }
+        }
+    };
+    const searchRegion = (regionId) =>{
+        if (regionId && filterCities.length !== 0){
+            console.log(regionId);
+            console.log(filterCities);
+            let cityId = filterCities.find((item)=>{
+                return item.location_self == regionId
+            }).id;
+            console.log(cityId);
+            if (search.length !== 0){
+                console.log('search');
+              setSearch(  search.filter((item)=>{
+                  return item.user_location == cityId
+              }));
+                if (search && search.length !==0){
+                    setSaveSearch([...search])
+                }
             } else {
-                let cityServices = items.filter((item) => {
-                    return item.location_self === regionId
-                });
-                let regionServices = items.filter((item) => {
-                    return item.id === regionId
-                });
-                setSearch([...regionServices, ...cityServices])
+                console.log("items")
+                setSearch(items.filter((item)=>{
+                    return item.user_location == cityId
+                }));
+                if (search && search.length !==0){
+                    setSaveSearch([...search])
+                }
             }
         }
     };
@@ -53,7 +117,6 @@ const Search = () => {
         dispatch(setApp('kyzmat'));
         dispatch(getItems());
         dispatch(setStatus('search'));
-        setSearch(JSON.parse(localStorage.getItem('array')));
         dispatch(getCategories());
         dispatch(getLocations());
     }, []);
@@ -65,6 +128,12 @@ const Search = () => {
             return item.location_self
         }))
     }, [locations]);
+    useEffect(()=>{
+        searchRegion(selectedRegion)
+    }, [filterCities]);
+    useEffect(()=>{
+        console.log(search)
+    },[search]);
     return (
         <section className='search'>
             <div className="container form_section2">
@@ -84,7 +153,11 @@ const Search = () => {
                     </div>
 
                     <select name="" id="" defaultValue="0" onChange={(e) => {
-                        findRegion(e.target.value)
+                        setSelectedRegion(e.target.value);
+                        setFilterCities(cities.filter((item)=>{
+                            return item.location_self == e.target.value
+                        }));
+                       // findFilter(e.target.value, "user_location");
                     }}>
                         <option disabled value="0">Поиск по области</option>
                         <option value="-1">Отмена</option>
@@ -94,9 +167,27 @@ const Search = () => {
                             })
                         }
                     </select>
+                    {
+                        selectedRegion ?  <select name="" id="" defaultValue="0" onChange={(e) => {
+                            setSelectedCity(e.target.value);
+                            console.log(e.target.selectedOptions[0].title);
+                            console.log(e.target.value);
+                            findFilter(e.target.value, "user_location")
+                        }}>
+                            <option disabled value="0">Поиск по гододу/району</option>
+                            <option value="-1">Отмена</option>
+                            {
+                                filterCities.map((item) => {
+                                    return <option key={item.id} title={item.location_self} value={item.id}>{item.title}</option>
+                                })
+                            }
+                        </select> : ""
+                    }
 
 
-                    <select name="" id="" defaultValue="0">
+                    <select name="" id="" defaultValue="0" onChange={(e)=>{
+                        findFilter(e.target.value, "user_category")
+                    }}>
                         <option value="0">Поиск по категории</option>
                         {
                             categories.map((item) => {
@@ -109,7 +200,7 @@ const Search = () => {
             </div>
             <div className='container'>
                 <div className="search__row row">
-                    {search === null
+                    {!search
                         ? <h2>Введите и делайте поиск</h2>
                         : search.length === 0
                             ? <h2>Ничего не найдено( Проверьте правильно ли вы ввели и пробуйте снова!!</h2>

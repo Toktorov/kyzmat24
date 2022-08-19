@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getCategories, getLocations, setApp, setStatus} from "../../redux/reducers/item";
+import {getCategories, getLocations, setApp, setShowPopup, setStatus} from "../../redux/reducers/item";
 import './order.css'
 import axios from "axios";
+import PopupComponent from "../PopupComponent/PopupComponent";
 
 const Order = () => {
      const [state, setState] = useState(null);
     const categories = useSelector((s) => s.item.categories);
     const locations = useSelector(s => s.item.locations);
+    const showPopup = useSelector(s => s.item.showPopup);
     const [description, setDescription] = useState('');
     const [tel, setTel] = useState('');
     const [email, setEmail] = useState('');
     const [location, setLocation] = useState(null);
     const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [showMessage, setShowMessage] =useState(false);
+    const [message, setMessage] =useState(false);
 
     const addItem = (e) => {
         e.preventDefault();
@@ -30,16 +32,21 @@ const Order = () => {
            .then((data) =>{
                console.log(data);
                setState(data.status);
-               setShowMessage(true)
+               setMessage('Ваш заказ добавлен. Через некоторое время с вами должны связаться')
            })
            .catch(error => {
             console.log(error);
-            if (String(error).includes('Network')){
-             setState('network')
-            }
+             setMessage('Произошла ошибка. Поверьте подключение к интернету и пробуйте снова');
             console.log("Произошла ошибка Кубаныч");
-            setShowMessage(true)
-        });
+           }).finally(()=>{
+           dispatch(setShowPopup(true));
+           setLoading(false);
+           setDescription('');
+           setTel('');
+           setEmail('');
+           setCategory('');
+           setLocation('')
+       });
     };
 
 
@@ -55,23 +62,9 @@ const Order = () => {
     return (
         <>
             {
-                showMessage === true ?  <div className="message">
-                    <p>{state === 201 ? 'Ваш заказ добавлен. Через некоторое время с вами должны связаться':
-                        state === 'network' ? 'Проблемы с соединением. Поверьте подключение к интернету и пробуйте снова' :
-                        'Произошла ошибка. Очень скоро наши специалисты исправят ошибку. Пробуйте обновить страницу и снова повторить попытку или попробуйте сделать это чуть позже'}</p>
-                    <button onClick={()=> {
-                        setShowMessage(false);
-                        setLoading(false);
-                        setDescription('');
-                        setTel('');
-                        setEmail('');
-                        setCategory('');
-                        setLocation('')
-                    }}>ok</button>
-                </div> : ''
+                showPopup  ?
+                    <PopupComponent messageForUsers={message}/> : ''
             }
-
-
             <div className={'form_section'}>
             <form className={'kyzmat_form'} onSubmit={addItem}>
                 <h4>Добавьте объявление</h4>

@@ -30,6 +30,7 @@ const Orders = () => {
                 console.log('update', response);
                 dispatch(getOrders())
             }).catch(error => console.log('2', error.response))
+
         }).catch(error => console.log('3', error.response));
 
     };

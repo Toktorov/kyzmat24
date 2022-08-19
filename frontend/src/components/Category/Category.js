@@ -72,7 +72,7 @@ const Category = () => {
                                         </h3>
                                         <p className="item__descr">{item.description.length > 30 ? `${item.description.slice(0, 29)}...` : item.description}</p>
                                         <p className="item__text"><b>Локация
-                                            :</b>{item.location.length > 30 ? `${item.location.slice(0, 29)}...` : item.location}
+                                            :</b>{item.location ? item.location : "--"}
                                         </p>
                                     </div>
                                 </div>
