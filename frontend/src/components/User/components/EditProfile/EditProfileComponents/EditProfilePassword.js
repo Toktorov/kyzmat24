@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
+import {setShowPopup} from "../../../../../redux/reducers/item";
+import PopupComponent from "../../../../PopupComponent/PopupComponent";
+import {setUser} from "../../../../../redux/reducers/user";
 
 const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) => {
+    const dispatch = useDispatch();
     const user = useSelector(s => s.user.user);
     const id = useSelector(s => s.user.id);
     const authTokens = useSelector(s => s.user.authTokens);
+    const showPopup = useSelector(s => s.item.showPopup);
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
+    const [message, setMessage] = useState('');
 
     const changePassword = (old_password, password, password2) => {
         if (old_password && password && password2 && password === password2) {
@@ -23,15 +29,18 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
                 }
             }).then(response => {
                 console.log(response);
-                alert('Вы успешно поменяли пароль');
+                setMessage('Вы успешно поменяли пароль');
+            }).catch((error) => {
+                console.log(error.response);
+                setMessage('Вы ввели неверный текущий пароль');
+            }).finally(()=>{
                 setLoading('');
-            }).catch(() => {
-                alert('Произошла ошибка(');
-                setLoading('');
+                dispatch(setShowPopup(true))
             })
         } else if (old_password && password && password2 && password !== password2) {
-            alert('Пароли не совпадают(новый)');
+            setMessage('Пароли не совпадают(новый)');
             setLoading('');
+            dispatch(setShowPopup(true))
         }
 
     };
@@ -47,58 +56,76 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
             )
                 .then(response => {
                     console.log(response);
-                    alert(`Было оптравлено сообщение на адрес ${user.email}. Пожалуйста проверьте почту и следуйте инструкции в сообщении`);
-                    setLoading('');
+                    setMessage(`Было оптравлено сообщение на адрес ${user.email}. Пожалуйста проверьте почту и следуйте инструкции в сообщении`);
                 }).catch(() => {
-                alert('Произошла ошибка(');
+                setMessage('Произошла ошибка(');
+            }).finally(()=>{
                 setLoading('');
+                dispatch(setShowPopup(true))
             })
         } else {
-            alert('Для сброса пароли сначала укажите свой email');
+            setMessage('Для сброса пароли сначала укажите свой email');
             setLoading('');
+            dispatch(setShowPopup(true))
         }
 
     };
+
+    useEffect(()=>{
+        dispatch(setUser(id))
+    });
     return (
         <>
-            <div className="editProfile-forms-label">
-                <p>Сменить пароль</p>
-                <input
-                    onChange={e => {
-                        setOldPassword(e.target.value);
-                        if (oldPassword && password && password2) setEditSelect('changePassword')
-                    }}
-                    type="text" placeholder={'Введите старый пароль'}/>
-                <input
-                    onChange={e => {
-                        setPassword(e.target.value);
-                        if (oldPassword && password && password2) setEditSelect('changePassword')
-                    }}
-                    type="text" placeholder={'Введите новый пароль'}/>
-                <input
-                    onChange={e => {
-                        setPassword2(e.target.value);
-                        if (oldPassword && password && password2) setEditSelect('changePassword')
-                    }}
-                    type="text" placeholder={'Подтвердите пароль'}/>
-                {
-                    loading === 'changePassword' ?  <div className={'editPreloader'}>
-                        <div className="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div> :  <button
-                        className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                        onClick={() => changePassword(oldPassword, password, password2)}
-                    >
-                        сохранить
-                    </button>
-                }
-
-            </div>
+            {
+                showPopup ? <PopupComponent messageForUsers={message}/>: ''
+            }
             <p>Настройки пароли</p>
+                <form>
+
+                    <label className="editProfile-forms-label">
+                        <p>Сменить пароль:</p>
+                        <input
+                            onChange={e => {
+                                setOldPassword(e.target.value);
+                                if (oldPassword && password && password2) setEditSelect('changePassword')
+                            }}
+                            type="text" placeholder={'Введите старый пароль'}/>
+                    </label>
+                    <label className="editProfile-forms-label">
+                        <input
+                            onChange={e => {
+                                setPassword(e.target.value);
+                                if (oldPassword && password && password2) setEditSelect('changePassword')
+                            }}
+                            type="text" placeholder={'Введите новый пароль'}/>
+                    </label>
+                    <label className="editProfile-forms-label">
+                        <input
+                            onChange={e => {
+                                setPassword2(e.target.value);
+                                if (oldPassword && password && password2) setEditSelect('changePassword')
+                            }}
+                            type="text" placeholder={'Подтвердите пароль'}/>
+                    </label>
+                    {
+                        loading === 'changePassword' ?  <div className={'editPreloader'}>
+                            <div className="lds-ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div> :  <button
+                            type={'button'}
+                            className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
+                            onClick={() => changePassword(oldPassword, password, password2)}
+                        >
+                            сохранить
+                        </button>
+                    }
+                </form>
+
+<p>Забыли пароль ?</p>
             {
                 loading === 'resetPassword' ?  <div className={'editPreloader'}>
                     <div className="lds-ellipsis">

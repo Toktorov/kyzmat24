@@ -65,10 +65,11 @@ section{
     width: 400px;
     padding: 10px 15px;
     text-align: center;
-    box-shadow: 0px 0px 15px 3px rgba(34, 60, 80, 0.12);
+    box-shadow: 0 0 15px 3px rgba(34, 60, 80, 0.12);
     border-radius: 5px;
+    background-color: white;
 }
-.kyzmat_form input, select {
+.kyzmat_form input, select,textarea {
     font-size: 14px;
     display: block;
     margin: 15px auto;
@@ -77,8 +78,12 @@ section{
     outline: none;
     width: 100%;
     border-radius: 5px;
-    box-shadow: 0px 0px 15px 3px rgba(34, 60, 80, 0.12);
+    box-shadow: 0 0 15px 3px rgba(34, 60, 80, 0.12);
 
+}
+.kyzmat_form textarea{
+    height: 80px;
+    resize: none;
 }
 .kyzmat_option{
     line-height: 150%;

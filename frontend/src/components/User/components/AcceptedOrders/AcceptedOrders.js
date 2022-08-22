@@ -3,6 +3,7 @@ import './acceptedOrders.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getAcceptOrders, logoutUser} from "../../../../redux/reducers/user";
 import axios from "axios";
+import {setHiddenFooter} from "../../../../redux/reducers/app";
 
 const AcceptedOrders = () => {
     const acceptOrders = useSelector(s => s.user.acceptOrders);
@@ -23,6 +24,7 @@ const AcceptedOrders = () => {
 
     useEffect(() => {
         dispatch(getAcceptOrders());
+        dispatch(setHiddenFooter(false))
     }, []);
     return (
         <section className={'accept-orders'}>

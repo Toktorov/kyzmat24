@@ -1,41 +1,7 @@
 
-.user-home {
-    margin-top: 100px;
-    box-shadow: 0 0 5px 3px rgba(206, 206, 206, 0.15);
-    padding: 15px;
-    position: relative;
-}
 
-.home-top {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "top-left top-right" "top-left top-right2";
-    margin-bottom: 15px;
-}
-.top-right{
-    position: relative;
-    grid-area: top-right;
-}
-.top-left{
-    grid-area: top-left;
-    padding: 5px;
-}
-.top-right2{
-    grid-area: top-right2;
-}
 
-.refresh-btn{
-    position: absolute;
-    background-color: transparent;
-    color: orangered;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    right: -10px;
-}
-.refresh-btn:active{
-    transform: scale(1.2);
-}
+
 
 .avatar {
     width: 100%;
@@ -101,7 +67,7 @@
     margin-top: 5px;
 }
 .link_class button{
-    padding: 5px 3      0px;
+    padding: 5px 30px;
     background-color: #ffffff;
     color: orangered;
     border-radius: 5px;
@@ -233,16 +199,7 @@
 
 
 @media screen and (max-width: 760px) {
-   .home-top{
-       grid-template-areas: "top-left top-right" "top-right2 top-right2";
-   }
-    .home-title{
-        font-size: 20px;
-    }
-    .top-right p{
-        font-size: 15px;
-        word-wrap: break-word;
-    }
+
 }
 
 @media screen and (max-width: 560px) {
@@ -251,10 +208,7 @@
         width: 400px;
         height: 250px;
     }
-    .home-top{
-        grid-template-columns: 1fr;
-        grid-template-areas: "top-left" "top-right" "top-right2";
-    }
+
 }
 
 @media screen and (max-width: 450px) {

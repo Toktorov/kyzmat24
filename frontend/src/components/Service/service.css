@@ -1,9 +1,17 @@
 
+.profile {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    top: 0;
+}
+
 .profile__block {
     position: relative;
     background-color: rgba(255, 255, 255, 0.75);
     border-radius: 5px;
-    box-shadow: 0px 0px 8px 5px rgba(34, 60, 80, 0.24);
+    box-shadow: 0 0 8px 5px rgba(34, 60, 80, 0.24);
     margin-top: 100px;
 }
 
@@ -50,37 +58,40 @@
 
 .profile-image {
     max-width: 600px;
-    grid-area: img;
     padding: 5px;
 }
 
 .profile-title {
-    grid-area: title;
     padding: 5px;
 }
-.profile-title b{
+
+.profile-title b {
     font-size: 14px;
     font-weight: 500;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0, 0, 0, 0.6);
 }
-.profile-title p{
+
+.profile-title p {
     font-size: 17px;
     font-weight: 400;
 }
-.profile-title h2{
-     font-size: 22px;
-     font-weight: 500;
- }
+
+.profile-title h2 {
+    font-size: 22px;
+    font-weight: 500;
+}
+
 .profile-info {
-    grid-area: info;
     padding: 5px;
 }
-.profile-info b{
+
+.profile-info b {
     font-size: 14px;
     font-weight: 500;
-    color: rgba(0,0,0,0.6);
+    color: rgba(0, 0, 0, 0.6);
 
 }
+
 .profile-image img {
     width: 100%;
     height: auto;
@@ -128,32 +139,32 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .profile__block {
-
+    .close-link {
+        left: -21px;
     }
-
 
     .profile-top {
         column-gap: 20px;
     }
 
 
-
 }
 
 @media screen and (max-width: 760px) {
     .profile__block {
-
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
     }
-.profile-top{
-    grid-template-areas: "img title" "info info";
-}
 
 
     .profile-bottom > h3 {
         margin: 0;
         font-size: 14px;
         line-height: 17px;
+    }
+    .profile-contact a{
+        font-size: 15px;
     }
 
     .profile-bottom {
@@ -165,10 +176,12 @@
     .profile__block {
 
     }
-    .profile-title h2{
+
+    .profile-title h2 {
         font-size: 18px;
     }
-    .profile-title p{
+
+    .profile-title p {
         font-size: 14px;
     }
 
@@ -188,14 +201,13 @@
 
 @media screen and (max-width: 450px) {
 
-
+    .profile-top {
+        flex-direction: column;
+    }
 
     .profile-bottom > h3 {
         font-size: 12px;
         line-height: 5px;
-    }
-    .profile-top{
-        grid-template-areas: "img img" "title title" "info info";
     }
 
 }
@@ -204,7 +216,6 @@
     .profile__block {
 
     }
-
 
 
 }

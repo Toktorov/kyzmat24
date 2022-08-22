@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import './reviews.css'
 import {useDispatch} from "react-redux";
 import {setApp, setStatus} from "../../redux/reducers/item";
+import {setHiddenFooter} from "../../redux/reducers/app";
 
 
 const Reviews = () => {
@@ -11,6 +12,7 @@ const Reviews = () => {
     useEffect(()=>{
         dispatch(setApp('kyzmat'));
         dispatch(setStatus('review'));
+        dispatch(setHiddenFooter(false))
     },[]);
     return (
 

@@ -1,19 +1,17 @@
 .updateProfile{
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100vh;
     z-index: 5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: rgba(92, 92, 92, 0.5);
+    overflow: auto;
 }
-.updateProfile-form{
-    width: 500px;
-    background-color: orangered;
-    padding: 20px;
-    border-radius: 20px;
+.form-update{
+    margin: 80px auto;
 }
+
 .check{
     margin-left: 10px;
 }
@@ -23,6 +21,9 @@
 .check-red{
     color: white;
 }
-.updateProfile-form p{
-    color: #ffffff;
+
+@media screen and (max-width: 560px) {
+    .form-update{
+        width: 300px;
+    }
 }

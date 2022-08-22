@@ -57,7 +57,7 @@ const SignUp = ({setStatus, loginUser}) => {
                        placeholder="Подтвердите пароль"/>
                 {
                     loading === true ? <div className={'login-preloader'}>
-                        <div className="lds-ring lds-ring-white">
+                        <div className="lds-ring">
                             <div> </div>
                             <div> </div>
                             <div> </div>

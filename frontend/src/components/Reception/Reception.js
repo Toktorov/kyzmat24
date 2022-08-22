@@ -10,7 +10,7 @@ const Reception = () => {
     const status = useSelector((s) => s.item.status);
 
     return (
-        <section className='reception'>
+        <div className='reception'>
             <div className="bg-img" >
                 <img src={Bg} alt=""/>
             </div>
@@ -31,7 +31,7 @@ const Reception = () => {
 
 
             </div>
-        </section>
+        </div>
     );
 };
 

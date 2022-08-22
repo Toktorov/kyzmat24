@@ -1,0 +1,10 @@
+
+
+.about h2{
+    margin-top: 10px;
+}
+
+.about h2:first-child{
+    margin-top: 150px;
+}
+

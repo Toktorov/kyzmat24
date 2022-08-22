@@ -17,11 +17,6 @@
     height: 100%;
 }
 
-.reception .container{
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
 
 .reception__content h2{
     font-size: 32px;
@@ -47,6 +42,8 @@
 }
 
 .reception__content{
+    top: 220px;
+    position: relative;
     display: flex;
     align-items: center;
     row-gap: 30px;
@@ -59,10 +56,14 @@
     .reception{
         height: 450px;
     }
+    .reception__content{
+        top: 200px;
+    }
 }
 
 @media screen and (max-width: 1000px) {
     .reception__content{
+        top: 150px;
         flex-direction: column;
         align-items: flex-start;
     }
@@ -77,7 +78,8 @@
         font-size: 26px;
     }
     .reception__content{
-        column-gap: 20px;
+        top: 120px;
+        row-gap: 15px;
     }
     .reception__btn{
         font-size: 13px;
@@ -101,7 +103,7 @@
     }
     .reception__content{
         row-gap: 10px;
-        margin-top: 70px;
+        top: 80px;
     }
 
     .bg-img, .reception {
@@ -117,14 +119,16 @@
 }
 @media screen and (max-width: 390px) {
     .bg-img, .reception {
+        width: 108%;
         height: 180px;
     }
     .reception__content h2 {
         font-size: 15px;
     }
     .reception__content {
+        top: 30px;
+        left: 80px;
         row-gap: 5px;
-        margin-top: 70px;
     }
 }
 

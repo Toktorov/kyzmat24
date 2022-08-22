@@ -4,11 +4,11 @@ import {setAuthTokens, setId, setNewUser, setUser} from "../../redux/reducers/us
 import './user.css'
 import {useHistory} from 'react-router-dom';
 import altAvatar from '../../img/avatar.jpg';
-import {faPlus,faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faPlus, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Login from "./components/Login/Login";
 import {useDispatch, useSelector} from "react-redux";
-import {setApp} from "../../redux/reducers/item";
+import {getCategories, getLocations, setApp} from "../../redux/reducers/item";
 import SignUp from "./components/SignUp/SignUp";
 import ReactPlayer from "react-player";
 import MediaCreate from "./components/MediaCreate/MediaCreate";
@@ -19,6 +19,8 @@ import {faFacebook, faInstagram, faTelegramPlane, faWhatsapp} from "@fortawesome
 import LogoutPopup from "./LogoutPopup";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
+import {setHiddenFooter} from "../../redux/reducers/app";
+import Footer from "../Footer/Footer";
 
 const User = () => {
     const HELLO_RU = 'Мы рады, что вы проявили интерес к сервису  kyzmat24.\n' +
@@ -83,6 +85,8 @@ const User = () => {
     const user = useSelector(s => s.user.user);
     const authTokens = useSelector(s => s.user.authTokens);
     const id = useSelector(s => s.user.id);
+    const locations = useSelector(s => s.item.locations);
+    const categories = useSelector(s => s.item.categories);
     const [showMediaCreate, setShowMediaCreate] = useState(false);
     const [showEditProfile, setShowEditProfile] = useState(false);
     const [showMediaPopup, setShowMediaPopup] = useState(null);
@@ -90,7 +94,7 @@ const User = () => {
     const [showLogoutPopup, setShowLogoutPopup] = useState(false);
     const dispatch = useDispatch();
 
-    const loginUser = (e , username, password, setLoading, setUserStatus) => {
+    const loginUser = (e, username, password, setLoading, setUserStatus) => {
         setLoading(true);
         e.preventDefault();
         axios.post('/api/token/obtain', {
@@ -115,6 +119,27 @@ const User = () => {
         })
     };
 
+    const getUserLocation = (id) => {
+        if (locations) {
+            let userLocation = locations.filter((item) => {
+                return item.id === id
+            });
+            if (userLocation[0]){
+                return userLocation[0].title
+            }
+        }
+    };
+    const getUserCategory = (id) => {
+        if (categories) {
+            let userCategory = categories.filter((item) => {
+                return item.id === id
+            });
+            if(userCategory[0]){
+                return userCategory[0].content
+            }
+
+        }
+    };
 
     useEffect(() => {
         if (user && authTokens) {
@@ -123,23 +148,26 @@ const User = () => {
     }, [user]);
 
     useEffect(() => {
-       dispatch(setApp('order'));
-           dispatch(setUser(id));
+        dispatch(setApp('order'));
+        dispatch(setUser(id));
+        dispatch(getLocations());
+        dispatch(getCategories());
+        dispatch(setHiddenFooter(true));
     }, []);
 
     return (
-        <section>
+        <section className={"profile"}>
             {
                 showLogoutPopup ? <LogoutPopup setShowLogoutPopup={setShowLogoutPopup}/> : ''
             }
             {
-                showEditProfile ? <EditProfile setShowEditProfile={setShowEditProfile}/>: ''
+                showEditProfile ? <EditProfile setShowEditProfile={setShowEditProfile}/> : ''
             }
             {
                 showMediaCreate ? <MediaCreate setShowMediaCreate={setShowMediaCreate}/> : ''
             }
             {
-                showUpdateProfile ? <UpdateProfile setShowUpdateProfile={setShowUpdateProfile}/>: ''
+                showUpdateProfile ? <UpdateProfile setShowUpdateProfile={setShowUpdateProfile}/> : ''
             }
             {
                 newUser ? <div className={'welcome'}><p> {HELLO_RU} <br/> <br/>{HELLO_KG}</p>
@@ -154,119 +182,143 @@ const User = () => {
                 id ?
                     <div className={'container'}>
                         {
-                            user ? <div className={'user-home'}>
-                                <div className="home-top">
+                            user ? <div className={'profile__block'}>
+                                    <div className="profile-top">
 
-                                    <div className="top-left">
-                                        <img className={'avatar'}
-                                             src={user.profile_image ? user.profile_image : altAvatar}
-                                             alt=""/>
-                                    </div>
+                                        <div className="profile-image">
+                                            <img className={'avatar'}
+                                                 src={user.profile_image ? user.profile_image : altAvatar}
+                                                 alt=""/>
+                                        </div>
 
-                                    <div className="profile-title    top-right">
-                                        <h2 className={'home-title'}>{user.first_name ? user.first_name : user.username} <span>{user.id}</span></h2>
-                                        {
-                                            user.last_name ? <p>{user.first_name} {user.last_name}</p>: ''
-                                        }
-                                        {
-                                            user.first_name ? <p><b>Имя пользователя:</b> {user.username}</p>: ''
-                                        }
-                                        <p className={'home-descr'}><b>Описание:</b> {user.description} </p>
+                                        <div className="profile-text">
+                                            <div className="profile-title">
+                                                <h2>{user.first_name ? user.first_name : user.username}
+                                                    <span>{user.id}</span></h2>
+                                                {
+                                                    user.last_name ? <p>{user.first_name} {user.last_name}</p> : ''
+                                                }
+                                                {
+                                                    user.first_name ? <p><b>Имя пользователя:</b> {user.username}</p> : ''
+                                                }
+                                                <p><b>Описание:</b> {user.description} </p>
+                                            </div>
+
+                                            <div className="profile-info">
+                                                <p><b>Категория:</b> {user.user_category ? getUserCategory(user.user_category): "--"}</p>
+                                                <p><b>Локация:</b> {user.user_location ? getUserLocation(user.user_location): "--"} </p>
+                                                <p><b>Email:</b> {user.email} </p>
+                                                <p><b>Доп-но:</b> доп. инф.</p>
+                                                <p><b>Контакты: </b></p>
+                                                <div className={"profile-contact"}>{
+                                                    user.contact.length === 0 ? '---' :
+                                                        user.contact.map((item) => {
+                                                            if (item.name === 'facebook') {
+                                                                return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                    <FontAwesomeIcon icon={faFacebook}/></a>
+                                                            } else if (item.name === 'whatsapp') {
+                                                                return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                    <FontAwesomeIcon icon={faWhatsapp}/> </a>
+                                                            } else if (item.name === 'instagram') {
+                                                                return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                    <FontAwesomeIcon icon={faInstagram}/></a>
+                                                            } else if (item.name === 'telegram') {
+                                                                return <a key={item.src} href={item.src}
+                                                                          target={'_blank'}><FontAwesomeIcon
+                                                                    icon={faTelegramPlane}/></a>
+                                                            } else {
+                                                                return <a key={item.src} href={item.src}
+                                                                          target={'_blank'}>{item.src}</a>
+                                                            }
+                                                        })
+                                                }</div>
+                                                <div className="link_class">
+                                                    <p><Link to={"/user/edit"} className={'edit-profile-button'}>Редактивровать
+                                                        профиль <FontAwesomeIcon icon={faPenToSquare}/></Link></p>
+                                                    {
+                                                        !user.email ? <>
+                                                            <p className={'verified__message'}>Добавьте email для
+                                                                безопасности! Без email невозможно будет восстановить пароль!!!</p>
+                                                        </> : ''
+                                                    }
+                                                    {
+                                                        user.status_user === 'Free' ? <>
+                                                            <p className={'verified__message'}>Ваш профиль не публичный! Чтобы
+                                                                сделать его публичным <button
+                                                                    onClick={() => setShowUpdateProfile(true)}>НАЖМИТЕ!</button>
+                                                            </p>
+                                                        </> : ''
+                                                    }
+                                                    <button onClick={() => {
+                                                        setShowLogoutPopup(true);
+                                                    }}
+                                                            className={'logout-btn'}>Выйти
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                     </div>
-                                    <div className="profile-info top-right2">
-                                        <p><b>Категория:</b> {user.category}</p>
-                                        <p><b>Локация:</b> {user.location} </p>
-                                        <p><b>Email:</b> {user.email} </p>
-                                        <p><b>Доп-но:</b> доп. инф.</p>
-                                        <p><b>Контакты: </b>{
-                                            user.contact.length === 0 ? '---' :
-                                                user.contact.map((item)=>{
-                                                    if (item.name === 'facebook'){
-                                                        return <a key={item.src} href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faFacebook}/></a>
-                                                    } else if (item.name === 'whatsapp'){
-                                                        return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faWhatsapp}/> </a>
-                                                    } else if (item.name === 'instagram'){
-                                                        return  <a key={item.src}  href={item.src} target={'_blank'}> <FontAwesomeIcon icon={faInstagram}/></a>
-                                                    } else if (item.name === 'telegram'){
-                                                        return <a key={item.src}  href={item.src} target={'_blank'}><FontAwesomeIcon icon={faTelegramPlane}/></a>
+                                    <hr/>
+                                    <div className="profile-bottom">
+
+                                        <div className="bottom-row">
+                                            <button
+                                                onClick={() => setShowMediaCreate(true)}
+                                                className={'button-create-media'}><FontAwesomeIcon icon={faPlus}/></button>
+                                            {
+                                                user.media.map(item => {
+                                                    if (item.name === 'img') {
+                                                        return (
+                                                            <div className={"col-4"} key={item.file}>
+                                                                <div className="profile-images">
+                                                                    {
+                                                                        showMediaPopup === item.id ? <PopupMedia
+                                                                            setShowMediaPopup={setShowMediaPopup}
+                                                                            mediaId={item.id}/> : <button
+                                                                            onClick={() => {
+                                                                                setShowMediaPopup(item.id)
+                                                                            }}
+                                                                            className={'profile-images-btn'}>...</button>
+                                                                    }
+
+                                                                    <a data-fancybox="gallery" href={`${item.file}`}>
+                                                                        <img className='profile-img' src={`${item.file}`}
+                                                                             alt="картина"/>
+                                                                    </a>
+
+                                                                </div>
+                                                            </div>
+                                                        )
                                                     } else {
-                                                        return   <a key={item.src}  href={item.src} target={'_blank'}>{item.src}</a>
+                                                        return (
+                                                            <div className={"col-4"} key={item.src}>
+                                                                <div className="profile-images">
+                                                                    {
+                                                                        showMediaPopup === item.id ? <PopupMedia
+                                                                            setShowMediaPopup={setShowMediaPopup}
+                                                                            mediaId={item.id}/> : <button
+                                                                            onClick={() => {
+                                                                                setShowMediaPopup(item.id)
+                                                                            }}
+                                                                            className={'profile-images-btn'}>...</button>
+                                                                    }
+
+                                                                    <a data-fancybox="gallery" href={`${item.src}`}>
+                                                                        <ReactPlayer className='profile-video'
+                                                                                     url={item.src} controls={true} alt=""/>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        )
+
                                                     }
                                                 })
-                                        }</p>
-                                        <div className="link_class">
-                                        <p><Link to={"/user/edit"} className={'edit-profile-button'}>Редактивровать профиль <FontAwesomeIcon icon={faPenToSquare} /></Link></p>
-                                        {
-                                            !user.verifed ? <>
-                                                <p className={'verified__message'}>Пройдите верификацию для безопасности! <a href="#">подробнее...</a></p>
-                                                <button>Пройти!</button>
-                                            </> : ''
-                                        }
-                                        {
-                                            user.status_user === 'Free' ? <>
-                                                <p className={'verified__message'}>Ваш профиль не публичный! Чтобы сделать его публичным <button onClick={()=> setShowUpdateProfile(true)}>НАЖМИТЕ!</button></p>
-                                            </> : ''
-                                        }
-                                        <button onClick={()=>{
-                                            setShowLogoutPopup(true);
-                                        }}
-                                                className={'logout-btn'}>Выйти</button>
-                                    </div>                                    </div>
-
-                                </div>
-                                <hr/>
-                                <div className="home-bottom">
-
-                                    <div className="bottom-row">
-                                        <button
-                                            onClick={() => setShowMediaCreate(true)}
-                                            className={'button-create-media'}><FontAwesomeIcon icon={faPlus} /></button>
-                                        {
-                                            user.media.map(item => {
-                                                if (item.name === 'img') {
-                                                    return (
-                                                        <div className={"col-4"} key={item.file}>
-                                                            <div  className="profile-images">
-                                                                {
-                                                                    showMediaPopup === item.id ? <PopupMedia setShowMediaPopup={setShowMediaPopup} mediaId={item.id}/> : <button
-                                                                        onClick={()=> {
-                                                                            setShowMediaPopup(item.id)
-                                                                        }}
-                                                                        className={'profile-images-btn'}>...</button>
-                                                                }
-
-                                                                <a data-fancybox="gallery" href={`${item.file}`}>
-                                                                    <img className='profile-img' src={`${item.file}`} alt="картина"/>
-                                                                </a>
-
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                } else {
-                                                    return (
-                                                        <div className={"col-4"} key={item.src}>
-                                                            <div  className="profile-images">
-                                                                {
-                                                                    showMediaPopup === item.id ? <PopupMedia setShowMediaPopup={setShowMediaPopup} mediaId={item.id}/> : <button
-                                                                        onClick={()=> {
-                                                                            setShowMediaPopup(item.id)
-                                                                        }}
-                                                                        className={'profile-images-btn'}>...</button>
-                                                                }
-
-                                                                <a data-fancybox="gallery" href={`${item.src}`}>
-                                                                    <ReactPlayer className='profile-video' url={item.src} controls={true} alt=""/>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    )
-
-                                                }
-                                            })
-                                        }
+                                            }
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                                 : <div className={'preloader'}>
                                     <div className="lds-ring">
                                         <div></div>
@@ -278,8 +330,10 @@ const User = () => {
                         }
                     </div>
 
-                    : status === 'login' ? <Login loginUser={loginUser} setStatus={setStatus}/> : <SignUp loginUser={loginUser} setStatus={setStatus}/>
+                    : status === 'login' ? <Login loginUser={loginUser} setStatus={setStatus}/> :
+                    <SignUp loginUser={loginUser} setStatus={setStatus}/>
             }
+            <Footer/>
         </section>
     );
 };

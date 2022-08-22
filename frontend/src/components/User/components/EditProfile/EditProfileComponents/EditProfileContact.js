@@ -62,7 +62,9 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
         }
             <div className={'editProfile-forms-label'}>
                 <p>контакты:</p>
-                <select onChange={e => {
+                <select
+                    defaultValue={"0"}
+                    onChange={e => {
                     e.target.value === 'watsapp' ?
                         setContact({
                             name: 'whatsapp',
@@ -78,7 +80,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                             });
                     setEditSelect('contact');
                 }}>
-                    <option value="0" selected disabled>Выберите способ связи</option>
+                    <option value="0" disabled>Выберите способ связи</option>
                     <option value="tel">Телефон</option>
                     <option value="whatsapp">WhatsApp</option>
                     <option value="instagram">Instagram</option>
@@ -145,7 +147,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                     {
                         user ?
                             user.contact.map(item => {
-                                return <li className={'editProfile-contact-li'}>
+                                return <li key={item.id} className={'editProfile-contact-li'}>
                                     {item.name} : {item.name === 'telegram'
                                     ? item.src.slice(13)
                                     : item.name === 'instagram'

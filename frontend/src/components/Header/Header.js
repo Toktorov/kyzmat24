@@ -30,10 +30,10 @@ const Header = () => {
                           }}>Главная</Link>
 
                     <Link className={status === 'category' ? 'header__link header__link-active' : 'header__link'}
-                          to={'/category'} onClick={() => {
+                          to={'/about'} onClick={() => {
                         dispatch(setStatus('category'));
                         localStorage.setItem('category', 'restaurant');
-                    }}>Категории</Link>
+                    }}>О нас</Link>
 
                     <Link className={status === 'search' ? 'header__link header__link-active' : 'header__link'}
                           to={'/search'} onClick={() => {

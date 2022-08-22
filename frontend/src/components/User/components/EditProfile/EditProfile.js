@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import "./editProfile.css";
@@ -6,13 +6,18 @@ import EditProfileEdit from "./EditProfileComponents/EditProfileEdit";
 import EditProfileContact from "./EditProfileComponents/EditProfileContact";
 import EditProfilePassword from "./EditProfileComponents/EditProfilePassword";
 import EditProfileAccount from "./EditProfileComponents/EditProfileAccount";
+import {setHiddenFooter} from "../../../../redux/reducers/app";
 
 const EditProfile = () => {
     const user = useSelector(s => s.user.user);
+    const dispatch = useDispatch();
     const [editSection, setEditSection] = useState(localStorage.getItem('editSection') ? localStorage.getItem('editSection') : 'profile');
     const [editSelect, setEditSelect] = useState('');
     const [loading, setLoading] = useState('');
 
+    useEffect(()=>{
+        dispatch(setHiddenFooter(false))
+    });
     return (
         <section className={'editProfile'}>
             <div className="container">

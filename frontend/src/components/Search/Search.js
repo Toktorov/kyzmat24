@@ -4,6 +4,7 @@ import {getItems, setApp, setStatus, getCategories, getLocations} from "../../re
 import {Link} from "react-router-dom";
 import './search.css';
 import avatar from "../../img/avatar.jpg";
+import {setHiddenFooter} from "../../redux/reducers/app";
 
 const Search = () => {
     const [search, setSearch] = useState([]);
@@ -12,6 +13,7 @@ const Search = () => {
     const [saveSearch, setSaveSearch] = useState([]);
     const [selectedRegion, setSelectedRegion] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
+    const [doSearch, setDoSearch] = useState(false);
     const [filterCities, setFilterCities] = useState([]);
     const [name, setName] = useState('');
     const dispatch = useDispatch();
@@ -24,92 +26,95 @@ const Search = () => {
     };
     const find = () => {
         switch (true) {
-            case search && search.length !== 0 :{
+            case search && search.length !== 0 : {
                 console.log('search !0');
                 setSearch(() => {
                     if (name.length === 0) return [];
-                   return  search.filter((el) => {
+                    return search.filter((el) => {
                         return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
                     })
                 });
-                if (search && search.length !== 0){
+                if (search && search.length !== 0) {
                     setSaveSearch([...search])
                 }
                 break;
             }
 
-            case saveSearch.length !== 0 :{
+            case saveSearch.length !== 0 : {
                 console.log('save !0');
                 setSearch(() => {
                     if (name.length === 0) return [];
-                  return saveSearch.filter((el) => {
+                    return saveSearch.filter((el) => {
                         return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
                     })
                 });
-                if (search && search.length !==0){
+                if (search && search.length !== 0) {
                     setSaveSearch([...search])
                 }
                 break;
             }
 
-            default :{
+            default : {
                 console.log("default");
                 setSearch(() => {
                     if (name.length === 0) return [];
-                   return items.filter((el) => {
+                    return items.filter((el) => {
                         return getSearchPattern(el.first_name) || getSearchPattern(el.username) || getSearchPattern(el.description) || getSearchPattern(el.second__name)
                     })
                 });
-                if (search && search.length !==0){
+                if (search && search.length !== 0) {
                     setSaveSearch([...search])
                 }
             }
 
         }
-
+        setDoSearch(true)
     };
     const findFilter = (selectId, selectParameter) => {
-       if (selectId && search.length !== 0){
+        if (selectId && search.length !== 0) {
             setSearch(search.filter((item) => {
                 return item[selectParameter] == selectId
             }));
-           if (search && search.length !==0){
-               setSaveSearch([...search])
-           }
-        }  if (selectId){
-            setSearch(items.filter((item) => {
-                return item[selectParameter] == selectId
-            }));
-            if (search && search.length !==0){
+            if (search && search.length !== 0) {
                 setSaveSearch([...search])
             }
         }
+        if (selectId) {
+            setSearch(items.filter((item) => {
+                return item[selectParameter] == selectId
+            }));
+            if (search && search.length !== 0) {
+                setSaveSearch([...search])
+            }
+        }
+        setDoSearch(true)
     };
-    const searchRegion = (regionId) =>{
-        if (regionId && filterCities.length !== 0){
+    const searchRegion = (regionId) => {
+        if (regionId && filterCities.length !== 0) {
             console.log(regionId);
             console.log(filterCities);
-            let cityId = filterCities.find((item)=>{
+            let cityId = filterCities.find((item) => {
                 return item.location_self == regionId
             }).id;
             console.log(cityId);
-            if (search.length !== 0){
+            if (search.length !== 0) {
                 console.log('search');
-              setSearch(  search.filter((item)=>{
-                  return item.user_location == cityId
-              }));
-                if (search && search.length !==0){
+                setSearch(search.filter((item) => {
+                    return item.user_location == cityId
+                }));
+                if (search && search.length !== 0) {
                     setSaveSearch([...search])
                 }
             } else {
                 console.log("items")
-                setSearch(items.filter((item)=>{
+                setSearch(items.filter((item) => {
                     return item.user_location == cityId
                 }));
-                if (search && search.length !==0){
+                if (search && search.length !== 0) {
                     setSaveSearch([...search])
                 }
             }
+            setDoSearch(true)
         }
     };
 
@@ -119,6 +124,7 @@ const Search = () => {
         dispatch(setStatus('search'));
         dispatch(getCategories());
         dispatch(getLocations());
+        dispatch(setHiddenFooter(false));
     }, []);
     useEffect(() => {
         setRegions(locations.filter((item) => {
@@ -128,17 +134,17 @@ const Search = () => {
             return item.location_self
         }))
     }, [locations]);
-    useEffect(()=>{
+    useEffect(() => {
         searchRegion(selectedRegion)
     }, [filterCities]);
-    useEffect(()=>{
+    useEffect(() => {
         console.log(search)
-    },[search]);
+    }, [search]);
     return (
         <section className='search'>
             <div className="container form_section2">
                 <div className="kyzmat_form search__filter">
-                        <div className=" search__left">
+                    <div className=" search__left">
                         <input
                             onKeyDown={(e) => e.code === 'Enter' && name.length !== 0 ? find() : ''}
                             onChange={(e) => {
@@ -154,10 +160,9 @@ const Search = () => {
 
                     <select name="" id="" defaultValue="0" onChange={(e) => {
                         setSelectedRegion(e.target.value);
-                        setFilterCities(cities.filter((item)=>{
+                        setFilterCities(cities.filter((item) => {
                             return item.location_self == e.target.value
                         }));
-                       // findFilter(e.target.value, "user_location");
                     }}>
                         <option disabled value="0">Поиск по области</option>
                         <option value="-1">Отмена</option>
@@ -168,7 +173,7 @@ const Search = () => {
                         }
                     </select>
                     {
-                        selectedRegion ?  <select name="" id="" defaultValue="0" onChange={(e) => {
+                        selectedRegion ? <select name="" id="" defaultValue="0" onChange={(e) => {
                             setSelectedCity(e.target.value);
                             console.log(e.target.selectedOptions[0].title);
                             console.log(e.target.value);
@@ -178,14 +183,15 @@ const Search = () => {
                             <option value="-1">Отмена</option>
                             {
                                 filterCities.map((item) => {
-                                    return <option key={item.id} title={item.location_self} value={item.id}>{item.title}</option>
+                                    return <option key={item.id} title={item.location_self}
+                                                   value={item.id}>{item.title}</option>
                                 })
                             }
                         </select> : ""
                     }
 
 
-                    <select name="" id="" defaultValue="0" onChange={(e)=>{
+                    <select name="" id="" defaultValue="0" onChange={(e) => {
                         findFilter(e.target.value, "user_category")
                     }}>
                         <option value="0">Поиск по категории</option>
@@ -200,9 +206,9 @@ const Search = () => {
             </div>
             <div className='container'>
                 <div className="search__row row">
-                    {!search
+                    {search.length === 0 && !doSearch
                         ? <h2>Введите и делайте поиск</h2>
-                        : search.length === 0
+                        : search.length === 0 && doSearch
                             ? <h2>Ничего не найдено( Проверьте правильно ли вы ввели и пробуйте снова!!</h2>
                             : search.map((item) => {
                                 return (

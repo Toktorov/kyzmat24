@@ -19,6 +19,7 @@
 
 .editProfile-forms-label{
     margin-bottom: 20px;
+    display: block;
 }
 .editProfile-forms-label p{
     color: rgba(0,0,0,0.7);
@@ -171,6 +172,7 @@
 
     .editProfile-select-btns-button {
         padding: 10px;
+        font-size: 14px;
     }
     .editProfile-forms-button-contact{
         margin-left: 0;

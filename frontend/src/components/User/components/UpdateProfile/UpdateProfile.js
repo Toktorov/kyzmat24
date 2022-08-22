@@ -44,108 +44,111 @@ const UpdateProfile = ({setShowUpdateProfile}) => {
     };
     return (
         <div className={'updateProfile'}>
-            <div className="updateProfile-form">
-                <label>
-                    <p>Введите имя или название оранизации если вы являетесь организацией(обязательно){
-                        firstName ? <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
-                            : <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
-                    }</p>
-                    <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
 
-                </label>
-                <label>
-                    <p>Введите фамилию или полное название компании(не обязательно) {
-                        lastName ? <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
-                            : <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
-                    }</p>
-                    <input type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                <form className="kyzmat_form form-update">
+                    <label>
+                        <p>Введите имя или название оранизации если вы являетесь организацией(обязательно){
+                            firstName ? <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
+                                : <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
+                        }</p>
+                        <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
 
-                </label>
-                <label>
-                    <p>Добавьте описание о вашей деятельности(обязательно) {
-                        description.trim() === 'Пользователь не добавил описание' || !description ?
-                            <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span> :
-                            <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
-                    }</p>
-                    <textarea value={description} onChange={e => setDescription(e.target.value)}>
+                    </label>
+                    <label>
+                        <p>Введите фамилию или полное название компании(не обязательно) {
+                            lastName ? <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
+                                : <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
+                        }</p>
+                        <input type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
+
+                    </label>
+                    <label>
+                        <p>Добавьте описание о вашей деятельности(обязательно) {
+                            description.trim() === 'Пользователь не добавил описание' || !description ?
+                                <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span> :
+                                <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
+                        }</p>
+                        <textarea value={description} onChange={e => setDescription(e.target.value)}>
 
                     </textarea>
 
-                </label>
-                <label>
-                    <p>Добавьте фото профиля(обязательно) {
-                        profileImage ?
-                            <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
-                            : <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
-                    }</p>
-                    <input type="file" onChange={e => setProfileImage(e.target.files[0])}/>
+                    </label>
+                    <label>
+                        <p>Добавьте фото профиля(обязательно) {
+                            profileImage ?
+                                <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
+                                : <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
+                        }</p>
+                        <input type="file" onChange={e => setProfileImage(e.target.files[0])}/>
 
-                </label>
-                <label>
-                    <p>Добавьте свои контакты(обязательно) {
-                        contact.length === 0 ?
-                            <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
-                            : <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
-                    }</p>
-                    <select onChange={e => {
-                        e.target.value === 'watsapp' ?
-                            setContact({
-                                name: 'whatsapp',
-                                user: id
-                            }) :
-                            e.target.value === 'another' ?
+                    </label>
+                    <label>
+                        <p>Добавьте свои контакты(обязательно) {
+                            contact.length === 0 ?
+                                <span className={'check check-red'}><FontAwesomeIcon icon={faCircleXmark}/></span>
+                                : <span className={'check check-green'}><FontAwesomeIcon icon={faCircleCheck}/></span>
+                        }</p>
+                        <select onChange={e => {
+                            e.target.value === 'watsapp' ?
                                 setContact({
+                                    name: 'whatsapp',
                                     user: id
                                 }) :
-                                setContact({
-                                    name: e.target.value,
-                                    user: id
-                                })
-                    }}>
-                        <option value="0" selected disabled>Выберите способ связи</option>
-                        <option value="tel">Телефон</option>
-                        <option value="whatsapp">WhatsApp</option>
-                        <option value="instagram">Instagram</option>
-                        <option value="telegram">Telegram</option>
-                        <option value="twitter">Twitter</option>
-                        <option value="facebook">Facebook</option>
-                        <option value="another">Другое</option>
-                    </select>
-                    {
-                        contact.name === 'tel' ?
-                            <input type="tel" placeholder={'Введите номер'} onChange={e => setContact({
-                                ...contact,
-                                src: e.target.value
-                            })}/> :
-                            contact.name === 'whatsapp' ?
-                                <>
-                                    <span>Обязательно пишите с кодом страны</span>
-                                    <input type="tel" placeholder={'Введите номер'} onChange={e => setContact({
-                                        ...contact,
-                                        src: `https://wa.me/${e.target.value}`
-                                    })}/></> :
-                                contact.name === 'instagram' || contact.name === 'telegram' || contact.name === 'twitter' || contact.name === 'facebook' ?
-                                    <input type="text" placeholder={'Вставьте ссылку'} onChange={e => setContact({
-                                        ...contact,
-                                        src: e.target.value
-                                    })}/>
-                                    :
+                                e.target.value === 'another' ?
+                                    setContact({
+                                        user: id
+                                    }) :
+                                    setContact({
+                                        name: e.target.value,
+                                        user: id
+                                    })
+                        }}>
+                            <option value="0" selected disabled>Выберите способ связи</option>
+                            <option value="tel">Телефон</option>
+                            <option value="whatsapp">WhatsApp</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="telegram">Telegram</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="another">Другое</option>
+                        </select>
+                        {
+                            contact.name === 'tel' ?
+                                <input type="tel" placeholder={'Введите номер'} onChange={e => setContact({
+                                    ...contact,
+                                    src: e.target.value
+                                })}/> :
+                                contact.name === 'whatsapp' ?
                                     <>
-                                        <input type="text" placeholder={'Введите свой вариант'}
-                                               onChange={e => setContact({
-                                                   ...contact,
-                                                   name: e.target.value
-                                               })}/>
+                                        <span>Обязательно пишите с кодом страны</span>
+                                        <input type="tel" placeholder={'Введите номер'} onChange={e => setContact({
+                                            ...contact,
+                                            src: `https://wa.me/${e.target.value}`
+                                        })}/></> :
+                                    contact.name === 'instagram' || contact.name === 'telegram' || contact.name === 'twitter' || contact.name === 'facebook' ?
                                         <input type="text" placeholder={'Вставьте ссылку'} onChange={e => setContact({
                                             ...contact,
                                             src: e.target.value
                                         })}/>
-                                    </>
-                    }
-                </label>
-                <button onClick={()=> updateProfileFunc()}>Сделать публичным!</button>
-                <button onClick={() => setShowUpdateProfile(false)}>Закрыть</button>
-            </div>
+                                        :
+                                        <>
+                                            <input type="text" placeholder={'Введите свой вариант'}
+                                                   onChange={e => setContact({
+                                                       ...contact,
+                                                       name: e.target.value
+                                                   })}/>
+                                            <input type="text" placeholder={'Вставьте ссылку'} onChange={e => setContact({
+                                                ...contact,
+                                                src: e.target.value
+                                            })}/>
+                                        </>
+                        }
+                    </label>
+                    <button onClick={()=> updateProfileFunc()}>Сделать публичным!</button>
+                    <button onClick={() => setShowUpdateProfile(false)}>Закрыть</button>
+                </form>
+
+
 
         </div>
     );

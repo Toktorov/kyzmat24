@@ -1,0 +1,22 @@
+.order-details{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+}
+
+.order-details-card{
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 0 8px 5px rgba(34, 60, 80, 0.24);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.order-details-go-back{
+    color: orangered;
+    background-color: transparent;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+}
