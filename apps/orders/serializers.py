@@ -44,7 +44,7 @@ class OrderAcceptUpdateSerializer(serializers.ModelSerializer):
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('description', 'tel', 'email', 'location', 'category')
+        fields = ('user', 'description', 'tel', 'email', 'location', 'category')
 
 class OrderDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only = True)
