@@ -1,4 +1,5 @@
 from dataclasses import field
+from secrets import choice
 from rest_framework import serializers
 from apps.users.models import User, Contact, Media
 from apps.orders.models import AcceptOrder, Order
@@ -21,10 +22,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
+    CUSTOMER_OR_EMPLOYEE = (
+        ('Заказчик', 'Заказчик'),
+        ('Работник', 'Работник'),
+    )
+    customer_or_employee = serializers.ChoiceField(choices=CUSTOMER_OR_EMPLOYEE)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2')
+        fields = ('username', 'password', 'password2', 'customer_or_employee')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:

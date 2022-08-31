@@ -55,6 +55,11 @@ class User(AbstractUser):
         ('Pro', 'Pro'),
     )
     status_user = models.CharField(choices=USER_STATUS, default="Free", max_length=20)
+    CUSTOMER_OR_EMPLOYEE = (
+        ('Заказчик', 'Заказчик'),
+        ('Работник', 'Работник'),
+    )
+    customer_or_employee = models.CharField(choices=CUSTOMER_OR_EMPLOYEE, max_length=255, blank = True, null = True, default = "Работник")
 
     def __str__(self):
         return f"{self.username} -- {self.description}"
