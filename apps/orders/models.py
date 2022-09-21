@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_user")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_user", null = True,  blank = True)
     title = models.CharField(max_length=250, help_text = "Название продукта", blank=True, null = True)
     description = models.TextField(help_text="Описание продукта", blank=True, null = True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null = True)

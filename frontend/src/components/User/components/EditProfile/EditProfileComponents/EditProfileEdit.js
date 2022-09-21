@@ -76,78 +76,143 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
             {
                 showPopup ? <PopupComponent messageForUsers={message}/> : ''
             }
-            <div className={'editProfile-forms-label'}>
-                <p className={'editProfile-label-profilePhoto-text'}>Изменить/добавить фото профиля:</p>
-                <label className={'editProfile-label-profilePhoto'}>
-                    {
-                        profileImageText()
-                    }
-                    <input className={'editProfile-input-profilePhoto'}
-                           onChange={(e) => {
-                               setProfile_image(e.target.files[0]);
-                               setEditSelect(true)
-                           }} accept='image/*'
-                           type="file"/>
-                </label>
-            </div>
 
-            <div className={'editProfile-forms-label'}>
-                <p>Как вас зовут или название организации(компании):</p>
-                <input type="text" value={first_name} onChange={e => {
-                    setFirst_name(e.target.value);
-                    setEditSelect(true)
-                }}/>
+            <div className="col-lg-6 social-media">
+                <h3 className="mb-20">Редактировать</h3>
+                <div className="form-group space-y-10">
+                    <div className="space-y-40">
+                        <div className="d-flex flex-column">
+                            <span className="nameInput mb-10">Как вас зовут или название организации(компании)</span>
+                            <input type="text" className="form-control"
+                                   value={first_name}
+                            onChange={(e)=>{
+                                      setFirst_name(e.target.value);
+                                      setEditSelect(true)
+                            }}
+                            />
 
 
-            </div>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <span className="nameInput mb-10">Фамилия или полное название организации(компании)</span>
+                            <input type="text" className="form-control"
+                                   value={last_name}
+                            onChange={(e)=>{
+                                setLast_name(e.target.value);
+                                setEditSelect(true)
+                            }}
+                            />
 
-            <div className={'editProfile-forms-label'}>
-                <p>Фамилия или полное название организации(компании):</p>
-                <input
-                    type="text" value={last_name} onChange={e => {
-                    setLast_name(e.target.value);
-                    setEditSelect(true)
-                }}/>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <span className="nameInput mb-10">Описание</span>
+                            <input type="text" className="form-control"
+                                   value={description}
+                            onChange={(e)=>{
+                                setDescription(e.target.value);
+                                setEditSelect(true)
+                            }}
+                            />
 
-            </div>
-
-            <div className={'editProfile-forms-label'}>
-                <p>описание:</p>
-                <textarea value={description} onChange={e => {
-                    setDescription(e.target.value);
-                    setEditSelect(true)
-                }}>
-
-                        </textarea>
-            </div>
-
-            <div className={'editProfile-forms-label'}>
-                <p>другое:</p>
-                <input type="text" value={another != null ? another: ''} onChange={e => {
-                    setAnother(e.target.value);
-                    setEditSelect(true)
-                }}/>
-            </div>
-            {
-                loading ? <div className={'editPreloader'}>
-                    <div className="lds-ellipsis">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        </div>
                     </div>
-                </div> : <button
-                    className={editSelect
-                        ? 'editProfile-forms-button editProfile-forms-button-descr editProfile-forms-button-selected'
-                        : 'editProfile-forms-button editProfile-forms-button-descr'}
-                    type={'button'} onClick={() => {
-                    if (editSelect){
-                        updateUser()
+                </div>
+                <div>
+                    {
+                            loading ? <div className={'editPreloader'}>
+                            <div className="lds-ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div> :
+                                <button
+                                    onClick={()=>{
+                                        if (editSelect){
+                                            updateUser()
+                                        }
+                                    }}
+                                    className="btn btn-grad">Сохранить</button>
+
                     }
-                    }
-                }>сохранить
-                </button>
-            }
+
+                    </div>
+            </div>
+            {/*<div className={'editProfile-forms-label'}>*/}
+            {/*    <p className={'editProfile-label-profilePhoto-text'}>Изменить/добавить фото профиля:</p>*/}
+            {/*    <label className={'editProfile-label-profilePhoto'}>*/}
+            {/*        {*/}
+            {/*            profileImageText()*/}
+            {/*        }*/}
+            {/*        <input className={'editProfile-input-profilePhoto'}*/}
+            {/*               onChange={(e) => {*/}
+            {/*                   setProfile_image(e.target.files[0]);*/}
+            {/*                   setEditSelect(true)*/}
+            {/*               }} accept='image/*'*/}
+            {/*               type="file"/>*/}
+            {/*    </label>*/}
+            {/*</div>*/}
+
+
+
+            {/*<div className={'editProfile-forms-label'}>*/}
+            {/*    <p>Как вас зовут или название организации(компании):</p>*/}
+            {/*    <input type="text" value={first_name} onChange={e => {*/}
+            {/*        setFirst_name(e.target.value);*/}
+            {/*        setEditSelect(true)*/}
+            {/*    }}/>*/}
+
+
+            {/*</div>*/}
+
+            {/*<div className={'editProfile-forms-label'}>*/}
+            {/*    <p>Фамилия или полное название организации(компании):</p>*/}
+            {/*    <input*/}
+            {/*        type="text" value={last_name} onChange={e => {*/}
+            {/*        setLast_name(e.target.value);*/}
+            {/*        setEditSelect(true)*/}
+            {/*    }}/>*/}
+
+            {/*</div>*/}
+
+            {/*<div className={'editProfile-forms-label'}>*/}
+            {/*    <p>описание:</p>*/}
+            {/*    <textarea value={description} onChange={e => {*/}
+            {/*        setDescription(e.target.value);*/}
+            {/*        setEditSelect(true)*/}
+            {/*    }}>*/}
+
+            {/*            </textarea>*/}
+            {/*</div>*/}
+
+            {/*<div className={'editProfile-forms-label'}>*/}
+            {/*    <p>другое:</p>*/}
+            {/*    <input type="text" value={another != null ? another: ''} onChange={e => {*/}
+            {/*        setAnother(e.target.value);*/}
+            {/*        setEditSelect(true)*/}
+            {/*    }}/>*/}
+            {/*</div>*/}
+            {/*{*/}
+            {/*    loading ? <div className={'editPreloader'}>*/}
+            {/*        <div className="lds-ellipsis">*/}
+            {/*            <div></div>*/}
+            {/*            <div></div>*/}
+            {/*            <div></div>*/}
+            {/*            <div></div>*/}
+            {/*        </div>*/}
+            {/*    </div> : <button*/}
+            {/*        className={editSelect*/}
+            {/*            ? 'editProfile-forms-button editProfile-forms-button-descr editProfile-forms-button-selected'*/}
+            {/*            : 'editProfile-forms-button editProfile-forms-button-descr'}*/}
+            {/*        type={'button'} onClick={() => {*/}
+            {/*        if (editSelect){*/}
+            {/*            updateUser()*/}
+            {/*        }*/}
+            {/*        }*/}
+            {/*    }>сохранить*/}
+            {/*    </button>*/}
+            {/*}*/}
         </>
     );
 };

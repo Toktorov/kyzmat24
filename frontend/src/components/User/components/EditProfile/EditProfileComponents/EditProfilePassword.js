@@ -79,65 +79,61 @@ const EditProfilePassword = ({editSelect, setEditSelect, loading, setLoading}) =
             {
                 showPopup ? <PopupComponent messageForUsers={message}/>: ''
             }
-            <p>Настройки пароли</p>
-                <form>
+            <div className="col-lg-6 social-media">
+                <h3 className="mb-20">Настройки пароли</h3>
+                <div className="form-group space-y-10">
+                    <div className="space-y-40">
+                        <div className="d-flex flex-column">
+                            <span className="nameInput mb-10">Сменить пароль</span>
+                            <input type="text" className="form-control"
+                                   onChange={e =>{
+                                       setOldPassword(e.target.value)
+                                   }}
+                                   placeholder="Введите старый пароль"/>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <input type="text" className="form-control"
+                                   onChange={e =>{
+                                       setPassword(e.target.value)
+                                   }}
+                                   placeholder="Введите новый пароль"/>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <input type="text" className="form-control"
+                                   onChange={e =>{
+                                       setPassword2(e.target.value)
+                                   }}
+                                   placeholder="Подтвердите новый пароль"/>
 
-                    <label className="editProfile-forms-label">
-                        <p>Сменить пароль:</p>
-                        <input
-                            onChange={e => {
-                                setOldPassword(e.target.value);
-                                if (oldPassword && password && password2) setEditSelect('changePassword')
-                            }}
-                            type="text" placeholder={'Введите старый пароль'}/>
-                    </label>
-                    <label className="editProfile-forms-label">
-                        <input
-                            onChange={e => {
-                                setPassword(e.target.value);
-                                if (oldPassword && password && password2) setEditSelect('changePassword')
-                            }}
-                            type="text" placeholder={'Введите новый пароль'}/>
-                    </label>
-                    <label className="editProfile-forms-label">
-                        <input
-                            onChange={e => {
-                                setPassword2(e.target.value);
-                                if (oldPassword && password && password2) setEditSelect('changePassword')
-                            }}
-                            type="text" placeholder={'Подтвердите пароль'}/>
-                    </label>
+                        </div>
+                    </div>
+                </div>
+                <div>
                     {
-                        loading === 'changePassword' ?  <div className={'editPreloader'}>
+                        loading === 'resetPassword' || loading === 'changePassword'?  <div className={'editPreloader'}>
                             <div className="lds-ellipsis">
                                 <div></div>
                                 <div></div>
                                 <div></div>
                                 <div></div>
                             </div>
-                        </div> :  <button
-                            type={'button'}
-                            className={editSelect === "changePassword" ? 'editProfile-forms-button editProfile-forms-button-selected' : 'editProfile-forms-button'}
-                            onClick={() => changePassword(oldPassword, password, password2)}
-                        >
-                            сохранить
-                        </button>
+                        </div> : <>
+                            <button
+                                onClick={()=>{
+                                    changePassword(oldPassword, password, password2)
+                                }}
+                                className="btn btn-grad">Сменить пароль</button>
+                            <br/>
+                            <br/>
+                            <div className="hr"> </div>
+                            <br/>
+                            <button className="btn btn-grad" onClick={() => resetPassword()}>Сбросить пароль</button>
+                        </>
                     }
-                </form>
-
-<p>Забыли пароль ?</p>
-            {
-                loading === 'resetPassword' ?  <div className={'editPreloader'}>
-                    <div className="lds-ellipsis">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
                     </div>
-                </div> :
-                    <button className={'editProfile-forms-button'} onClick={() => resetPassword()}>Сбросить пароль</button>
 
-            }
+            </div>
+
         </>
     );
 };

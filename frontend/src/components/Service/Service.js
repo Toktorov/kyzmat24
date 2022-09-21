@@ -53,112 +53,124 @@ const Service = () => {
     return (
 
 
-        <section className="profile">
-            <div className="container">
-                {
-                    JSON.stringify(service) === "{}" || JSON.stringify(service) === "[]" ? '' :
-                        <div className="profile__block">
-                            <Link className="close-link" to={"#"} onClick={() => {
-                                dispatch(goBack);
-                            }}> <FontAwesomeIcon icon={faRightFromBracket}/></Link>
-                            <div className="profile-top">
-                                {
-                                    !service.profile_image
-                                        ? <div className={"profile-image"}><img src={avatar} alt=""/></div>
-                                        :
-                                        <div className={"profile-image"}><img src={service.profile_image} alt=""/></div>
-                                }
-                                <div className="profile-text">
-                                    <div className="profile-title">
-                                        <h2>{service.first_name ? service.first_name : service.username}</h2>
-                                        {
-                                            service.last_name ? <p>{service.first_name} {service.last_name}</p> : ''
-                                        }
-                                        {
-                                            service.first_name ? <p><b>Имя пользователя:</b> {service.username}</p> : ''
-                                        }
-                                        <p><b>Описание: </b>{service.description}</p>
-                                    </div>
-                                    <div className="profile-info">
-                                        <p><b>Категория:</b>
-                                             <span> {service.user_category ? getUserCategory(service.user_category) : "---"}</span></p>
-                                        <p><b>Локация:</b>
-                                             <span> {service.user_location ? getUserLocation(service.user_location) : "---"}</span>
-                                        </p>
-                                        <p><b>Email:</b> <a href={`mailto: ${service.email}`}>{service.email}</a></p>
-                                        <p><b>Контакты:</b></p>
-                                        <div className="profile-contact">
-                                            {
-                                                service.contact.length === 0 ? <p> --- </p> :
-                                                    service.contact.map((item) => {
-                                                        if (item.name === 'facebook') {
-                                                            return <a key={item.src} href={item.src} target={'_blank'}>
-                                                                <FontAwesomeIcon icon={faFacebook}/></a>
-                                                        } else if (item.name === 'whatsapp') {
-                                                            return <a key={item.src} href={item.src} target={'_blank'}>
-                                                                <FontAwesomeIcon icon={faWhatsapp}/> </a>
-                                                        } else if (item.name === 'instagram') {
-                                                            return <a key={item.src} href={item.src} target={'_blank'}>
-                                                                <FontAwesomeIcon icon={faInstagram}/></a>
-                                                        } else if (item.name === 'telegram') {
-                                                            return <a key={item.src} href={item.src}
-                                                                      target={'_blank'}><FontAwesomeIcon
-                                                                icon={faTelegramPlane}/></a>
-                                                        } else if (item.name === 'tel') {
-                                                            return <a href={`tel:${item.src}`}>{item.src}</a>
-                                                        } else {
-                                                            return <a key={item.src} href={item.src}
-                                                                      target={'_blank'}>{item.name}</a>
-                                                        }
-                                                    })
-                                            }
-
+        <>
+            {
+                JSON.stringify(service) === '{}' ? ""
+                    :<div className="container">
+                        <Link to={"/"} className="btn btn-white btn-sm my-40">
+                            Назад на главную
+                        </Link>
+                        <div className="item_details">
+                            <div className="row sm:space-y-20">
+                                <div className="col-lg-6">
+                                    <img className="item_img" src={service.profile_image}
+                                         alt=""/>
+                                </div>
+                                <div className="col-lg-6">
+                                    <div className="space-y-20">
+                                        <h3>{service.first_name}</h3>
+                                        <div className="d-flex justify-content-between">
+                                            <div className="space-x-10 d-flex align-items-center">
+                                                <p>Имя пользователя: {service.username}</p>
+                                            </div>
                                         </div>
+                                        <div className="box">
+                                            <div className="space-y-20">
+                                                <div className="tab-content">
+                                                    <div className="tab-pane active" id="tabs-1"
+                                                         role="tabpanel">
+                                                        <p><span
+                                                            className="txt txt_sm_bold color_black">Описание: </span>
+                                                            {service.description}
+                                                        </p>
+                                                        <p>
+                                                            <span className="txt txt_sm_bold color_black">Категория: </span>
+                                                            {getUserCategory(service.user_category)}
+                                                        </p>
+                                                        <p>
+                                                            <span className="txt txt_sm_bold color_black">Локация: </span>
+                                                            {service.user_location ? getUserLocation(service.user_location): "--"}
+                                                        </p>
+                                                        <p>
+                                                            <span className="txt txt_sm_bold color_black">Email: </span>
+                                                            {service.email}
+                                                        </p>
+                                                        <p>
+                                                            <span className="txt txt_sm_bold color_black">Контакты: </span>
+                                                            {
+                                                                service.contact.length === 0 ? <p> --- </p> :
+                                                                                                    service.contact.map((item) => {
+                                                                                                        if (item.name === 'facebook') {
+                                                                                                            return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                                                                <FontAwesomeIcon icon={faFacebook}/></a>
+                                                                                                        } else if (item.name === 'whatsapp') {
+                                                                                                            return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                                                                <FontAwesomeIcon icon={faWhatsapp}/> </a>
+                                                                                                        } else if (item.name === 'instagram') {
+                                                                                                            return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                                                                <FontAwesomeIcon icon={faInstagram}/></a>
+                                                                                                        } else if (item.name === 'telegram') {
+                                                                                                            return <a key={item.src} href={item.src}
+                                                                                                                      target={'_blank'}><FontAwesomeIcon
+                                                                                                                icon={faTelegramPlane}/></a>
+                                                                                                        } else if (item.name === 'tel') {
+                                                                                                            return <a href={`tel:${item.src}`}>{item.src}</a>
+                                                                                                        } else {
+                                                                                                            return <a key={item.src} href={item.src}
+                                                                                                                      target={'_blank'}>{item.name}</a>
+                                                                                                        }
+                                                                                                    })
+                                                            }
+                                                        </p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="hr2"></div>
                                     </div>
                                 </div>
                             </div>
-                            <hr/>
-                            <div className="profile-bottom">
-                                <h3>ФОТО/ВИДЕО</h3>
-                                <div className="profile-media">
-                                    {
-                                        !service.media ? <p>Пользователь пока не загрузил</p> :
-                                            service.media.map((item) => {
-                                                if (item.name === 'img') {
-                                                    return (
-                                                        <div className={'col-4'} key={item.file}>
-                                                            <div className="profile-images">
-                                                                <a data-fancybox="gallery" href={`${item.file}`}>
-                                                                    <img className='profile-img' src={`${item.file}`}
-                                                                         alt="картина"/>
-                                                                </a>
-                                                            </div>
+                        </div>
+                        <div className="mb-50 top_margin">
+                            <h3 className="mb-30">Фото/Видео</h3>
+                            <div className="row profile-img display-flex">
+                                {
+                                    !service.media ? <p>Пользователь пока не загрузил</p> :
+                                        service.media.map((item) => {
+                                            if (item.name === 'img') {
+                                                return (
+                                                    <div className={'col-2'} key={item.file}>
+                                                        <div className="profile-images">
+                                                            <a data-fancybox="gallery" href={`${item.file}`}>
+                                                                <img className='profile-img' src={`${item.file}`}
+                                                                     alt="картина"/>
+                                                            </a>
                                                         </div>
-                                                    )
-                                                } else {
-                                                    return (
-                                                        <div className={'col-4'} key={item.src}>
-                                                            <div className="profile-images">
-                                                                <a data-fancybox="gallery" href={`${item.src}`}>
-                                                                    <ReactPlayer className='profile-video'
-                                                                                 url={item.src} controls={true} alt=""/>
-                                                                </a>
-                                                            </div>
+                                                    </div>
+                                                )
+                                            } else {
+                                                return (
+                                                    <div className={'col-2'} key={item.src}>
+                                                        <div className="profile-images">
+                                                            <a data-fancybox="gallery" href={`${item.src}`}>
+                                                                <ReactPlayer className='profile-video'
+                                                                             url={item.src} controls={true} alt=""/>
+                                                            </a>
                                                         </div>
-                                                    )
+                                                    </div>
+                                                )
 
-                                                }
-                                            })}
-
-                                </div>
+                                            }
+                                        })}
 
 
                             </div>
                         </div>
-                }
-            </div>
+                    </div>
+            }
             <Footer/>
-        </section>
+        </>
 
 
     );

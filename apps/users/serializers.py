@@ -22,15 +22,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
-    CUSTOMER_OR_EMPLOYEE = (
-        ('Заказчик', 'Заказчик'),
-        ('Работник', 'Работник'),
-    )
-    customer_or_employee = serializers.ChoiceField(choices=CUSTOMER_OR_EMPLOYEE)
+    # CUSTOMER_OR_EMPLOYEE = (
+    #     ('Заказчик', 'Заказчик'),
+    #     ('Работник', 'Работник'),
+    # )
+    # customer_or_employee = serializers.ChoiceField(choices=CUSTOMER_OR_EMPLOYEE)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'password2', 'customer_or_employee')
+        fields = ('username', 'password', 'password2')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:

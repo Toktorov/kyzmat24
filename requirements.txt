@@ -40,7 +40,6 @@ phonenumbers==8.12.48
 Pillow==9.1.0
 prompt-toolkit==3.0.29
 psycopg-binary==3.0.15
-psycopg2==2.9.3
 pycparser==2.21
 PyJWT==2.3.0
 pyotp==2.6.0

@@ -10,14 +10,32 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
     const id = useSelector(s => s.user.id);
     const showPopup = useSelector(s => s.item.showPopup);
     const dispatch = useDispatch();
-
+    const [selectedContact, setSelectedContact] = useState('');
     const [contact, setContact] = useState({});
     const [deleteContactConfirm, setDeleteContactConfirm] = useState(null);
     const [message, setMessage] = useState('');
 
+    const selectContactFunc = (e) => {
+        e.target.value === 'watsapp' ?
+            setContact({
+                name: 'whatsapp',
+                user: id
+            }) :
+            e.target.value === 'another' ?
+                setContact({
+                    user: id
+                }) :
+                setContact({
+                    name: e.target.value,
+                    user: id
+                });
+        setEditSelect('contact');
+    };
+
     const createContact = () => {
-        if (JSON.stringify(contact) !== "{}" && contact.src) {
+        if (JSON.stringify(contact) !== "{}") {
             setLoading('create_contact');
+
             axios.post('/api/users/contact_create/', contact)
                 .then(response => {
                     setMessage("Успешно добавлено");
@@ -27,14 +45,14 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                 }).catch(() => {
                 setMessage("Произошла ошибка. Проверьте соединение с интернентом")
             })
-        } else {
-            setMessage('Заполните форму полностью')
+
+            dispatch(setShowPopup(true))
         }
-        dispatch(setShowPopup(true))
+
     };
     const deleteContact = (idContact) => {
         setLoading(idContact);
-        if (user.contact.length === 1){
+        if (user.contact.length === 1) {
             setMessage("У вас должен быть хотя-бы один контакт");
             dispatch(setShowPopup(true));
             setLoading('');
@@ -46,104 +64,177 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                     setMessage('Вы успешно удалили');
                     dispatch(setUser(id));
                     setLoading('');
-                }).catch(()=>{
+                }).catch(() => {
                 setMessage("Произошла ошибка. Проверьте соединение с интернентом")
-            }).finally(()=>{
+            }).finally(() => {
                 dispatch(setShowPopup(true))
             })
         }
     };
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setUser(id))
-    },[]);
+    }, []);
     return (
         <>{
-            showPopup ? <PopupComponent messageForUsers={message}/>: ''
+            showPopup ? <PopupComponent messageForUsers={message}/> : ''
         }
-            <div className={'editProfile-forms-label'}>
-                <p>контакты:</p>
-                <select
-                    defaultValue={"0"}
-                    onChange={e => {
-                    e.target.value === 'watsapp' ?
-                        setContact({
-                            name: 'whatsapp',
-                            user: id
-                        }) :
-                        e.target.value === 'another' ?
-                            setContact({
-                                user: id
-                            }) :
-                            setContact({
-                                name: e.target.value,
-                                user: id
-                            });
-                    setEditSelect('contact');
-                }}>
+            <div className="col-lg-6 social-media">
+                <h3 className="mb-20">Контакты</h3>
+                <select name="" id="" defaultValue={'0'} onChange={selectContactFunc}>
                     <option value="0" disabled>Выберите способ связи</option>
                     <option value="tel">Телефон</option>
                     <option value="whatsapp">WhatsApp</option>
                     <option value="instagram">Instagram</option>
                     <option value="telegram">Telegram</option>
-                    <option value="twitter">Twitter</option>
                     <option value="facebook">Facebook</option>
                     <option value="another">Другое</option>
                 </select>
-                {
-                    contact.name === 'tel' ?
-                        <input type="tel" placeholder={'Введите номер'} onChange={e => setContact({
-                            ...contact,
-                            src: e.target.value
-                        })}/> :
-                        contact.name === 'whatsapp' ?
-                            <>
-                                <span>Обязательно пишите с кодом страны</span>
-                                <input type="tel" placeholder={'Введите номер'} onChange={e => setContact({
-                                    ...contact,
-                                    src: `https://wa.me/${e.target.value}`
-                                })}/></> :
-                            contact.name === 'instagram' || contact.name === 'telegram' || contact.name === 'twitter' || contact.name === 'facebook' ?
-                                <input type="text" placeholder={'Вставьте ссылку'}
-                                       onChange={e => setContact({
-                                           ...contact,
-                                           src: e.target.value
-                                       })}/>
-                                :
-                                <>
-                                    <input type="text" placeholder={'Введите свой вариант'}
-                                           onChange={e => setContact({
-                                               ...contact,
-                                               name: e.target.value
-                                           })}/>
-                                    <input type="text" placeholder={'Вставьте ссылку'}
-                                           onChange={e => setContact({
-                                               ...contact,
-                                               src: e.target.value
-                                           })}/>
-                                </>
-                }
-                {
-                    loading === 'create_contact' ? <div className={'editPreloader'}>
-                        <div className="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div> : <button
-                        className={editSelect === "contact" ?
-                            'editProfile-forms-button editProfile-forms-button-contact editProfile-forms-button-selected'
-                            : 'editProfile-forms-button editProfile-forms-button-contact'}
-                        onClick={() => {
-                            createContact();
+                <div className="form-group space-y-10">
+                    <div className="space-y-40">
+                        {
+                            contact.name === 'tel'
+                                ? <div className="d-flex flex-column">
+                                    <span className="nameInput mb-10">Телефон</span>
+                                    <input type="tel" className="form-control"
+                                           placeholder="Номер вашего телефона"
+                                           onChange={e => {
+                                               setContact({
+                                                   name: 'tel',
+                                                   user: id,
+                                                   src: `${e.target.value}`
+                                               })
+                                           }}
+                                    />
+
+                                </div>
+                                : contact.name === 'whatsapp'
+                                ? <div className="d-flex flex-column">
+                                    <span className="nameInput mb-10">WhatsApp</span>
+                                    <input type="text" className="form-control"
+                                           placeholder="Ваш WhatsApp номер с кодом страны"
+                                           onChange={e => {
+                                               setContact(
+                                                   {
+                                                       name: 'whatsapp',
+                                                       user: id,
+                                                       src: `https://wa.me/${e.target.value}`
+                                                   }
+                                               )
+                                           }}
+                                    />
+
+
+                                </div>
+                                : contact.name === 'instagram'
+                                    ? <div className="d-flex flex-column">
+                                        <span className="nameInput mb-10">Instagram</span>
+                                        <input type="text" className="form-control"
+                                               placeholder="Ссылка на ваш instagram"
+                                               onChange={e => {
+                                                   setContact(
+                                                       {
+                                                           name: 'instagram',
+                                                           user: id,
+                                                           src: `${e.target.value}`
+                                                       }
+                                                   )
+                                               }}
+                                        />
+
+                                    </div>
+                                    : contact.name === 'telegram'
+                                        ? <div className="d-flex flex-column">
+                                            <span className="nameInput mb-10">Telegram</span>
+                                            <input type="text" className="form-control"
+                                                   placeholder="Ссылка на ваш Telegram"
+                                                   onChange={e => {
+                                                       setContact(
+                                                           {
+                                                               name: 'telegram',
+                                                               user: id,
+                                                               src: `${e.target.value}`
+                                                           }
+                                                       )
+                                                   }}
+                                            />
+
+                                        </div>
+                                        : contact.name === 'facebook'
+                                            ? <div className="d-flex flex-column">
+                                                <span className="nameInput mb-10">Facebook</span>
+                                                <input type="text" className="form-control"
+                                                       placeholder="Ссылка на ваш  facebook"
+                                                       onChange={e => {
+                                                           setContact(
+                                                               {
+                                                                   name: 'facebook',
+                                                                   user: id,
+                                                                   src: `${e.target.value}`
+                                                               }
+                                                           )
+                                                       }}
+                                                />
+
+                                            </div>
+                                            : contact.name === 'another' ?
+                                                <>
+                                                    <div className="d-flex flex-column">
+                                                        <span className="nameInput mb-10">Название</span>
+                                                        <input type="text" className="form-control"
+                                                               placeholder="Введите название"
+                                                               onChange={e => {
+                                                                   setContact(
+                                                                       {
+                                                                           name: e.target.value,
+                                                                           user: id,
+                                                                       }
+                                                                   )
+                                                               }}
+                                                        />
+
+                                                    </div>
+
+                                                    <div className="d-flex flex-column">
+                                                        <span className="nameInput mb-10">Ссылка</span>
+                                                        <input type="text" className="form-control"
+                                                               placeholder="Вставьте сюда ссылку"
+                                                               onChange={e => {
+                                                                   setContact(
+                                                                       {
+                                                                           ...contact,
+                                                                           src: e.target.value,
+                                                                       }
+                                                                   )
+                                                               }}
+                                                        />
+
+                                                    </div>
+                                                </>
+                                                : ''
                         }
-                        }>сохранить
-                    </button>
-                }
-            </div>
-            <div>
-                <p>Ваши контакты:</p>
-                <ul className={'editProfile-contact-ul'}>
+
+
+                    </div>
+                </div>
+
+                <div>
+                    {
+                        loading === 'create_contact' ? <div className={'editPreloader'}>
+                            <div className="lds-ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div> : <button
+                            onClick={() => {
+                                createContact()
+                            }}
+                            className="btn btn-grad">Добавить контакт</button>
+                    }
+                </div>
+                <h3>Ваши текущие контакты:</h3>
+                <ul>
                     {
                         user ?
                             user.contact.map(item => {
@@ -154,7 +245,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                                         ? item.src.slice(26)
                                         : item.name === 'whatsapp'
                                             ? item.src.slice(14)
-                                            : item.src}
+                                            : item.src.slice(0, 14)}
 
                                     {
                                         loading === item.id ? <div className={'editPreloader'}>
@@ -201,6 +292,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                     }
                 </ul>
             </div>
+
         </>
     );
 };

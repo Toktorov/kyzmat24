@@ -44,28 +44,66 @@ const ResetPassword = () => {
         dispatch(setHiddenFooter(false))
     });
     return (
-        <div className={'form_section'}>
+        <>
             {
                 showPopup ? <PopupComponent messageForUsers={message}/>: ''
             }
-            <form className={'kyzmat_form'}>
-                <input required type="password" placeholder={'Введите новый пароль'} onChange={e => setNewPassword(e.target.value)}/>
-                <input required type="password" placeholder={'Подтвердите новый пароль'} onChange={e => setNewPassword2(e.target.value)}/>
+
+<div className={'container space-y-20'}>
+    <div className="col-lg-5">
+        <form
+            onSubmit={(e)=>{
+
+            }}>
+            <div className="box edit_box w-full space-y-20">
+                <div className="space-y-10">
+                    <span className="nameInput">Новый пароль</span>
+                    <div className="confirm">
+                        <input
+                            required={true}
+                            type="text"
+                            className="form-control"
+                            placeholder="Введите новый пароль"
+                            onChange={(e) => setNewPassword(e.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="space-y-10">
+                    <span className="nameInput">Подтверждение пароли</span>
+                    <div className="confirm">
+                        <input
+                            required={true}
+                            type="password"
+                            className="form-control"
+                            placeholder="Подтвердите новый пароль"
+                            onChange={e => setNewPassword2(e.target.value)}
+                        />
+                    </div>
+                </div>
                 {
-                    loading ?  <div className="lds-ring">
+                    loading ? <div className={'login-preloader'}>
+                        <div className="lds-ring">
                             <div> </div>
                             <div> </div>
                             <div> </div>
                             <div> </div>
                         </div>
-                        :<button type={'button'} onClick={()=>{
-                            if (newPassword && newPassword2){
-                                resetFunc();
-                            }
-                        }}>Save</button>
+                    </div> : <button className="btn btn-grad w-full btn-lg "
+                                     onClick={()=>{
+                                         if (newPassword && newPassword2){
+                                             resetFunc();
+                                         }
+                                     }
+                                     }
+                    >Сохранить</button>
                 }
-            </form>
-        </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+        </>
     );
 };
 

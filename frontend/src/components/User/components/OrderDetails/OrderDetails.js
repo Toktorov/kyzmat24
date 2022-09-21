@@ -2,11 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useParams, useHistory} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux";
 import {getOrders} from "../../../../redux/reducers/user";
-import {getCategories, getLocations} from "../../../../redux/reducers/item";
+import {getCategories, getLocations, setShowPopup} from "../../../../redux/reducers/item";
 import "./orderDetails.css"
 import axios from "axios";
 import {setHiddenFooter} from "../../../../redux/reducers/app";
 import Footer from "../../../Footer/Footer";
+import PopupComponent from "../../../PopupComponent/PopupComponent";
 
 const OrderDetails = () => {
     const orders = useSelector(s => s.user.orders);
@@ -18,6 +19,7 @@ const OrderDetails = () => {
     const params = useParams();
     const history = useHistory();
     const [details, setDetails] = useState({});
+    const [message, setMessage] = useState("");
 
     const getOrderDetails = () => {
         setDetails(orders.filter((item) => {
@@ -57,6 +59,7 @@ const OrderDetails = () => {
             user: id,
             order: orderId
         }).then(({data}) => {
+            setMessage("Вы взяли заказ. Для посмотра посмотрите раздел мои заказы");
             console.log('accept', data);
             axios.put(`/api/order/accept-update/${orderId}`, {
                 status: true
@@ -65,7 +68,12 @@ const OrderDetails = () => {
                 dispatch(getOrders())
             }).catch(error => console.log('2', error.response))
 
-        }).catch(error => console.log('3', error.response));
+        }).catch(error => {
+            console.log('3', error.response);
+        setMessage("Кто-то уже до вас взял заказ(")
+        }).finally(()=>{
+            setShowPopup(true)
+        });
 
     };
 
@@ -80,6 +88,9 @@ const OrderDetails = () => {
     }, [orders]);
     return (
         <section className={"order-details"}>
+            {
+                showPopup ? <PopupComponent messageForUsers={message}/>: ''
+            }
             <div className="container">
                 <div className="order-details-card">
                     <p><b>Описание: </b>{details.description}</p>
@@ -89,7 +100,7 @@ const OrderDetails = () => {
                     <p><b>Email: </b>{details.email ? <a href={`mailto: ${details.email}`}>{details.email}</a> : '--'}
                     </p>
                     <div className="order-details-card-btns">
-                        <button className={'orders__item-get'}
+                        <button className="btn btn-primary btn-sm"
                                 onClick={() => {
                                     acceptOrderFunc(details.id)
                                 }}
