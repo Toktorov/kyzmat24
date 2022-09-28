@@ -1,10 +1,9 @@
 import React from 'react';
 import "./popupComponent.css";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {setShowPopup} from "../../redux/reducers/item";
 
 const PopupComponent = ({messageForUsers}) => {
-    const showPopup = useSelector(s => s.item.showPopup);
     const dispatch = useDispatch();
     return (
         <div className={"popup-component"}>

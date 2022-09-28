@@ -2,29 +2,16 @@
 
 
 
-
-.avatar {
-    width: 100%;
+.show-media-create-button{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: orangered;
 }
 
-.home-bottom {
-    margin-top: 15px;
-}
 
 
 
-.bottom-row {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    row-gap: 15px;
-    position: relative;
-    justify-content: center;
-}
-
-.bottom-media {
-    width: 30%;
-}
 
 .profile-images{
     position: relative;
@@ -58,29 +45,7 @@
 .popup-media-button:active{
     color: red;
 }
-.link_class{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-.link_class p,button{
-    margin-top: 5px;
-}
-.link_class button{
-    padding: 5px 30px;
-    background-color: #ffffff;
-    color: orangered;
-    border-radius: 5px;
-    border: 1px solid orangered;
-    cursor: pointer;
-    transition: .6s;
-    font-size: 17px;
-    box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.2);
-}
-.link_class button:hover{
-    background-color: orangered;
-    color: #ffffff;
-}
+
 .popup-media-confirm{
     color: white;
 }
@@ -94,56 +59,8 @@
     color: white;
 }
 
-.welcome {
-    background-color: #00a353;
-    width: 500px;
-    padding: 15px;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 120%;
-    left: 50%;
-    z-index: 2;
-    text-align: center;
-    box-shadow: 0 0 37px 13px rgba(249, 0, 0, 0.2);
-}
 
-.welcome p {
-    color: white;
-    margin: 30px 0;
-}
 
-.welcome button {
-    padding: 5px 25px;
-    background-color: #ffc40d;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 37px 13px rgba(249, 0, 0, 0.2);
-}
-
-.button-create-media{
-    position: absolute;
-    top: -17px;
-    left: 0;
-    background-color: transparent;
-    color: orangered;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-.button-create-media:active{
-    font-size: 22px;
-}
-.edit-profile-button{
-    background-color: transparent;
-    color: orangered;
-    border: none;
-    cursor: pointer;
-}
-.verified__message{
-    color: red;
-}
 .logout-popup-bg{
     top: 0;
     position: fixed;
@@ -195,27 +112,3 @@
     transform: scale(1.1);
 }
 
-
-
-
-@media screen and (max-width: 760px) {
-
-}
-
-@media screen and (max-width: 560px) {
-
-    .mediaCreate-forms {
-        width: 400px;
-        height: 250px;
-    }
-
-}
-
-@media screen and (max-width: 450px) {
-
-
-}
-
-@media screen and (max-width: 390px) {
-
-}

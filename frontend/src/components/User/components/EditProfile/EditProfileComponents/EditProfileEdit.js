@@ -14,20 +14,11 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
     const [first_name, setFirst_name] = useState(user ? user.first_name : '');
     const [last_name, setLast_name] = useState(user ? user.last_name : '');
     const [description, setDescription] = useState(user ? user.description : '');
-    const [another, setAnother] = useState(user ? user.another : '');
     const [profile_image, setProfile_image] = useState(null);
-
-    const profileImageText = () => {
-        if (profile_image) {
-            return profile_image.name.length > 10 ? profile_image.name.slice(0, 10) + '...' : profile_image.name
-        } else {
-            return 'Выбрать фото'
-        }
-    };
 
     const updateUser = () => {
         setLoading(true);
-        const data = new FormData;
+        const data = new FormData();
 
         if (profile_image) {
             data.append('profile_image', profile_image, profile_image.name);
@@ -64,12 +55,11 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
         setFirst_name(user ? user.first_name : '');
         setLast_name(user ? user.last_name : '');
         setDescription(user ? user.description : '');
-        setAnother(user ? user.another : '');
         setProfile_image(null);
     }, [user]);
     useEffect(() => {
         dispatch(setUser(id));
-    }, []);
+    }, [dispatch, id]);
 
     return (
         <>

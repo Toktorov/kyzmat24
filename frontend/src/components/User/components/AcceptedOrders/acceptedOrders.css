@@ -8,6 +8,10 @@
     width: 100%;
 }
 
+.accept-orders-filter-button{
+    margin-right: 10px;
+}
+
 .accept-orders-btn {
     background-color: orangered;
     border: 1px solid orangered;

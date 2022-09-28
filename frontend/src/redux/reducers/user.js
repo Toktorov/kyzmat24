@@ -6,6 +6,7 @@ const GET_ORDERS = 'GET_ORDERS';
 const SET_NEW_USER = 'SET_NEW_USER';
 const SET_ID = 'SET_ID';
 const GET_ACCEPT_ORDERS = 'GET_ACCEPT_ORDERS';
+const GET_ORDER_DETAILS = 'GET_ORDER_DETAILS';
 
 
 const initState = {
@@ -13,11 +14,12 @@ const initState = {
     id: localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('id')) : null,
     user: null,
     orders: [],
+    orderDetails: {},
     acceptOrders:[],
     newUser: false,
 };
 
-export default (state = initState, action) => {
+export const user= (state = initState, action) => {
     switch (action.type) {
         case SET_AUTH_TOKENS: {
             return {
@@ -62,9 +64,13 @@ export default (state = initState, action) => {
         case GET_ACCEPT_ORDERS:{
             return {
                 ...state,
-
                     acceptOrders: action.acceptOrders
-
+            }
+        }
+        case GET_ORDER_DETAILS:{
+            return {
+                ...state,
+                orderDetails: action.orderDetails
             }
         }
 
@@ -134,4 +140,13 @@ export const getAcceptOrders = () =>{
               })
           })
   }
+};
+
+export const getOrderDetails = (id) =>{
+    return (dispatch) =>{
+        axios.get('https://kyzmat24.com/api/order/order/')
+            .then(({data}) => dispatch({type: GET_ORDER_DETAILS, orderDetails: data.filter((item)=>{
+                return `${item.id}` === `${id}`
+                })[0]}))
+    }
 };

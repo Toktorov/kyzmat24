@@ -1,15 +1,11 @@
 import React from 'react';
-//import './footer.css';
-import {useSelector} from "react-redux";
+import './footer.css';
 import {Link} from "react-router-dom";
-import {faFacebook, faInstagram} from "@fortawesome/free-brands-svg-icons";
-import {faEnvelope} from "@fortawesome/free-solid-svg-icons";
+import {faFacebook, faInstagram, faWhatsapp, faYoutube} from "@fortawesome/free-brands-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 
 const Footer = () => {
-    const user = useSelector(s => s.user.user);
-    const app = useSelector(s => s.item.app);
     return (
         <>
             <footer className="footer__1">
@@ -17,22 +13,22 @@ const Footer = () => {
                     <div className="row">
                         <div className="col-lg-6 space-y-20">
                             <div className="footer__logo">
-                                <a className="h4_09" href="index.html">
+                                <Link  to={"/"}>
                                     Kyzmat24
-                                </a>
+                                </Link>
                             </div>
                             <p className="footer__text">
                                 Kyzmat24 - это плотформа для поиска работы или сотрудника
                             </p>
                             <div>
                                 <ul className="footer__social space-x-10 mb-40">
-                                    <li><a href="Home1.html"> <i className="ri-facebook-line"></i> </a>
+                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faFacebook}/> </Link>
                                     </li>
-                                    <li><a href="Home1.html"> <i className="ri-messenger-line"></i> </a>
+                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faInstagram}/> </Link>
                                     </li>
-                                    <li><a href="Home1.html"> <i className="ri-whatsapp-line"></i> </a>
+                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faWhatsapp}/> </Link>
                                     </li>
-                                    <li><a href="Home1.html"> <i className="ri-youtube-line"></i> </a>
+                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faYoutube}/> </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -44,23 +40,7 @@ const Footer = () => {
                     </div>
                 </div>
             </footer>
-            {/*<div className="container flex_block">*/}
 
-            {/*    <h2 className="info_text">Для сотрудничества или замечаний по нашей работе</h2>*/}
-            {/*    <div className="info_block_footer">*/}
-            {/*    <div className="logo_section">*/}
-            {/*        <h1 className='footer__logo'><Link to={'/'}>kyzmat24</Link></h1>*/}
-            {/*        <p className="flex_text"><a href="mailto:kyzmat24.com"><FontAwesomeIcon icon={faEnvelope} /> kyzmat24@gmail.com</a></p>*/}
-            {/*        <p className="flex_text"><a href="#"><FontAwesomeIcon icon={faInstagram}/> @kyzmat24</a></p>*/}
-            {/*        <p className="flex_text"><a href="#"><FontAwesomeIcon icon={faFacebook}/> facebook</a></p>*/}
-            {/*    </div>*/}
-            {/*    <ul className="nav_bar">*/}
-            {/*        <li><Link to="/about">О нас</Link></li>*/}
-            {/*        <li><Link to="/search">Поиск</Link></li>*/}
-            {/*        <li><Link to="/reviews">Оставить отзыв</Link></li>*/}
-            {/*    </ul>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </>
     );
 };

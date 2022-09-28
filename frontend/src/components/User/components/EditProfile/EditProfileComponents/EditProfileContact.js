@@ -10,7 +10,6 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
     const id = useSelector(s => s.user.id);
     const showPopup = useSelector(s => s.item.showPopup);
     const dispatch = useDispatch();
-    const [selectedContact, setSelectedContact] = useState('');
     const [contact, setContact] = useState({});
     const [deleteContactConfirm, setDeleteContactConfirm] = useState(null);
     const [message, setMessage] = useState('');
@@ -44,7 +43,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
                     setLoading('');
                 }).catch(() => {
                 setMessage("Произошла ошибка. Проверьте соединение с интернентом")
-            })
+            });
 
             dispatch(setShowPopup(true))
         }
@@ -73,7 +72,7 @@ const EditProfileContact = ({editSelect, setEditSelect, loading, setLoading}) =>
     };
     useEffect(() => {
         dispatch(setUser(id))
-    }, []);
+    }, [dispatch, id]);
     return (
         <>{
             showPopup ? <PopupComponent messageForUsers={message}/> : ''

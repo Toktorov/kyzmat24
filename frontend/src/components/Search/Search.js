@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import {getItems, setApp, setStatus, getCategories, getLocations} from "../../redux/reducers/item";
 import {Link} from "react-router-dom";
 //import './search.css';
-import avatar from "../../img/avatar.jpg";
 import {setHiddenFooter} from "../../redux/reducers/app";
 
 const Search = () => {
@@ -12,7 +11,6 @@ const Search = () => {
     const [cities, setCities] = useState([]);
     const [saveSearch, setSaveSearch] = useState([]);
     const [selectedRegion, setSelectedRegion] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
     const [doSearch, setDoSearch] = useState(false);
     const [filterCities, setFilterCities] = useState([]);
     const [name, setName] = useState('');
@@ -83,18 +81,18 @@ const Search = () => {
     };
     const findFilter = (selectId, selectParameter) => {
         if (selectId && search.length !== 0) {
-            console.log("Первый")
+            console.log("Первый");
             setSearch(search.filter((item) => {
-                return item[selectParameter] == selectId
+                return `${item[selectParameter]}` === `${selectId}`
             }));
             if (search && search.length !== 0) {
                 setSaveSearch([...search])
             }
         }else if (selectId) {
             console.log("Вторй");
-            console.log(selectId)
+            console.log(selectId);
             setSearch(items.filter((item) => {
-                return item[selectParameter] == selectId
+                return `${item[selectParameter]}` === `${selectId}`
             }));
             if (search && search.length !== 0) {
                 setSaveSearch([...search])
@@ -102,18 +100,18 @@ const Search = () => {
         }
         setDoSearch(true)
     };
-    const searchRegion = (regionId) => {
+    const searchRegion = useCallback((regionId) => {
         if (regionId && filterCities.length !== 0) {
             console.log(regionId);
             console.log(filterCities);
             let cityId = filterCities.find((item) => {
-                return item.location_self == regionId
+                return `${item.location_self}` === `${regionId}`
             }).id;
             console.log(cityId);
             if (search.length !== 0) {
                 console.log('search');
                 setSearch(search.filter((item) => {
-                    return item.user_location == cityId
+                    return `${item.user_location}` === `${cityId}`
                 }));
                 if (search && search.length !== 0) {
                     setSaveSearch([...search])
@@ -121,7 +119,7 @@ const Search = () => {
             } else {
                 console.log("items")
                 setSearch(items.filter((item) => {
-                    return item.user_location == cityId
+                    return `${item.user_location}` === `${cityId}`
                 }));
                 if (search && search.length !== 0) {
                     setSaveSearch([...search])
@@ -129,7 +127,7 @@ const Search = () => {
             }
             setDoSearch(true)
         }
-    };
+    }, [filterCities, items, search]);
 
     useEffect(() => {
         dispatch(setApp('kyzmat'));
@@ -138,7 +136,7 @@ const Search = () => {
         dispatch(getCategories());
         dispatch(getLocations());
         dispatch(setHiddenFooter(false));
-    }, []);
+    }, [dispatch]);
     useEffect(() => {
         setRegions(locations.filter((item) => {
             return !item.location_self
@@ -149,7 +147,7 @@ const Search = () => {
     }, [locations]);
     useEffect(() => {
         searchRegion(selectedRegion)
-    }, [filterCities]);
+    }, [filterCities, selectedRegion, searchRegion]);
     useEffect(() => {
         console.log(search)
     }, [search]);
@@ -199,7 +197,7 @@ const Search = () => {
                             onChange={(e)=>{
                                             setSelectedRegion(e.target.value);
                                             setFilterCities(cities.filter((item) => {
-                                                return item.location_self == e.target.value
+                                                return `${item.location_self}` === `${e.target.value}`
                                             }));
 
                             }}
@@ -218,7 +216,6 @@ const Search = () => {
 			                                    custom-select" aria-label="Default
 			                                    select example"
                                             name="" id="" defaultValue="0" onChange={(e) => {
-                                            setSelectedCity(e.target.value);
 
                                             console.log(e.target.selectedOptions[0].title);
                                             console.log(e.target.value);

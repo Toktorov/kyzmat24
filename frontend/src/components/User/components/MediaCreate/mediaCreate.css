@@ -11,8 +11,8 @@
 }
 
 .mediaCreate-forms {
-    background-color: orangered;
-    color: white;
+    background-color: white;
+    color: orangered;
     width: 500px;
     height: 300px;
     border-radius: 20px;
@@ -27,7 +27,7 @@
 .mediaCreate-btns button {
     margin: 0 5px;
     background-color: white;
-    border: 1px solid white;
+    border: 1px solid orangered;
     color: orangered;
     padding: 5px 10px;
     border-radius: 6px;
@@ -38,7 +38,7 @@
 }
 
 .mediaCreate-btns button:hover {
-    background-color: transparent;
+    background-color: orangered;
     color: white;
 }
 
@@ -62,8 +62,7 @@
     line-height: 110%;
     background-color: transparent;
     border: none;
-    color: white;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid orangered;
     outline: none;
 }
 .mediaCreate-forms-input-photo {
@@ -77,6 +76,7 @@
 .mediaCreate-forms-label-photo{
     background-color: white;
     color: orangered;
+    border: 1px solid orangered;
     margin-left: 10px;
     font-size: 20px;
     line-height: 110%;
@@ -89,21 +89,30 @@
    transform: scale(1.1);
 }
 
-.mediaCreate-forms-btns button{
+
+
+.media-selector-button{
 background-color: transparent;
-    border: 1px solid white;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
+    border: none;
+    color:orangered;
+    transition: .5s;
+    font-size: 13px;
+    border-bottom: 1px solid orangered;
+}
+.media-create-button{
+    background-color: transparent;
+    color: orangered;
+    padding: 5px 15px;
+    border-radius: 10px;
+    border: 1px solid orangered;
     transition: .5s;
 }
-
-.mediaCreate-forms-btns button:hover{
-    background-color: white;
-    color: orangered;
+.media-create-button:hover{
+    background-color: orangered;
+    color: white;
 }
-.mediaCreate-forms-btns button:active{
+
+.media-selector-button{
  transition: 0s;
     transform: scale(1.1);
 }

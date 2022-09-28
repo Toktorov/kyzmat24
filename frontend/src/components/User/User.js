@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import {setAuthTokens, setId, setNewUser, setUser} from "../../redux/reducers/user";
+import {setAuthTokens, setId, setUser} from "../../redux/reducers/user";
 import './user.css'
 import {useHistory} from 'react-router-dom';
 import altAvatar from '../../img/avatar.jpg';
-import {faPlus, faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import Login from "./components/Login/Login";
 import {useDispatch, useSelector} from "react-redux";
@@ -24,65 +24,9 @@ import Footer from "../Footer/Footer";
 import profileBg from '../../assets/img/bg/prrofile.png';
 
 const User = () => {
-    const HELLO_RU = 'Мы рады, что вы проявили интерес к сервису  kyzmat24.\n' +
-        '\n' +
-        'Kyzmat24 - это сервис, с помощью которого вы можете вызвать нужного вам мастера.\n' +
-        '\n' +
-        'Вам больше не нужно звонить знакомым и изучать объявления, чтобы найти мастера. Достаточно разместить заказ в несколько кликов и дождаться звонка исполнителя. \n' +
-        '\n' +
-        'Как это работает?\n' +
-        '\n' +
-        'Например: у вас протекает кран в ванной.\n' +
-        '\n' +
-        '1. Вы выбираете категорию: "Сантехника".\n' +
-        '2. Добавляете описание задания: "Поменять кран в ванной", указываете свой бюджет или оставляете цену открытой.\n' +
-        '3. Сантехники, зарегистрированные на Kyzmat24, сразу получат уведомление а тот, кто свободен откликнется на вашу заявку и позвонит вам сам.\n' +
-        '4. По итогу оказанной услуги, закройте свой заказ и поставьте оценку мастеру. \n' +
-        '\n' +
-        '---\n' +
-        'Вы можете выбрать мастера из нескольких. Для этого, при оформлении заявки, выберите пункт "Ждать отклики".\n' +
-        'Мастера отправят вам предложения, а вам останется выбрать понравившегося на основании рейтинга и отзывов.\n' +
-        '\n' +
-        'Если вам не подходит позвонивший вам исполнитель, откажитесь от него во вкладке "отклики" в вашей заявке и вам позвонит другой мастер.\n' +
-        '---\n' +
-        '\n' +
-        '⚠️ ВАЖНО! Kyzmat24 - не доска объявлений, и чтобы стать исполнителем, необходимо пройти верификацию. Для этого на главном экране пройдите по ссылке "СТАТЬ ИСПОЛНИТЕЛЕМ". \n' +
-        'У нас заказчик размещает заявку - мастер откликается и звонит. Заявки, содержащие рекламу, для удобства пользователей отменяются.\n' +
-        '\n' +
-        '*Eсли у вас есть вопросы с радостью ответим на них.\n' +
-        'Служба поддержки работает с 9:00 до 18:00 c понедельника по пятницу.\n' +
-        '\n' +
-        'Всего вам наилучшего!';
-    const HELLO_KG = 'Кош келдиңиз! \n' +
-        '“Kyzmat24” тиркемеси Сиз үчүн кызматта!\n' +
-        '\n' +
-        'Kyzmat24- бул тиркеме менен сиз каалаган мастериңизди таап, үйүңүзгө чакыра аласыз.\n' +
-        '\n' +
-        'Мындан ары мастерлерди тааныштарыңыздан, инстаграмм , фейсбуктан издеп убара болбойсуз. Тиркемеге сизге керек кызматка заказ бересиз, бүттү. Сиз менен аткаруучу тарап өзү байланышат.\n' +
-        '\n' +
-        '\n' +
-        'Бул кандай иштейт деп түшүнбөй жатасызбы?\n' +
-        '\n' +
-        '\n' +
-        'Мисалы: Сиздин ваннаңыздын кранынан суу агып жатат дейли..\n' +
-        '1. Сиз категориялардан    “Сантехника” кызматын тандайсыз;\n' +
-        '2. Тапшырма жазасыз:” Ваннанын кранын алмаштыруу”-деп. Сиз өзүңүз төлөм аткара ала турган сумманы киргизсеңиз да болот же болбосо бааны жазбай койсонуз да болот.\n' +
-        '3. “Kyzmat24” тиркемесине катталган сантехниктерге билдирүү келээри менен алар сиз менен өздөрү байланышат.\n' +
-        '4. Акырында сиз көрсөткөн кызматы үчүн мастерге отзыв жазып өз бааңызды коё аласыз.\n' +
-        '- - - - - \n' +
-        'Сиз каалаган мастериңизди тандасаңыз да болот.. Ал үчүн арыз толтурууда “ Ждать отклики” пунктун тандап алыңыз.\n' +
-        'Мастер сизге өз кызматын сунуштайт. Сиз каалаган мастерди рейтингине карап тандай аласыз.\n' +
-        '\n' +
-        'Эгер мастер туура келбесе, сиз мастердин кызматынан баш тартсаңыз, сизге ошол эле пунктан башка мастерлер байланышат.\n' +
-        '\n' +
-        'Эскертүү! Kyzmat24-бул жарыя тактайчасы эмес! Бул тиркемеге аткаруучу катары кошулууну кааласаңыз верификациядан өтүшүңүз керек! Бул үчүн “Стать ИСПОЛНИТЕЛЕМ” ссылкасы аркылуу кириңиз.\n' +
-        'Бизде кардар өзүнүн заказын жазат, мастер билдирүү келээри менен өзү байланышат. Реклама маанисинде жазылган арыздар кабыл алынбайт. \n' +
-        '\n' +
-        'Сизде кандайдыр бир суроо жаралса, биз жооп берүүгө даярбыз.\n' +
-        'Кардарды колдоо кызматы жумуш күндөрү саат 9:00дөн 18:00гө чейин иштейт. Ишемби-Жекшемби күндөрү дем алыш.';
+
     const history = useHistory();
     const [status, setStatus] = useState('login');
-    const newUser = useSelector(s => s.user.newUser);
     const user = useSelector(s => s.user.user);
     const authTokens = useSelector(s => s.user.authTokens);
     const id = useSelector(s => s.user.id);
@@ -146,7 +90,7 @@ const User = () => {
         if (user && authTokens) {
             history.push(`/user/home/${user.id}`)
         }
-    }, [user]);
+    }, [user, authTokens, history]);
 
     useEffect(() => {
         dispatch(setApp('order'));
@@ -154,7 +98,7 @@ const User = () => {
         dispatch(getLocations());
         dispatch(getCategories());
         dispatch(setHiddenFooter(true));
-    }, []);
+    }, [dispatch, id]);
 
     return (
         <section className={"profile"}>
@@ -170,15 +114,7 @@ const User = () => {
             {
                 showUpdateProfile ? <UpdateProfile setShowUpdateProfile={setShowUpdateProfile}/> : ''
             }
-            {
-                newUser ? <div className={'welcome'}><p> {HELLO_RU} <br/> <br/>{HELLO_KG}</p>
-                    <button onClick={() => {
-                        dispatch(setNewUser(false))
-                    }
-                    }>ok
-                    </button>
-                </div> : ''
-            }
+
             {
                 id ?
                     <>
@@ -239,12 +175,12 @@ const User = () => {
                                                                     </div>
                                                                     <div className="col-8">
                                                                     <span className="txt_sm color_text">
-                                                                        <a href={'#'}
+                                                                        <button
                                                                            onClick={(e) => {
                                                                                e.preventDefault();
                                                                                setShowLogoutPopup(true)
                                                                            }}
-                                                                        >Выйти из аккаунта</a>
+                                                                        >Выйти из аккаунта</button>
                                                                     </span>
                                                                     </div>
                                                                 </div>
@@ -258,30 +194,45 @@ const User = () => {
                                                                         user.contact.length === 0 ? '---' :
                                                                             user.contact.map((item) => {
                                                                                 if (item.name === 'facebook') {
-                                                                                    return <a className="color_text"
-                                                                                              key={item.src} href={item.src}
+                                                                                    return <a
+                                                                                        className="color_text"
+                                                                                        rel="noreferrer"
+                                                                                              key={item.src}
+                                                                                        href={item.src}
                                                                                               target={'_blank'}>
                                                                                         <FontAwesomeIcon icon={faFacebook}/></a>
                                                                                 } else if (item.name === 'whatsapp') {
-                                                                                    return <a className="color_text"
-                                                                                              key={item.src} href={item.src}
+                                                                                    return <a
+                                                                                        rel="noreferrer"
+                                                                                        className="color_text"
+                                                                                              key={item.src}
+                                                                                        href={item.src}
                                                                                               target={'_blank'}>
                                                                                         <FontAwesomeIcon icon={faWhatsapp}/>
                                                                                     </a>
                                                                                 } else if (item.name === 'instagram') {
-                                                                                    return <a className="color_text"
-                                                                                              key={item.src} href={item.src}
+                                                                                    return <a
+                                                                                        rel="noreferrer"
+                                                                                        className="color_text"
+                                                                                              key={item.src}
+                                                                                        href={item.src}
                                                                                               target={'_blank'}>
                                                                                         <FontAwesomeIcon
                                                                                             icon={faInstagram}/></a>
                                                                                 } else if (item.name === 'telegram') {
-                                                                                    return <a className="color_text"
-                                                                                              key={item.src} href={item.src}
+                                                                                    return <a
+                                                                                        rel="noreferrer"
+                                                                                        className="color_text"
+                                                                                              key={item.src}
+                                                                                        href={item.src}
                                                                                               target={'_blank'}><FontAwesomeIcon
                                                                                         icon={faTelegramPlane}/></a>
                                                                                 } else {
-                                                                                    return <a className="color_text"
-                                                                                              key={item.src} href={item.src}
+                                                                                    return <a
+                                                                                        rel="noreferrer"
+                                                                                        className="color_text"
+                                                                                              key={item.src}
+                                                                                        href={item.src}
                                                                                               target={'_blank'}>{item.src}</a>
                                                                                 }
                                                                             })
@@ -300,8 +251,9 @@ const User = () => {
                                                             <h5 className="">Медиа</h5>
                                                             <div className="">
                                                                 <button
+                                                                    className={"show-media-create-button"}
                                                                 onClick={()=> setShowMediaCreate(true)}
-                                                                >+</button>
+                                                                ><FontAwesomeIcon icon={faPlus}/></button>
                                                                 <div className="row">
                                                                     {
                                                                         user && user.media.length === 0 ? <p>Вы пока ничего не загрузили</p> :

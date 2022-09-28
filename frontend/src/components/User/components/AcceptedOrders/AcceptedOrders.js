@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './acceptedOrders.css';
 import {useDispatch, useSelector} from "react-redux";
-import {getAcceptOrders, logoutUser} from "../../../../redux/reducers/user";
+import {getAcceptOrders} from "../../../../redux/reducers/user";
 import axios from "axios";
 import {setHiddenFooter} from "../../../../redux/reducers/app";
-import {Link} from "react-router-dom";
+
 
 const AcceptedOrders = () => {
     const acceptOrders = useSelector(s => s.user.acceptOrders);
@@ -47,7 +47,7 @@ const AcceptedOrders = () => {
     useEffect(() => {
         dispatch(getAcceptOrders());
         dispatch(setHiddenFooter(false))
-    }, []);
+    }, [dispatch]);
     return (
         <>
 
@@ -62,14 +62,17 @@ const AcceptedOrders = () => {
 
                                 <div className="col-lg-auto">
                                     <button
+                                        className={'btn btn-primary btn-sm accept-orders-filter-button'}
                                         onClick={()=>{
                                         orderFilterFunc("all")
                                     }} >Все</button>
                                     <button
+                                        className={'btn btn-primary btn-sm accept-orders-filter-button'}
                                         onClick={()=>{
                                             orderFilterFunc("active")
                                         }} >Активные</button>
                                     <button
+                                        className={'btn btn-primary btn-sm accept-orders-filter-button'}
                                         onClick={()=>{
                                         orderFilterFunc("completed")
                                     }} >Выполнено</button>

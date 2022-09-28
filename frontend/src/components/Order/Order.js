@@ -7,15 +7,14 @@ import PopupComponent from "../PopupComponent/PopupComponent";
 import requests from "../../assets/img/bg/requests.png";
 
 const Order = () => {
-     const [state, setState] = useState(null);
     const categories = useSelector((s) => s.item.categories);
     const locations = useSelector(s => s.item.locations);
     const showPopup = useSelector(s => s.item.showPopup);
     const [description, setDescription] = useState('');
     const [tel, setTel] = useState('');
     const [email, setEmail] = useState('');
-    const [location, setLocation] = useState("0");
-    const [category, setCategory] = useState("0");
+    const [location, setLocation] = useState(null);
+    const [category, setCategory] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] =useState(false);
 
@@ -32,7 +31,6 @@ const Order = () => {
            })
            .then((data) =>{
                console.log(data);
-               setState(data.status);
                setMessage('Ваш заказ добавлен. Через некоторое время с вами должны связаться')
            })
            .catch(error => {
@@ -58,7 +56,7 @@ const Order = () => {
         dispatch(setStatus('addItem'));
         dispatch(getCategories());
         dispatch(getLocations());
-    }, []);
+    }, [dispatch]);
 
     return (
         <>
@@ -112,7 +110,7 @@ const Order = () => {
                                             <span className="nameInput">Категория</span>
                                             <select
                                                 onChange={(e) => setCategory(e.target.value)}
-                                                value={category}
+                                                value={category ? category : 0}
                                                 className="form-select
 			                                    custom-select" aria-label="Default
 			                                    select example">
@@ -128,7 +126,7 @@ const Order = () => {
                                         <div className="space-y-10">
                                             <span className="nameInput">Локация</span>
                                             <select
-                                                value={location}
+                                                value={location ? location: 0}
                                                 onChange={e => setLocation(e.target.value)}
                                                 className="form-select
 			                                    custom-select" aria-label="Default

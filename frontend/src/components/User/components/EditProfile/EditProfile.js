@@ -19,22 +19,19 @@ const EditProfile = () => {
     const [editSelect, setEditSelect] = useState('');
     const [loading, setLoading] = useState('');
     const [profileImage, setProfileImage] = useState(null);
-    const [message, setMessage] = useState('');
     const addProfileImage = () =>{
-        const data = new FormData();
-        data.append('username', user.username);
-        data.append('profile_image', profileImage, profileImage.name);
+
         if (profileImage){
+            const data = new FormData();
+            data.append('username', user.username);
+            data.append('profile_image', profileImage, profileImage.name);
             setLoading('profileImage');
             axios.put(`https://kyzmat24.com/api/users/update/${id}`, data)
                 .then((response)=>{
                     console.log(response);
-                    setMessage('Изменения сохранены');
                     dispatch(setUser(id));
                 }).catch((error)=>{
-                console.log(error.response)
-                    setMessage("Произошла ошибка");
-
+                console.log(error.response);
             }).finally(()=>{
                 setLoading(false)
             })
@@ -43,7 +40,7 @@ const EditProfile = () => {
 
     useEffect(()=>{
         dispatch(setHiddenFooter(false))
-    }, []);
+    }, [dispatch]);
     return (
         <>
             <div className="container">

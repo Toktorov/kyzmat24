@@ -1,14 +1,9 @@
 import React from 'react';
 //import "./reception.css";
 import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import inHero1 from "../../assets/img/bg/in_hero1.png";
-import {setStatus} from "../../redux/reducers/item";
-import Bg from "../../img/Bg.jpg";
 
 const Reception = () => {
-    const dispatch = useDispatch();
-    const status = useSelector((s) => s.item.status);
     return (
         <>
 

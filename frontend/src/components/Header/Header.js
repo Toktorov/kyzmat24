@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-//import './header.css'
+import './header.css'
 import {useDispatch, useSelector} from "react-redux";
-import {setApp, setStatus} from "../../redux/reducers/item";
+import { setStatus} from "../../redux/reducers/item";
 
 const Header = () => {
     const dispatch = useDispatch();
-    const status = useSelector((s) => s.item.status);
+    const authTokens = useSelector(s => s.user.authTokens);
     const [showBurgerMenu, setShowBurgerMenu] = useState(false);
     const burgerMenuFunc = () =>{
        setShowBurgerMenu(!showBurgerMenu)
@@ -39,12 +39,12 @@ const Header = () => {
                         </div>
 
                         <div className="mode_switcher space-x-10">
-                            <a href="Home1.html#" className="light d-flex align-items-center is_active">
+                            <Link to={'/'} className="light d-flex align-items-center is_active">
                                 <i className="ri-sun-fill"></i>
-                            </a>
-                            <a href="Home1.html#" className="dark d-flex align-items-center">
+                            </Link>
+                            <Link to={'/'} className="dark d-flex align-items-center">
                                 <i className="ri-moon-fill"></i>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -58,13 +58,13 @@ const Header = () => {
                                   onClick={()=>{
                                       dispatch(setStatus('home'));
                                   }}
-                                  className="h4_09" >
+                                >
                                 Kyzmat24
                             </Link>
                         </div>
 
 
-                        <div className={showBurgerMenu ? "header__mobile" : "header__menu"}>
+                        <div className={showBurgerMenu ? "header__mobile header__menu" : "header__menu"}>
                             <ul className="d-flex space-x-20">
                                 <li className="has_popup">
                                     <Link to={'/'} className="color_black"
@@ -95,17 +95,22 @@ const Header = () => {
                         </div>
 
 
+                       <div className={"header__right"}>
                         <div className="header__btns">
                             <Link to={"/user"} className="btn btn-grad btn-sm">
-                                <img width="30" src="assets/img/icons/metamask.svg" alt=""/>
-                                    Регистрация</Link>
+                                {
+                                    authTokens
+                                        ? "Профиль"
+                                        : 'Регистрация/Войти'
+                                }
+                                     </Link>
                         </div>
                         <div
                             onClick={()=>{
                                 burgerMenuFunc()
                             }}
                             className="header__burger js-header-burger"> </div>
-
+                    </div>
                         {/*<div className="header__mobile js-header-mobile">*/}
                         {/*    <div className="header__mobile__menu space-y-40">*/}
                         {/*        <ul className="d-flex space-y-20">*/}

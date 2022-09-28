@@ -18,31 +18,11 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
     const [location, setLocation] = useState(user ? user.user_location : '');
     const [category, setCategory] = useState(user && user.user_category ? user.user_category: '0');
     const [message, setMessage] = useState('');
-    const getUserLocation = (id) => {
-        if (locations) {
-            let userLocation = locations.filter((item) => {
-                return item.id === id
-            });
-            if (userLocation[0]){
-                return userLocation[0].title
-            }
-        }
-    };
-    const getUserCategory = (id) => {
-        if (categories) {
-            let userCategory = categories.filter((item) => {
-                return item.id === id
-            });
-            if(userCategory[0]){
-                return userCategory[0].content
-            }
 
-        }
-    };
 
 
     const updateAccount = () =>{
-        const data = new FormData;
+        const data = new FormData();
         data.append('username', username);
         if (email){
             data.append('email', email);
@@ -75,7 +55,7 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
         dispatch(setUser(id));
         dispatch(getCategories());
         dispatch(getLocations());
-    }, []);
+    }, [dispatch, id]);
     useEffect(()=>{
         setEmail(user ? user.email : '');
         setLocation(user ? user.user_location : '0');
@@ -120,7 +100,7 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
                         <div className="d-flex flex-column">
                             <span className="nameInput mb-10">Ваша категория</span>
                             <select name="" id=""
-                                    value={ category}
+                                    value={ category ? category: 0}
                             onChange={(e)=>{
                                 setCategory(e.target.value);
                                 setEditSelect('category')
@@ -139,7 +119,7 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
                         <div className="d-flex flex-column">
                             <span className="nameInput mb-10">Ваша локация</span>
                             <select name="" id=""
-                                    value={location}
+                                    value={location ? location: 0}
                                     onChange={(e)=>{
                                         setLocation(e.target.value);
                                         setEditSelect('location')

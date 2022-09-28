@@ -7,16 +7,24 @@ import {Link} from "react-router-dom";
 import {getCategories, setShowPopup} from "../../../../redux/reducers/item";
 import PopupComponent from "../../../PopupComponent/PopupComponent";
 import {setHiddenFooter} from "../../../../redux/reducers/app";
+import CategoriesPopup from "../../../PopupComponent/CategoriesPopup";
 
 const Orders = () => {
     const orders = useSelector(s => s.user.orders);
     const dispatch = useDispatch();
     const id = useSelector(s => s.user.id);
-    const categories = useSelector(s => s.item.categories);
     const showPopup = useSelector(s => s.item.showPopup);
-    const [showList, setShowList] = useState(false);
-    const [ordersWithCategory, setOrdersWithCategory] = useState([]);
     const [message, setMessage] = useState('');
+    const listWithCategory = useSelector(s => s.app.listWithCategory);
+    const showListWithCategory = useSelector(s => s.app.showListWithCategory);
+
+    const mainSelector = () => {
+        if (listWithCategory.length !== 0) {
+            return listWithCategory
+        } else {
+            return orders
+        }
+    };
 
     const acceptOrderFunc = (orderId) => {
         axios.put(`/api/order/update/${orderId}`, {
@@ -45,35 +53,16 @@ const Orders = () => {
         });
 
     };
-    const getOrderCategory = (id) =>{
-        if (categories) {
-            let orderCategory = categories.filter((item) => {
-                return item.id === id
-            });
-            if(orderCategory[0]){
-                return orderCategory[0].content
-            }
 
-        }
-    };
 
-    const categoryFilter = (id) =>{
-      let  withCategories = orders.filter((element)=>{
-          return element.category
-      });
-        setOrdersWithCategory(withCategories.filter((element)=>{
-            return element.category.id === id
-        }))
-    };
+
 
     useEffect(() => {
         dispatch(getOrders());
         dispatch(getCategories());
         dispatch(setHiddenFooter(false))
-    }, []);
-    useEffect(()=>{
-        setOrdersWithCategory(orders)
-    },[orders]);
+    }, [dispatch]);
+
     return (
         <>
             {
@@ -90,35 +79,7 @@ const Orders = () => {
 
                                 <div className="col-lg-auto">
                                     <div className="dropdown">
-                                        <button
-                                            onClick={()=>{
-                                                setShowList(!showList)
-                                            }}
-                                            className="btn btn-primary btn-sm"
-                                                type="button">
-                                            Категории
-                                        </button>
-                                        {
-                                            showList
-                                                ?         <div className={showList ? "orders-category-btns orders-category-btns-show" : "orders-category-btns"}>
-                                                    <button
-                                                        onClick={()=>{
-                                                            setOrdersWithCategory(orders)
-                                                        }}
-                                                    >Все</button>
-                                                    {
-                                                        categories.map((item)=>{
-                                                            return <button key={item.id}
-                                                                           onClick={()=>{
-                                                                               categoryFilter(item.id)
-                                                                           }}
-                                                            >{item.content}</button>
-                                                        })
-                                                    }
-                                                </div>
-                                                : ''
-                                        }
-
+                                     <CategoriesPopup list={orders} type={"orders"}/>
                                     </div>
                                 </div>
 
@@ -127,7 +88,9 @@ const Orders = () => {
                         <div className="section__body space-y-20">
                             <div className="row mb-20_reset">
                                 {
-                                    ordersWithCategory.map((item)=>{
+                                    showListWithCategory && listWithCategory.length === 0
+                                    ? <h3>Заказов по этой категории пока нет(</h3>
+                                    :mainSelector().map((item)=>{
                                         return <div key={item.id} className="col-lg-4">
                                             <div className="creator_item creator_card space-y-20 mb-20">
                                                 <div className="avatars flex-column space-y-10">

@@ -26,7 +26,7 @@ const initState = {
 };
 
 
-export default (state = initState, action) => {
+export const item = (state = initState, action) => {
     switch (action.type) {
 
         case CHANGE_STATUS : {
@@ -112,7 +112,7 @@ export const getService = (id) =>{
       axios('/api/users/')
           .then(({data}) =>{
               return dispatch({type: GET_SERVICE, service: data.filter(item =>{
-                  return item.id == id
+                  return `${item.id}` === `${id}`
                   })[0]})
       })
   }

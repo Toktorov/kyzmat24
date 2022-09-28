@@ -1,5 +1,6 @@
 
 
+
 .preloader {
     height: 100vh;
     display: flex;
@@ -130,8 +131,8 @@
     height: 64px;
     margin: 8px;
     border-radius: 50%;
-    border: 6px solid #fff;
-    border-color: #fff transparent #fff transparent;
+    border: 6px solid orangered;
+    border-color: orangered transparent orangered transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
 
@@ -145,3 +146,32 @@
 }
 
 
+@media screen and (max-width: 992px) {
+.header__menu{
+    position: absolute;
+    opacity: 1;
+    overflow: hidden;
+    top: 1.5rem;
+    left: 0;
+    right: 0;
+    border-radius: 10px;
+    margin: 0 !important;
+    background: #ffffff;
+    width: 100%;
+    padding: 29px;
+    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0px 17px 13px 0px #192c4b05;
+    z-index: 0;
+    transform: translateY(-1rem) translateX(0);
+}
+    .header__mobile{
+        top: 5.5rem;
+        z-index: 4;
+        transition: .7s;
+    }
+    .header__right{
+        display: flex;
+        z-index: 5;
+    }
+
+}

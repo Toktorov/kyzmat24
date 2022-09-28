@@ -45,3 +45,39 @@
 .message-area-bottom{
     text-align: right;
 }
+
+.categories-component{
+    position: relative;
+    width: 100px;
+}
+
+.categories-popup{
+    background-color: white;
+    overflow: auto;
+    width: 200px;
+    border-radius: 10px;
+    padding: 15px;
+    position: absolute;
+    transition: .5s;
+    z-index: -1;
+    height: 0;
+    opacity: 0;
+    top: 0;
+    left: 110%;
+}
+.categories-popup-show{
+    height: 50vh;
+    z-index: 4;
+    opacity: 1;
+}
+.categories-popup button{
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px solid black;
+    padding: 10px 0;
+}
+
+.selected-category-button{
+    color: #566ffe;
+}

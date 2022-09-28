@@ -13,7 +13,7 @@ const Reviews = () => {
         dispatch(setApp('kyzmat'));
         dispatch(setStatus('review'));
         dispatch(setHiddenFooter(false))
-    },[]);
+    },[dispatch]);
     return (
 
         <>

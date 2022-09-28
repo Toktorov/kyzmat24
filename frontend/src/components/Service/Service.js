@@ -3,9 +3,7 @@ import ReactPlayer from "react-player";
 import './service.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getCategories, getLocations, getService, setApp} from "../../redux/reducers/item";
-import {Link, useHistory, useParams} from "react-router-dom";
-import avatar from '../../img/avatar.jpg';
-import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+import {useParams, useHistory} from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faFacebook, faWhatsapp, faTelegramPlane, faInstagram} from "@fortawesome/free-brands-svg-icons";
 import Footer from "../Footer/Footer";
@@ -16,9 +14,9 @@ const Service = () => {
     const locations = useSelector(s => s.item.locations);
     const categories = useSelector(s => s.item.categories);
     const dispatch = useDispatch();
-    const history = useHistory();
     const params = useParams();
-    const goBack = (e) => {
+   const history = useHistory();
+    const goBack = () => {
         history.goBack();
     };
     const getUserLocation = (id) => {
@@ -49,17 +47,28 @@ const Service = () => {
         dispatch(getLocations());
         dispatch(getCategories());
         dispatch(setHiddenFooter(true))
-    }, []);
+    }, [dispatch, params.id]);
     return (
 
 
         <>
             {
-                JSON.stringify(service) === '{}' ? ""
+                JSON.stringify(service) === '{}' ?  <div className={'login-preloader'}>
+                        <div className="lds-ring">
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                            <div> </div>
+                        </div>
+                    </div>
                     :<div className="container">
-                        <Link to={"/"} className="btn btn-white btn-sm my-40">
-                            Назад на главную
-                        </Link>
+                        <button
+                            onClick={()=>{
+                                goBack()
+                            }}
+                            className="btn btn-white btn-sm my-40">
+                            Назад
+                        </button>
                         <div className="item_details">
                             <div className="row sm:space-y-20">
                                 <div className="col-lg-6">
@@ -101,22 +110,43 @@ const Service = () => {
                                                                 service.contact.length === 0 ? <p> --- </p> :
                                                                                                     service.contact.map((item) => {
                                                                                                         if (item.name === 'facebook') {
-                                                                                                            return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                                                            return <a
+                                                                                                                rel="noreferrer"
+                                                                                                                key={item.src}
+                                                                                                                href={item.src}
+                                                                                                                target={'_blank'}>
                                                                                                                 <FontAwesomeIcon icon={faFacebook}/></a>
                                                                                                         } else if (item.name === 'whatsapp') {
-                                                                                                            return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                                                            return <a
+                                                                                                                rel="noreferrer"
+                                                                                                                key={item.src}
+                                                                                                                href={item.src}
+                                                                                                                target={'_blank'}>
                                                                                                                 <FontAwesomeIcon icon={faWhatsapp}/> </a>
                                                                                                         } else if (item.name === 'instagram') {
-                                                                                                            return <a key={item.src} href={item.src} target={'_blank'}>
+                                                                                                            return <a
+                                                                                                                rel="noreferrer"
+                                                                                                                key={item.src}
+                                                                                                                href={item.src}
+                                                                                                                target={'_blank'}>
                                                                                                                 <FontAwesomeIcon icon={faInstagram}/></a>
                                                                                                         } else if (item.name === 'telegram') {
-                                                                                                            return <a key={item.src} href={item.src}
+                                                                                                            return <a
+                                                                                                                rel="noreferrer"
+                                                                                                                key={item.src}
+                                                                                                                href={item.src}
                                                                                                                       target={'_blank'}><FontAwesomeIcon
                                                                                                                 icon={faTelegramPlane}/></a>
                                                                                                         } else if (item.name === 'tel') {
-                                                                                                            return <a href={`tel:${item.src}`}>{item.src}</a>
+                                                                                                            return <a
+                                                                                                                rel="noreferrer"
+                                                                                                                key={item.src}
+                                                                                                                href={`tel:${item.src}`}>{item.src}</a>
                                                                                                         } else {
-                                                                                                            return <a key={item.src} href={item.src}
+                                                                                                            return <a
+                                                                                                                rel="noreferrer"
+                                                                                                                key={item.src}
+                                                                                                                href={item.src}
                                                                                                                       target={'_blank'}>{item.name}</a>
                                                                                                         }
                                                                                                     })

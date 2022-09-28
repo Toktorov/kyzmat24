@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom'
 import {useSelector} from "react-redux";
-import {setStatus} from "../../redux/reducers/item";
+import '../Header/header.css'
 
 const UserHeader = () => {
     const id = useSelector(s => s.user.id);
@@ -35,12 +35,12 @@ const UserHeader = () => {
                             </div>
 
                             <div className="mode_switcher space-x-10">
-                                <a href="Home1.html#" className="light d-flex align-items-center is_active">
+                                <Link to={"/"} className="light d-flex align-items-center is_active">
                                     <i className="ri-sun-fill"></i>
-                                </a>
-                                <a href="Home1.html#" className="dark d-flex align-items-center">
+                                </Link>
+                                <Link to={"/"} className="dark d-flex align-items-center">
                                     <i className="ri-moon-fill"></i>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@ const UserHeader = () => {
 
                             {
                                 id ? <>
-                                    <div className={showBurgerMenu ? 'header__mobile' : 'header__menu'}>
+                                    <div className={showBurgerMenu ? 'header__mobile header__menu' : 'header__menu'}>
                                         <ul className="d-flex space-x-20">
                                             <li className="has_popup">
                                                 <Link  to={'/user/orders/'} className="color_black"
@@ -90,27 +90,6 @@ const UserHeader = () => {
                                         }}
                                         className="header__burger js-header-burger"> </div>
 
-                                    {/*<div className="header__mobile js-header-mobile">*/}
-                                    {/*    <div className="header__mobile__menu space-y-40">*/}
-                                    {/*        <ul className="d-flex space-y-20">*/}
-                                    {/*            <li><a className="color_black" href="Marketplace.html"> Marketplace</a></li>*/}
-                                    {/*            <li><a className="color_black" href="Collections.html"> Collections</a></li>*/}
-                                    {/*            <li><a className="color_black" href="Profile.html"> Profile</a></li>*/}
-                                    {/*            <li><a className="color_black" href="Creators.html"> Creators</a></li>*/}
-
-                                    {/*        </ul>*/}
-                                    {/*        <div className="space-y-20">*/}
-                                    {/*            <div className="header__search in_mobile w-full">*/}
-                                    {/*                <input type="text" placeholder="Search"/>*/}
-                                    {/*                <button className="header__result">*/}
-                                    {/*                    <i className="ri-search-line"></i>*/}
-                                    {/*                </button>*/}
-                                    {/*            </div>*/}
-                                    {/*            <a className="btn btn-grad btn-sm" href="Connect-wallet.html">Connect*/}
-                                    {/*                wallet</a>*/}
-                                    {/*        </div>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
                                 </>: ''
                             }
 

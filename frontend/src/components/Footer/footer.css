@@ -1,98 +1,137 @@
-li, ul {
-    list-style: none;
-}
-
-a {
-    color: inherit;
-    outline: none;
-    text-decoration: none;
-}
-
-.footer {
-    height: 300px;
-}
-
-.footer p:first-child {
-    margin-top: 50px;
-}
-
-.footer-mt {
-}
-
-.flex_block {
-    font-size: 18px;
-    align-items: center;
-    text-align: center;
-}
-
-.info_block_footer {
-    display: flex;
-    justify-content: space-between;
-}
-
-.info_text {
-    margin: 25px 0;
-    font-size: 20px;
-}
-
-.logo_section {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.flex_text {
-    margin: 10px 0;
-}
-
-.nav_bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 400px;
-}
-
-.nav_bar li {
-    font-weight: 500;
-}
-
-.footer__logo a {
+.footer__logo a{
+    font-size: 2.2rem;
     color: orangered;
-    font-family: "Roboto", sans-serif;
-    text-decoration: none;
-    font-size: 18px;
+}
+.footer__1 {
+    padding: 100px 0 50px;
+    margin-top: 100px;
+    border-top: 1px solid #e2eef1;
+    background-color: #ffffff;
+}
+.footer__1 .footer_logo img {
+    height: 3rem;
+}
+.footer__1 .footer__text {
+    max-width: 30rem;
+    margin-left: 0;
 }
 
-@media screen and (max-width: 760px) {
-    .nav_bar {
-        font-size: 16px;
-        width: 280px;
-    }
-    .flex_text{
-        font-size: 16px;
-    }
-}
-@media screen and (max-width: 560px) {
-    .nav_bar{
-        flex-direction: column;
-        justify-content: center;
-        row-gap: 10px;
-        width: 200px;
-    }
+.footer__1 .footer__social {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
 }
 
-@media screen and (max-width: 450px) {
-    .info_text {
-        font-size: 18px;
-    }
+.footer__1 .footer__social a,
+.footer__1 .footer__social i {
+    color: #183b56;
+    font-size: 1.2rem;
 }
-@media screen and (max-width: 390px){
-    .info_block_footer{
-        flex-wrap: wrap;
-    }
-    .nav_bar{
-        align-items: flex-end;
-        margin-top: 15px;
-        margin-bottom: 50px;
+.footer__1 .footer__social i {
+    height: 2.5rem;
+    width: 2.5rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-radius: 100%;
+    background: #e2eef1;
+    -webkit-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    border: solid 1px transparent;
+}
+
+.footer__1 .footer__social i:hover {
+    background: #ffffff;
+    -webkit-box-shadow: 0 17px 13px 0 #192c4b05;
+    box-shadow: 0 17px 13px 0 #192c4b05;
+    border: solid 1px #e2eef1;
+}
+
+.footer__1 .footer-desc {
+    margin-bottom: 2rem;
+}
+
+.footer__1 .footer-desc .logo {
+    margin-bottom: 1rem;
+}
+
+.footer__1 .footer-desc .logo img {
+    height: 2.5rem;
+}
+
+.footer__1 .footer-desc .social-footer {
+    margin-top: 1rem;
+}
+
+.footer__1 .footer-desc .social-footer a img {
+    width: 18px;
+    margin-right: 8px;
+}
+
+
+
+.footer__1 .footer__title {
+    font-size: 1.1rem;
+    position: relative;
+    margin-bottom: 1.3rem;
+}
+
+.footer__1 .footer__list {
+    margin-bottom: 2rem;
+}
+
+.footer__1 .footer__list li {
+    margin-bottom: 1rem;
+}
+.footer__1 .footer__list li a {
+    color: #183b56;
+}
+
+.footer__1 .footer__list li a:hover {
+    padding-left: 0.5rem;
+    color: #566ffe;
+}
+
+.footer__1 .copyright {
+    margin-top: 35px;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.footer__1 .copyright p {
+    padding: 2rem 0 2rem;
+    font-size: 1rem;
+    margin: 0;
+    color: #a5a5a5;
+}
+
+.section__creators .footer-collumn {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+}
+
+.is__dark .footer__1 .footer__list li a {
+    color: #a5afc1;
+}
+
+
+@media screen and (max-width: 991px) {
+    .footer__1 {
+        padding: 70px 0 30px;
+        margin-top: 70px;
     }
 }

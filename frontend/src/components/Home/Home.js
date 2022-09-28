@@ -3,26 +3,22 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getCategories, getItems, getLocations, setApp, setStatus} from "../../redux/reducers/item";
 import React, {useEffect, useState} from "react";
-import avatar from '../../img/avatar.jpg';
 import Reception from "../Reception/Reception";
 import {setHiddenFooter} from "../../redux/reducers/app";
-import CategoriesPopup from "./CategoriesPopup";
+import CategoriesPopup from "../PopupComponent/CategoriesPopup";
 import {getOrders} from "../../redux/reducers/user";
 
 const Home = () => {
-    const categories = useSelector((s) => s.item.categories);
-    const [category, setCategory] = useState([]);
-    const [showCategoryList, setShowCategoryList] = useState(false);
-    const [selectCategory, setSelectCategory] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState(null);
     const [showcaseOrders, setShowcaseOrders] = useState([]);
     const orders = useSelector(s => s.user.orders);
     const dispatch = useDispatch();
     const items = useSelector((s) => s.item.items);
     const locations = useSelector(s => s.item.locations);
+    const listWithCategory = useSelector(s => s.app.listWithCategory);
+    const showListWithCategory = useSelector(s => s.app.showListWithCategory);
     const mainSelector = () => {
-        if (category && selectCategory) {
-            return category
+        if (listWithCategory.length !== 0) {
+            return listWithCategory
         } else {
             return items
         }
@@ -45,7 +41,7 @@ const Home = () => {
         dispatch(setApp('kyzmat'));
         dispatch(setHiddenFooter(false));
         dispatch(getOrders())
-    }, []);
+    }, [dispatch]);
 useEffect(()=>{
     setShowcaseOrders(orders.filter((item, idx)=>{
         return idx > orders.length - 4
@@ -100,33 +96,14 @@ useEffect(()=>{
 							space-x-20
 							align-items-center">
                             <h2 className="section__title text-center">Услуги</h2>
-                            <button
-                                onClick={() => {
-                                    setShowCategoryList(!showCategoryList)
-                                }}
-                                className="btn btn-primary btn-sm
-											"
-                                type="button"
-
-                            >
-                                Категории
-                            </button>
-
-                            {
-                                showCategoryList
-                                    ? <CategoriesPopup items={items} setCategory={setCategory} categories={categories}
-                                                       setSelectCategory={setSelectCategory}
-                                                       setSelectedCategory={setSelectedCategory}
-                                                       selectedCategory={selectedCategory}/>
-                                    : ''
-                            }
+                            <CategoriesPopup list={items} type={"services"}/>
 
 
                         </div>
                     </div>
                     <div className="row">
                         {
-                            selectCategory && category.length === 0 ?
+                            showListWithCategory && listWithCategory.length === 0 ?
                                 <p>Публичных услуг по этой категории пока нет(</p>
                                 : items && locations ?
                                 mainSelector().map((item) => {

@@ -1,18 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import axios from "axios";
-import {setAuthTokens, setUser, setNewUser, setId} from "../../../../redux/reducers/user";
-import jwt_decode from "jwt-decode";
-import {useDispatch, useSelector} from "react-redux";
 
 const SignUp = ({setStatus, loginUser}) => {
-    const id = useSelector(s => s.user.id);
     const [loading, setLoading] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [userStatus, setUserStatus] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
-    const dispatch = useDispatch();
 
    const signUp = (e) => {
         setLoading(true);
@@ -32,10 +26,8 @@ const SignUp = ({setStatus, loginUser}) => {
             setUserStatus(false);
             setLoading(false);
             if (error.response.data.password){
-                setErrorMessage(error.response.data.password[0]);
                 console.log(error.response.data?.password[0]);
             } else if(error.response.data.username){
-                setErrorMessage(error.response.data.username[0]);
                 console.log(error.response.data?.username[0])
             }
         });

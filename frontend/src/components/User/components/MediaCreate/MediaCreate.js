@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import axios from "axios";
 import "./mediaCreate.css";
 import {useDispatch, useSelector} from "react-redux";
@@ -79,7 +79,7 @@ const MediaCreate = ({setShowMediaCreate}) => {
                 {
                     select === 'photo' ?
                         <form>
-                            Добавить фото
+
                             <label className={'mediaCreate-forms-label-photo'}>
                                 {labelPhotoContent()}
                                 <input
@@ -96,13 +96,15 @@ const MediaCreate = ({setShowMediaCreate}) => {
                                     loading ? <div className="lds-dual-ring"> </div>:
                                         <>
                                             {
-                                                photo ? <button type={'button'} onClick={() => {
+                                                photo ? <button
+                                                    className={"media-create-button"}
+                                                    type={'button'} onClick={() => {
                                                     console.log(photo);
                                                     sendPhoto()
                                                 }}>Добавить
                                                 </button> : ''
                                             }
-                                            <button type={'button'} onClick={() => setSelect('video')}>Перейти на видео</button>
+                                            <button className={'media-selector-button'} type={'button'} onClick={() => setSelect('video')}>Перейти на видео</button>
                                             </>
                                 }
 
@@ -123,11 +125,15 @@ const MediaCreate = ({setShowMediaCreate}) => {
                                         loading ? <div className="lds-dual-ring"> </div>:
                                             <>
                                                 {
-                                                    videoSrc ?  <button type={'button'} onClick={()=>{
+                                                    videoSrc ?  <button
+                                                        className={"media-create-button"}
+                                                        type={'button'} onClick={()=>{
                                                         sendVideo();
                                                     }}>Добавить</button> : ''
                                                 }
-                                                <button type={'button'} onClick={() => setSelect('photo')}>Перейти на фото</button>
+                                                <button
+                                                    className={'media-selector-button'}
+                                                    type={'button'} onClick={() => setSelect('photo')}>Перейти на фото</button>
                                             </>
                                     }
 

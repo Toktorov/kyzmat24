@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {useSelector} from "react-redux";
 import axios from "axios";
@@ -38,7 +38,6 @@ function App() {
     };
 
     useEffect(() => {
-        console.log(getCsrfToken());
         axios.defaults.headers.post['X-CSRF-TOKEN'] = getCsrfToken();
     }, []);
     return (
