@@ -12,7 +12,7 @@
 
 .mediaCreate-forms {
     background-color: white;
-    color: orangered;
+    color: #566ffe;
     width: 500px;
     height: 300px;
     border-radius: 20px;
@@ -25,20 +25,16 @@
 }
 
 .mediaCreate-btns button {
-    margin: 0 5px;
-    background-color: white;
-    border: 1px solid orangered;
-    color: orangered;
-    padding: 5px 10px;
-    border-radius: 6px;
-    font-size: 20px;
-    line-height: 110%;
-    cursor: pointer;
-    transition: .5s;
+    color: #566ffe;
+    border: 1px solid #566ffe;
+    transition: all 0.4s ease-in-out !important;
+    background: #ffffff;
+    padding: 5px 15px;
+    border-radius: 5px;
 }
 
 .mediaCreate-btns button:hover {
-    background-color: orangered;
+    background-color: #566ffe;
     color: white;
 }
 
@@ -62,7 +58,7 @@
     line-height: 110%;
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid orangered;
+    border-bottom: 1px solid #566ffe;
     outline: none;
 }
 .mediaCreate-forms-input-photo {
@@ -74,15 +70,16 @@
     opacity: 0;
 }
 .mediaCreate-forms-label-photo{
-    background-color: white;
-    color: orangered;
-    border: 1px solid orangered;
+    color: #566ffe;
+    border: 1px solid #566ffe;
+    transition: all 0.4s ease-in-out !important;
+    background: #ffffff;
+    padding: 5px 15px;
+    border-radius: 5px;
     margin-left: 10px;
     font-size: 20px;
     line-height: 110%;
     display: inline-block;
-    padding: 5px 10px;
-    border-radius: 15px;
     cursor: pointer;
 }
 .mediaCreate-forms-label-photo:active{
@@ -94,21 +91,21 @@
 .media-selector-button{
 background-color: transparent;
     border: none;
-    color:orangered;
+    color:#566ffe;
     transition: .5s;
     font-size: 13px;
-    border-bottom: 1px solid orangered;
+    border-bottom: 1px solid #566ffe;
 }
 .media-create-button{
     background-color: transparent;
-    color: orangered;
+    color: #566ffe;
     padding: 5px 15px;
     border-radius: 10px;
-    border: 1px solid orangered;
+    border: 1px solid #566ffe;
     transition: .5s;
 }
 .media-create-button:hover{
-    background-color: orangered;
+    background-color: #566ffe;
     color: white;
 }
 

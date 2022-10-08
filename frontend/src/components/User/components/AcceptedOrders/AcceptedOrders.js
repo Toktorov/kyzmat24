@@ -62,17 +62,26 @@ const AcceptedOrders = () => {
 
                                 <div className="col-lg-auto">
                                     <button
-                                        className={'btn btn-primary btn-sm accept-orders-filter-button'}
+                                        className={orderSelector === 'all'
+                                        ? 'btn btn-sm accept-orders-filter-button accept-orders-filter-button-active'
+                                            : 'btn btn-sm accept-orders-filter-button'
+                                        }
                                         onClick={()=>{
                                         orderFilterFunc("all")
                                     }} >Все</button>
                                     <button
-                                        className={'btn btn-primary btn-sm accept-orders-filter-button'}
+                                        className={orderSelector === 'active'
+                                            ? 'btn btn-sm accept-orders-filter-button accept-orders-filter-button-active'
+                                            : 'btn btn-sm accept-orders-filter-button'
+                                        }
                                         onClick={()=>{
                                             orderFilterFunc("active")
                                         }} >Активные</button>
                                     <button
-                                        className={'btn btn-primary btn-sm accept-orders-filter-button'}
+                                        className={orderSelector === 'completed'
+                                            ? 'btn btn-sm accept-orders-filter-button accept-orders-filter-button-active'
+                                            : 'btn btn-sm accept-orders-filter-button'
+                                        }
                                         onClick={()=>{
                                         orderFilterFunc("completed")
                                     }} >Выполнено</button>

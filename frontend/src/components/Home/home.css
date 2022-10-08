@@ -5,3 +5,27 @@
     flex-direction: column;
     height: 200px;
 }
+
+.show-case-orders{
+    padding: 5px;
+    background-color: white;
+    border-radius: 15px;
+}
+
+@media screen and (max-width: 768px){
+    .card_head{
+        max-height: 170px!important;
+    }
+}
+
+@media screen and (max-width: 576px){
+    .card_head{
+        max-height: 300px!important;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .card_head{
+        max-height: 200px!important;
+    }
+}

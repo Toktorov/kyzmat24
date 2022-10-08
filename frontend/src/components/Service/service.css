@@ -6,6 +6,8 @@
 
 .profile-img {
     width: 100%;
+    object-fit: cover;
+   height: 350px;
 }
 
 .profile-video {
@@ -14,3 +16,15 @@
 }
 
 
+@media screen and (max-width: 576px) {
+.profile-img{
+    height: 300px;
+}
+
+}
+@media screen and (max-width: 450px) {
+    .profile-img{
+        height: 250px;
+    }
+
+}

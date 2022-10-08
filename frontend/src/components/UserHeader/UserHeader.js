@@ -29,17 +29,17 @@ const UserHeader = () => {
                                 {/*    loop*/}
                                 {/*    autoplay></lottie-player>*/}
                                 <p className="color_white">
-                                    Теперь доступна
-                                    {/*<span style="color: rgb(0, 255, 170)">тёмная тема </span>*/}
+                                    Скоро будет доступна
+                                    <span> тёмная тема </span>
                                 </p>
                             </div>
 
                             <div className="mode_switcher space-x-10">
-                                <Link to={"/"} className="light d-flex align-items-center is_active">
-                                    <i className="ri-sun-fill"></i>
+                                <Link to={"#"} className="light d-flex align-items-center is_active">
+                                    <i className="ri-sun-fill"> </i>
                                 </Link>
-                                <Link to={"/"} className="dark d-flex align-items-center">
-                                    <i className="ri-moon-fill"></i>
+                                <Link to={"#"} className="dark d-flex align-items-center">
+                                    <i className="ri-moon-fill"> </i>
                                 </Link>
                             </div>
                         </div>

@@ -10,56 +10,14 @@
 
 .accept-orders-filter-button{
     margin-right: 10px;
+    color: #566ffe;
+    border: 1px solid #566ffe;
+    transition: all 0.4s ease-in-out !important;
+    background: #ffffff;
+    position: relative;
+}
+.accept-orders-filter-button-active{
+    color: #ffffff;
+    background: #566ffe;
 }
 
-.accept-orders-btn {
-    background-color: orangered;
-    border: 1px solid orangered;
-    padding: 10px 30px;
-    border-radius: 5px;
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: .5s;
-    margin: 15px 15px 10px 0;
-}
-
-.done {
-    background-color: #00D363;
-    border: 1px solid #00D363;
-}
-
-.done:hover {
-    background-color: #FFFFFF;
-    color: #00D363;
-}
-
-.refuse {
-    background-color: #ed4c5c;
-    border: 1px solid #ed4c5c;
-}
-
-.refuse:hover {
-    background-color: #FFFFFF;
-    color: #ed4c5c;
-}
-
-@media screen and (max-width: 560px) {
-    .accept-orders-btns {
-        top: 58px;
-    }
-
-}
-@media screen and (max-width: 450px) {
-    .accept-orders-btn {
-        padding: 7px 21px;
-        margin: 10px 10px 10px 0;
-    }
-}
-
-@media screen and (max-width: 390px) {
-    .accept-orders-btn {
-        padding: 5px 15px;
-        margin: 5px 5px 5px 0;
-        font-size: 12px;
-    }
-}

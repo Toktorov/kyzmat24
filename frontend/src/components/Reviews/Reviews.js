@@ -19,7 +19,7 @@ const Reviews = () => {
         <>
             <div className="requests">
                 <div className="container">
-                    <div className="row gx-5 justify-content-center">
+                    <div className="row justify-content-center">
 
                         <div className="col-lg-8 col-md-10 requests__content">
                             <div className="requests__wrap space-y-20">

@@ -42,11 +42,11 @@ const Home = () => {
         dispatch(setHiddenFooter(false));
         dispatch(getOrders())
     }, [dispatch]);
-useEffect(()=>{
-    setShowcaseOrders(orders.filter((item, idx)=>{
-        return idx > orders.length - 4
-    }))
-},[orders]);
+    useEffect(() => {
+        setShowcaseOrders(orders.filter((item, idx) => {
+            return idx > orders.length - 4
+        }))
+    }, [orders]);
 
     return (
         <>
@@ -60,21 +60,17 @@ useEffect(()=>{
                         </div>
                         <div className=" ">
 
-                            <div className="row section_body">
+                            <div className="row">
                                 {
                                     showcaseOrders.map((item) => {
-                                        return  <div key={item.id} className="max-w500 col-3">
-                                            <div className="creator_item creator_card rounded_border space-x-10">
-                                                <div className="avatars space-x-10">
-                                                    <div>
-                                                        <span className="price color_green">{
-                                                            item.description.length > 20
-                                                            ? item.description.slice(0, 17) + "..."
+                                        return <div key={item.id} className=" col-3">
+                                                <div className="space-x-10 color_green show-case-orders">
+                                                    {
+                                                            item.description.length > 10
+                                                                ? item.description.slice(0, 7) + "..."
                                                                 : item.description
-                                                        }</span>
-                                                    </div>
+                                                        }
                                                 </div>
-                                            </div>
                                         </div>
                                     })
                                 }
@@ -113,9 +109,9 @@ useEffect(()=>{
 
                                                 <div className="card_head">
                                                     <Link to={`/service/${item.id}`}>
-                                                        <img
-                                                            src={item.profile_image}
-                                                            alt="item
+                                                            <img
+                                                                src={item.profile_image}
+                                                                alt="item
 												img"/>
                                                     </Link>
                                                 </div>

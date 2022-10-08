@@ -9407,11 +9407,7 @@ label:active:after {
   }
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    max-width: 800px !important;
-  }
-}
+
 
 
 
@@ -9679,9 +9675,7 @@ label:active:after {
 }
 
 @media screen and (max-width: 1400px) {
-  .container {
-    max-width: 1200px;
-  }
+
   .hero__4 .swiper_hero .swiper-button-prev {
     display: none;
   }

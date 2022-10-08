@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactPlayer from "react-player";
 import './service.css';
 import {useDispatch, useSelector} from "react-redux";
@@ -10,9 +10,10 @@ import Footer from "../Footer/Footer";
 import {setHiddenFooter} from "../../redux/reducers/app";
 
 const Service = () => {
-    const service = useSelector(s => s.item.service);
+    const serviceRedux = useSelector(s => s.item.service);
     const locations = useSelector(s => s.item.locations);
     const categories = useSelector(s => s.item.categories);
+    const [service, setService] = useState({});
     const dispatch = useDispatch();
     const params = useParams();
    const history = useHistory();
@@ -41,17 +42,22 @@ const Service = () => {
         }
     };
 
+    useEffect(()=>{
+        setService(serviceRedux)
+    }, [serviceRedux]);
     useEffect(() => {
+        setService({});
         dispatch(getService(params.id));
         dispatch(setApp('kyzmat'));
         dispatch(getLocations());
         dispatch(getCategories());
-        dispatch(setHiddenFooter(true))
+        dispatch(setHiddenFooter(true));
     }, [dispatch, params.id]);
+
     return (
 
 
-        <>
+        <div className={'details-wrapper'}>
             {
                 JSON.stringify(service) === '{}' ?  <div className={'login-preloader'}>
                         <div className="lds-ring">
@@ -157,20 +163,20 @@ const Service = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="hr2"></div>
+                                        <div className="hr2"> </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="mb-50 top_margin">
                             <h3 className="mb-30">Фото/Видео</h3>
-                            <div className="row profile-img display-flex">
+                            <div className="row display-flex">
                                 {
                                     !service.media ? <p>Пользователь пока не загрузил</p> :
                                         service.media.map((item) => {
                                             if (item.name === 'img') {
                                                 return (
-                                                    <div className={'col-2'} key={item.file}>
+                                                    <div className={'col-xxl-3 col-xl-4 col-lg-6'} key={item.file}>
                                                         <div className="profile-images">
                                                             <a data-fancybox="gallery" href={`${item.file}`}>
                                                                 <img className='profile-img' src={`${item.file}`}
@@ -181,7 +187,7 @@ const Service = () => {
                                                 )
                                             } else {
                                                 return (
-                                                    <div className={'col-2'} key={item.src}>
+                                                    <div className={'col-xxl-3 col-xl-4 col-lg-6'} key={item.src}>
                                                         <div className="profile-images">
                                                             <a data-fancybox="gallery" href={`${item.src}`}>
                                                                 <ReactPlayer className='profile-video'
@@ -200,7 +206,7 @@ const Service = () => {
                     </div>
             }
             <Footer/>
-        </>
+        </div>
 
 
     );

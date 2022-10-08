@@ -91,7 +91,9 @@ export const setUser = (id) => {
                 localStorage.setItem('user', JSON.stringify(data));
                 return  dispatch({type: SET_USER, user: data})
             }).catch(error => {
-               dispatch(logoutUser())
+                if (error.response.status === 404){
+                    dispatch(logoutUser())
+                }
         });
 
     }

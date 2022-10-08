@@ -81,3 +81,16 @@
 .selected-category-button{
     color: #566ffe;
 }
+
+@media screen and (max-width: 450px) {
+    .categories-component {
+        width: 70px;
+    }
+    .categories-popup button{
+        font-size: 13px;
+    }
+    .categories-popup{
+        width: 150px;
+        left: 125%;
+    }
+}

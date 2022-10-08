@@ -184,6 +184,10 @@
         padding: 3px 9px;
         font-size: 12px;
     }
+    .mediaCreate-forms-label-photo-edit{
+        display: block;
+        margin-top: 10px;
+    }
 }
 
 @media screen and (max-width: 390px) {

@@ -86,7 +86,8 @@
     border-radius: 5px;
     cursor: pointer;
     background-color: transparent;
-    border: 1px solid #e1e1e1;
+    border: 1px solid #566ffe;
+    color: #566ffe;
 }
 .logout-btn-cancel,
 .logout-btn-logout{

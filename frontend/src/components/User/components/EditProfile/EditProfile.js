@@ -19,6 +19,13 @@ const EditProfile = () => {
     const [editSelect, setEditSelect] = useState('');
     const [loading, setLoading] = useState('');
     const [profileImage, setProfileImage] = useState(null);
+    const labelPhotoText = (name) =>{
+        if (!profileImage){
+            return 'Поменять фото профиля'
+        } else{
+            return name.length > 10 ? name.substr(0, 7) + '...': name
+        }
+    };
     const addProfileImage = () =>{
 
         if (profileImage){
@@ -55,18 +62,29 @@ const EditProfile = () => {
                                 user && user.profile_image
                                     ? <>
                                         <div id="boxUpload">
-                                            <button
-                                                onClick={()=>{
-                                                addProfileImage()
-                                                }}
-                                                className="btn btn-dark">
-                                                Поменять фото</button>
-                                            <input type="file"
-                                                    required
-                                                   onChange={(e)=>{
-                                                       setProfileImage(e.target.files[0])
-                                                   }}
-                                                 />
+                                            {
+                                                profileImage ? <button
+                                                    onClick={()=>{
+                                                        addProfileImage()
+                                                    }}
+                                                    className="btn btn-dark">
+                                                    Поменять</button>
+                                                    : ''
+                                            }
+                                            <label className="mediaCreate-forms-label-photo mediaCreate-forms-label-photo-edit">
+                                                {
+                                                    labelPhotoText(profileImage ? profileImage.name : '')
+                                                }
+                                                <input
+                                                    className="mediaCreate-forms-input-photo"
+                                                    type="file"
+                                                       required
+                                                       onChange={(e)=>{
+                                                           setProfileImage(e.target.files[0])
+                                                       }}
+                                                />
+                                            </label>
+
                                         </div>
                                         {/*<button className="btn btn-white"> Удалить фото</button>*/}
                                     </>

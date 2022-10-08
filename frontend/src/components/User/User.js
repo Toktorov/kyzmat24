@@ -98,10 +98,11 @@ const User = () => {
         dispatch(getLocations());
         dispatch(getCategories());
         dispatch(setHiddenFooter(true));
+        dispatch(setHiddenFooter(true));
     }, [dispatch, id]);
 
     return (
-        <section className={"profile"}>
+        <section className={"details-wrapper"}>
             {
                 showLogoutPopup ? <LogoutPopup setShowLogoutPopup={setShowLogoutPopup}/> : ''
             }
@@ -149,7 +150,7 @@ const User = () => {
 
                                     <div className="container">
                                         <div className="row justify-content-center">
-                                            <div className="col-lg-6 col-md-8 order-md-0 order-1">
+                                            <div className="col-lg-6 col-md-8">
                                                 <div className="profile__sidebar">
                                                     <div className="space-y-40">
                                                         <div className="space-y-10">
@@ -170,18 +171,20 @@ const User = () => {
                                                                         <h4>{getUserLocation(user.user_location)}</h4>
                                                                     </div>
                                                                     <div className="col-8">
-                                                                        <span className="txt_sm color_text"><Link
-                                                                            to={'/user/edit'}>Перейти в настройки</Link></span>
+                                                                        <Link
+                                                                            className={'txt_sm'}
+                                                                            to={'/user/edit'}>Перейти в настройки</Link>
                                                                     </div>
                                                                     <div className="col-8">
-                                                                    <span className="txt_sm color_text">
+
                                                                         <button
+                                                                            className={'logout-btn'}
                                                                            onClick={(e) => {
                                                                                e.preventDefault();
                                                                                setShowLogoutPopup(true)
                                                                            }}
                                                                         >Выйти из аккаунта</button>
-                                                                    </span>
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -244,7 +247,7 @@ const User = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-6 col-md-12 order-md-1 order-0">
+                                            <div className="col-lg-6 col-md-12">
                                                 <div className="profile__content">
                                                     <div className="d-flex justify-content-between">
                                                         <div className="space-x-10">

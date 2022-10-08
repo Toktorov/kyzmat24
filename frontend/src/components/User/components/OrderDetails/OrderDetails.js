@@ -3,7 +3,7 @@ import {useParams, useHistory} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux";
 import {getOrderDetails, getOrders} from "../../../../redux/reducers/user";
 import {getCategories, getLocations, setShowPopup} from "../../../../redux/reducers/item";
-import "./orderDetails.css"
+import "./orderDetails.css";
 import axios from "axios";
 import {setHiddenFooter} from "../../../../redux/reducers/app";
 import Footer from "../../../Footer/Footer";
@@ -78,7 +78,7 @@ const OrderDetails = () => {
         dispatch(getOrderDetails(params.id))
     }, [dispatch, params.id]);
     return (
-        <section className={"order-details"}>
+        <section className={".details-wrapper"}>
             {
                 showPopup ? <PopupComponent messageForUsers={message}/>: ''
             }
