@@ -116,40 +116,40 @@ const Service = () => {
                                                                 service.contact.length === 0 ? <p> --- </p> :
                                                                                                     service.contact.map((item) => {
                                                                                                         if (item.name === 'facebook') {
-                                                                                                            return <a
+                                                                                                            return <a className={"service-contact-link"}
                                                                                                                 rel="noreferrer"
                                                                                                                 key={item.src}
                                                                                                                 href={item.src}
                                                                                                                 target={'_blank'}>
                                                                                                                 <FontAwesomeIcon icon={faFacebook}/></a>
                                                                                                         } else if (item.name === 'whatsapp') {
-                                                                                                            return <a
+                                                                                                            return <a className={"service-contact-link"}
                                                                                                                 rel="noreferrer"
                                                                                                                 key={item.src}
                                                                                                                 href={item.src}
                                                                                                                 target={'_blank'}>
                                                                                                                 <FontAwesomeIcon icon={faWhatsapp}/> </a>
                                                                                                         } else if (item.name === 'instagram') {
-                                                                                                            return <a
+                                                                                                            return <a className={"service-contact-link"}
                                                                                                                 rel="noreferrer"
                                                                                                                 key={item.src}
                                                                                                                 href={item.src}
                                                                                                                 target={'_blank'}>
                                                                                                                 <FontAwesomeIcon icon={faInstagram}/></a>
                                                                                                         } else if (item.name === 'telegram') {
-                                                                                                            return <a
+                                                                                                            return <a className={"service-contact-link"}
                                                                                                                 rel="noreferrer"
                                                                                                                 key={item.src}
                                                                                                                 href={item.src}
                                                                                                                       target={'_blank'}><FontAwesomeIcon
                                                                                                                 icon={faTelegramPlane}/></a>
                                                                                                         } else if (item.name === 'tel') {
-                                                                                                            return <a
+                                                                                                            return <a className={"service-contact-link"}
                                                                                                                 rel="noreferrer"
                                                                                                                 key={item.src}
                                                                                                                 href={`tel:${item.src}`}>{item.src}</a>
                                                                                                         } else {
-                                                                                                            return <a
+                                                                                                            return <a className={"service-contact-link"}
                                                                                                                 rel="noreferrer"
                                                                                                                 key={item.src}
                                                                                                                 href={item.src}

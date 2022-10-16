@@ -15,6 +15,9 @@
     height: auto !important;
 }
 
+.service-contact-link{
+    margin-left: 10px;
+}
 
 @media screen and (max-width: 576px) {
 .profile-img{

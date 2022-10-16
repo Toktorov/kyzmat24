@@ -84,7 +84,7 @@ const Header = () => {
                                           className="color_black" > Отзывы</Link>
                                 </li>
                                 <li>
-                                    <Link to={'search'}
+                                    <Link to={'/search'}
                                           onClick={()=>{
                                               dispatch(setStatus('search'));
                                           }}

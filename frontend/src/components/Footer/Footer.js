@@ -35,7 +35,13 @@ const Footer = () => {
 
                         </div>
                         <p className="copyright text-center">
-                            Copyright © 2022. Created with love by Bezbak, Kubanych, Kurmanbek.
+                            Copyright © 2022. Created with love by Bezbak, Kubanychbek, Kurmanbek.
+                            <br/>
+                            Beknazar - General director
+                            <br/>
+                            Kubanychbek - Technical director
+                            <br/>
+                            Azamat - Finance director
                         </p>
                     </div>
                 </div>

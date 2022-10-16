@@ -5,6 +5,7 @@ import axios from "axios";
 import {getCategories, getLocations, setShowPopup} from "../../../../../redux/reducers/item";
 import PopupComponent from "../../../../PopupComponent/PopupComponent";
 import UpdateProfile from "../../UpdateProfile/UpdateProfile";
+import Locations from "../../../Locations";
 
 const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) => {
     const dispatch = useDispatch();
@@ -19,7 +20,16 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
     const [category, setCategory] = useState(user && user.user_category ? user.user_category: '0');
     const [message, setMessage] = useState('');
 
-
+    const getUserLocation = (id) => {
+        if (locations) {
+            let userLocation = locations.filter((item) => {
+                return item.id === id
+            });
+            if (userLocation[0]) {
+                return userLocation[0]
+            }
+        }
+    };
 
     const updateAccount = () =>{
         const data = new FormData();
@@ -60,7 +70,7 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
         setEmail(user ? user.email : '');
         setLocation(user ? user.user_location : '0');
         setUsername(user ? user.username: '');
-        setCategory(user && user.user_category ? user.user_category: '0')
+        setCategory(user && user.user_category ? user.user_category: '0');
     }, [user]);
     return (
         <>
@@ -118,21 +128,8 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
 
                         <div className="d-flex flex-column">
                             <span className="nameInput mb-10">Ваша локация</span>
-                            <select name="" id=""
-                                    value={location ? location: 0}
-                                    onChange={(e)=>{
-                                        setLocation(e.target.value);
-                                        setEditSelect('location')
-                                    }}
-                            >
-                                <option value="0">Выбрать локацию</option>
-                                {
-                                    locations.map((item)=>{
-                                        return <option key={item.id} value={item.id}>{item.title}</option>
-                                    })
-                                }
-                            </select>
-
+                            <p>{getUserLocation(location) ? getUserLocation(location).title : '--'}</p>
+                            <Locations setEditSelect={setEditSelect} setLocation={setLocation}/>
                         </div>
                         <div>
                             {

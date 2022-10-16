@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {setAuthTokens, setId, setUser} from "../../redux/reducers/user";
 import './user.css'
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import altAvatar from '../../img/avatar.jpg';
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -24,7 +24,7 @@ import Footer from "../Footer/Footer";
 import profileBg from '../../assets/img/bg/prrofile.png';
 
 const User = () => {
-
+    const params = useParams();
     const history = useHistory();
     const [status, setStatus] = useState('login');
     const user = useSelector(s => s.user.user);
@@ -87,7 +87,7 @@ const User = () => {
     };
 
     useEffect(() => {
-        if (user && authTokens) {
+        if (user && authTokens ) {
             history.push(`/user/home/${user.id}`)
         }
     }, [user, authTokens, history]);
@@ -135,9 +135,9 @@ const User = () => {
                                                             <div className="avatars d-flex space-x-20
 										align-items-center">
                                                                 <div className="avatar_wrap">
-                                                                        <img className="avatar avatar-lg"
-                                                                               src={user && user.profile_image ? user.profile_image: altAvatar}
-                                                                               alt="avatar"/>
+                                                                    <img className="avatar avatar-lg"
+                                                                         src={user && user.profile_image ? user.profile_image : altAvatar}
+                                                                         alt="avatar"/>
                                                                 </div>
                                                                 <h5>{user.username}</h5>
                                                             </div>
@@ -179,11 +179,12 @@ const User = () => {
 
                                                                         <button
                                                                             className={'logout-btn'}
-                                                                           onClick={(e) => {
-                                                                               e.preventDefault();
-                                                                               setShowLogoutPopup(true)
-                                                                           }}
-                                                                        >Выйти из аккаунта</button>
+                                                                            onClick={(e) => {
+                                                                                e.preventDefault();
+                                                                                setShowLogoutPopup(true)
+                                                                            }}
+                                                                        >Выйти из аккаунта
+                                                                        </button>
 
                                                                     </div>
                                                                 </div>
@@ -200,43 +201,43 @@ const User = () => {
                                                                                     return <a
                                                                                         className="color_text"
                                                                                         rel="noreferrer"
-                                                                                              key={item.src}
+                                                                                        key={item.src}
                                                                                         href={item.src}
-                                                                                              target={'_blank'}>
+                                                                                        target={'_blank'}>
                                                                                         <FontAwesomeIcon icon={faFacebook}/></a>
                                                                                 } else if (item.name === 'whatsapp') {
                                                                                     return <a
                                                                                         rel="noreferrer"
                                                                                         className="color_text"
-                                                                                              key={item.src}
+                                                                                        key={item.src}
                                                                                         href={item.src}
-                                                                                              target={'_blank'}>
+                                                                                        target={'_blank'}>
                                                                                         <FontAwesomeIcon icon={faWhatsapp}/>
                                                                                     </a>
                                                                                 } else if (item.name === 'instagram') {
                                                                                     return <a
                                                                                         rel="noreferrer"
                                                                                         className="color_text"
-                                                                                              key={item.src}
+                                                                                        key={item.src}
                                                                                         href={item.src}
-                                                                                              target={'_blank'}>
+                                                                                        target={'_blank'}>
                                                                                         <FontAwesomeIcon
                                                                                             icon={faInstagram}/></a>
                                                                                 } else if (item.name === 'telegram') {
                                                                                     return <a
                                                                                         rel="noreferrer"
                                                                                         className="color_text"
-                                                                                              key={item.src}
+                                                                                        key={item.src}
                                                                                         href={item.src}
-                                                                                              target={'_blank'}><FontAwesomeIcon
+                                                                                        target={'_blank'}><FontAwesomeIcon
                                                                                         icon={faTelegramPlane}/></a>
                                                                                 } else {
                                                                                     return <a
                                                                                         rel="noreferrer"
                                                                                         className="color_text"
-                                                                                              key={item.src}
+                                                                                        key={item.src}
                                                                                         href={item.src}
-                                                                                              target={'_blank'}>{item.src}</a>
+                                                                                        target={'_blank'}>{item.src}</a>
                                                                                 }
                                                                             })
                                                                     }
@@ -255,11 +256,12 @@ const User = () => {
                                                             <div className="">
                                                                 <button
                                                                     className={"show-media-create-button"}
-                                                                onClick={()=> setShowMediaCreate(true)}
+                                                                    onClick={() => setShowMediaCreate(true)}
                                                                 ><FontAwesomeIcon icon={faPlus}/></button>
                                                                 <div className="row">
                                                                     {
-                                                                        user && user.media.length === 0 ? <p>Вы пока ничего не загрузили</p> :
+                                                                        user && user.media.length === 0 ?
+                                                                            <p>Вы пока ничего не загрузили</p> :
                                                                             user.media.map((item) => {
                                                                                 if (item.name === 'img') {
                                                                                     return (
@@ -267,13 +269,15 @@ const User = () => {
                                                                                              key={item.file}>
                                                                                             <div className="profile-images">
                                                                                                 {
-                                                                                                    showMediaPopup === item.id ? <PopupMedia
-                                                                                                        setShowMediaPopup={setShowMediaPopup}
-                                                                                                        mediaId={item.id}/> : <button
-                                                                                                        onClick={() => {
-                                                                                                            setShowMediaPopup(item.id)
-                                                                                                        }}
-                                                                                                        className={'profile-images-btn'}>...</button>
+                                                                                                    showMediaPopup === item.id ?
+                                                                                                        <PopupMedia
+                                                                                                            setShowMediaPopup={setShowMediaPopup}
+                                                                                                            mediaId={item.id}/> :
+                                                                                                        <button
+                                                                                                            onClick={() => {
+                                                                                                                setShowMediaPopup(item.id)
+                                                                                                            }}
+                                                                                                            className={'profile-images-btn'}>...</button>
                                                                                                 }
                                                                                                 <a data-fancybox="gallery"
                                                                                                    href={`${item.file}`}>
@@ -291,13 +295,15 @@ const User = () => {
                                                                                              key={item.src}>
                                                                                             <div className="profile-images">
                                                                                                 {
-                                                                                                    showMediaPopup === item.id ? <PopupMedia
-                                                                                                        setShowMediaPopup={setShowMediaPopup}
-                                                                                                        mediaId={item.id}/> : <button
-                                                                                                        onClick={() => {
-                                                                                                            setShowMediaPopup(item.id)
-                                                                                                        }}
-                                                                                                        className={'profile-images-btn'}>...</button>
+                                                                                                    showMediaPopup === item.id ?
+                                                                                                        <PopupMedia
+                                                                                                            setShowMediaPopup={setShowMediaPopup}
+                                                                                                            mediaId={item.id}/> :
+                                                                                                        <button
+                                                                                                            onClick={() => {
+                                                                                                                setShowMediaPopup(item.id)
+                                                                                                            }}
+                                                                                                            className={'profile-images-btn'}>...</button>
                                                                                                 }
                                                                                                 <a data-fancybox="gallery"
                                                                                                    href={`${item.src}`}>
