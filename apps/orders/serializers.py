@@ -1,6 +1,5 @@
-from dataclasses import field
 from rest_framework import serializers
-from apps.orders.models import AcceptOrder, Order
+from apps.orders.models import AcceptOrder, Order, Review
 from apps.categories.models import Category
 from apps.users.models import User
 from apps.users.serializers import UserSerializer
@@ -69,4 +68,8 @@ class UpdateStatusSeriaizer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('id', 'title', 'status')
-        
+      
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"

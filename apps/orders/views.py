@@ -1,9 +1,10 @@
 from rest_framework import viewsets, generics
-from apps.orders.models import AcceptOrder, Order
+from apps.orders.models import AcceptOrder, Order, Review
 from apps.orders.serializers import (CategorySerializer, 
     OrderSerializer, CreateOrderSerializer, OrderCreateSerializer, 
     OrderDetailSerializer, AcceptOrderSerializer, AcceptOrderCreateSerializer,
-    UpdateStatusSeriaizer, OrderAcceptUpdateSerializer, OrderCompletedSerializer
+    UpdateStatusSeriaizer, OrderAcceptUpdateSerializer, OrderCompletedSerializer,
+    ReviewSerializer
     )
 from django.shortcuts import render
 from apps.categories.models import Category
@@ -67,6 +68,11 @@ class AcceptOrderCreateAPIView(generics.CreateAPIView):
 class UpdateStatusSeriaizer(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = UpdateStatusSeriaizer
+    permission_classes = (AllowAny, )
+
+class ReviewAPIView(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
     permission_classes = (AllowAny, )
 
 def handler404(request, exception):

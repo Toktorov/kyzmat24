@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 from apps.categories.models import Category, Location
 from apps.users.models import User
@@ -42,3 +43,14 @@ class AcceptOrder(models.Model):
     class Meta:
         verbose_name = "Принимать заказ"
         verbose_name_plural = "Принимать заказы"
+
+class Review(models.Model):
+    message = models.TextField()
+    created = models.DateTimeField(auto_now_add = True)
+
+    def __str__(self):
+        return self.message 
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
