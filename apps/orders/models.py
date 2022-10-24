@@ -11,7 +11,7 @@ class Order(models.Model):
     description = models.TextField(help_text="Описание продукта", blank=True, null = True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null = True)
     places = models.CharField(max_length=100, help_text="places", blank = True, null = True)
-    category = models.ForeignKey(Category, on_delete=models.S,  related_name='product_category', blank = True, null = True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL,  related_name='product_category', blank = True, null = True)
     email = models.CharField(max_length=100, help_text="Почта", blank = True, null = True)
     tel = models.CharField(max_length=100, help_text="Телефоный номер", blank=True, null = True)
     cretated = models.DateTimeField(auto_now_add=True)
