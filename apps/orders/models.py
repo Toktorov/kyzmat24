@@ -6,12 +6,12 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="order_user", null = True,  blank = True)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="order_user", null = True,  blank = True)
     title = models.CharField(max_length=250, help_text = "Название продукта", blank=True, null = True)
     description = models.TextField(help_text="Описание продукта", blank=True, null = True)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, blank=True, null = True)
+    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING, blank=True, null = True)
     places = models.CharField(max_length=100, help_text="places", blank = True, null = True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,  related_name='product_category', blank = True, null = True)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING,  related_name='product_category', blank = True, null = True)
     email = models.CharField(max_length=100, help_text="Почта", blank = True, null = True)
     tel = models.CharField(max_length=100, help_text="Телефоный номер", blank=True, null = True)
     cretated = models.DateTimeField(auto_now_add=True)
