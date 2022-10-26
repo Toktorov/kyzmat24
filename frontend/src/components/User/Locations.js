@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getLocations} from "../../redux/reducers/item";
 
-const Locations = ({setLocation, setEditSelect}) => {
+const Locations = ({setLocation, setEditSelect = () =>{}}) => {
     const dispatch = useDispatch();
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);

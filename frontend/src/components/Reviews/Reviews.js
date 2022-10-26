@@ -1,24 +1,52 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 //import './reviews.css'
-import {useDispatch} from "react-redux";
-import {setApp, setStatus} from "../../redux/reducers/item";
+import {useDispatch, useSelector} from "react-redux";
+import {setApp, setShowPopup, setStatus} from "../../redux/reducers/item";
 import {setHiddenFooter} from "../../redux/reducers/app";
 import requests from "../../assets/img/bg/requests.png";
+import axios from "axios";
+import PopupComponent from "../PopupComponent/PopupComponent";
 
 const Reviews = () => {
     const dispatch = useDispatch();
+    const [message, setMessage] = useState('');
+    const [popupMessage, setPopupMessage] = useState('');
+    const showPopup = useSelector(s => s.item.showPopup);
+    const [loading, setLoading] = useState(false);
+    const postReview = () => {
+        if (message.trim().length !== 0) {
+            setLoading(true);
+    axios.post('/api/order/review/', {
+        message
+    }).then((response) => {
+        setPopupMessage("Спасибо за отзыв!");
+        setMessage('');
+        console.log(response)
+    }).catch((error)=>{
+        setPopupMessage("Произошла ошибка. Проверьте соединение с интернетом и попробуйте снова");
+        console.log(error)
+    }).finally(()=>{
+        dispatch(setShowPopup(true));
+        setLoading(false)
+    })
+        }
+    };
 
-
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setApp('kyzmat'));
         dispatch(setStatus('review'));
-        dispatch(setHiddenFooter(false))
-    },[dispatch]);
+        dispatch(setHiddenFooter(false));
+    }, [dispatch]);
     return (
 
         <>
             <div className="requests">
                 <div className="container">
+                    {
+                        showPopup
+                            ? <PopupComponent messageForUsers={popupMessage}/>
+                            : ''
+                    }
                     <div className="row justify-content-center">
 
                         <div className="col-lg-8 col-md-10 requests__content">
@@ -32,14 +60,35 @@ const Reviews = () => {
                                         <div className="space-y-10">
                                             <span className="nameInput">Ваш отзыв</span>
                                             <textarea
-                                                      className="mb-0">
+                                                value={message}
+                                                onChange={(e)=>{
+                                                    setMessage(e.target.value)
+                                                }}
+                                                className="mb-0">
 			                                </textarea>
                                         </div>
                                         <div className="requests_footer">
 
                                             <div>
-                                                <button className="btn
-			                                        btn-grad">Добавить</button>
+                                                {
+                                                    loading
+                                                        ? <div className={'login-preloader preloader'}>
+                                                        <div className="lds-ring">
+                                                            <div> </div>
+                                                            <div> </div>
+                                                            <div> </div>
+                                                            <div> </div>
+                                                        </div>
+                                                    </div>
+                                                        : <button
+                                                            onClick={()=>{
+                                                                postReview();
+                                                            }}
+                                                            className="btn
+			                                        btn-grad">Добавить
+                                                        </button>
+                                                }
+
                                             </div>
                                         </div>
                                     </div>

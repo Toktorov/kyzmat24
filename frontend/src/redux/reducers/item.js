@@ -109,11 +109,9 @@ export const getCategories = () => {
 
 export const getService = (id) =>{
   return (dispatch) =>{
-      axios('/api/users/')
+      axios(`/api/users/${id}`)
           .then(({data}) =>{
-              return dispatch({type: GET_SERVICE, service: data.filter(item =>{
-                  return `${item.id}` === `${id}`
-                  })[0]})
+              return dispatch({type: GET_SERVICE, service: data})
       })
   }
 };

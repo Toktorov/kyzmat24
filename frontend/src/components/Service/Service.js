@@ -59,7 +59,7 @@ const Service = () => {
 
         <div className={'details-wrapper'}>
             {
-                JSON.stringify(service) === '{}' ?  <div className={'login-preloader'}>
+                JSON.stringify(service) === '{}' ?  <div className={'login-preloader preloader'}>
                         <div className="lds-ring">
                             <div> </div>
                             <div> </div>

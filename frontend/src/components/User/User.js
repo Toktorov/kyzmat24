@@ -98,7 +98,6 @@ const User = () => {
         dispatch(getLocations());
         dispatch(getCategories());
         dispatch(setHiddenFooter(true));
-        dispatch(setHiddenFooter(true));
     }, [dispatch, id]);
 
     return (

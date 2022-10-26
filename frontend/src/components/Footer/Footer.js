@@ -2,6 +2,7 @@ import React from 'react';
 import './footer.css';
 import {Link} from "react-router-dom";
 import {faFacebook, faInstagram, faWhatsapp, faYoutube} from "@fortawesome/free-brands-svg-icons";
+import {faPhone} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 
@@ -22,14 +23,17 @@ const Footer = () => {
                             </p>
                             <div>
                                 <ul className="footer__social space-x-10 mb-40">
-                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faFacebook}/> </Link>
+                                    {/*<li><Link to={"/"}> <FontAwesomeIcon icon={faFacebook}/> </Link>*/}
+                                    {/*</li>*/}
+                                    {/*<li><Link to={"/"}> <FontAwesomeIcon icon={faInstagram}/> </Link>*/}
+                                    {/*</li>*/}
+                                    <li><a href={"https://wa.me/+996771830438"} target={'_blank'}> <FontAwesomeIcon icon={faWhatsapp}/> </a>
                                     </li>
-                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faInstagram}/> </Link>
+                                    <li>
+                                        <a href="tel:+996 771 830 438"><FontAwesomeIcon icon={faPhone}/> +996 771 830 438</a>
                                     </li>
-                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faWhatsapp}/> </Link>
-                                    </li>
-                                    <li><Link to={"/"}> <FontAwesomeIcon icon={faYoutube}/> </Link>
-                                    </li>
+                                    {/*<li><Link to={"/"}> <FontAwesomeIcon icon={faYoutube}/> </Link>*/}
+                                    {/*</li>*/}
                                 </ul>
                             </div>
 

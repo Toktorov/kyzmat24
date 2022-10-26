@@ -5,6 +5,7 @@ import {getCategories, getLocations, setApp, setShowPopup, setStatus} from "../.
 import axios from "axios";
 import PopupComponent from "../PopupComponent/PopupComponent";
 import requests from "../../assets/img/bg/requests.png";
+import Locations from "../User/Locations";
 
 const Order = () => {
     const categories = useSelector((s) => s.item.categories);
@@ -125,20 +126,7 @@ const Order = () => {
                                         </div>
                                         <div className="space-y-10">
                                             <span className="nameInput">Локация</span>
-                                            <select
-                                                value={location ? location: 0}
-                                                onChange={e => setLocation(e.target.value)}
-                                                className="form-select
-			                                    custom-select" aria-label="Default
-			                                    select example">
-                                                <option className={'kyzmat_option'} value="0">Выберите локацию (необязательно)</option>
-                                                {
-                                                    locations.map((item) => {
-                                                        return <option key={item.id} className={'kyzmat_option'}
-                                                                       value={item.id}>{item.title}</option>
-                                                    })
-                                                }
-                                            </select>
+                                            <Locations setLocation={setLocation}/>
                                         </div>
                                         <div className="requests_footer">
                                             <div>

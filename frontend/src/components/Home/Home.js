@@ -99,8 +99,17 @@ const Home = () => {
                     </div>
                     <div className="row">
                         {
-                            showListWithCategory && listWithCategory.length === 0 ?
-                                <p>Публичных услуг по этой категории пока нет(</p>
+                            items.length === 0
+                            ?  <div className={'login-preloader preloader'}>
+                                    <div className="lds-ring">
+                                        <div> </div>
+                                        <div> </div>
+                                        <div> </div>
+                                        <div> </div>
+                                    </div>
+                                </div>
+                          :  showListWithCategory && listWithCategory.length === 0
+                                ? <p>Публичных услуг по этой категории пока нет(</p>
                                 : items && locations ?
                                 mainSelector().map((item) => {
                                     return <div key={item.id} className="col-xl-3 col-lg-4 col-md-6 col-sm-6">
