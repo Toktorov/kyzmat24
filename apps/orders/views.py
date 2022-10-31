@@ -9,6 +9,8 @@ from apps.orders.serializers import (CategorySerializer,
 from django.shortcuts import render
 from apps.categories.models import Category
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.response import Response
+from rest_framework import status
 # Create your views here.
 
 class OrderAPIViewSet(viewsets.ModelViewSet):
@@ -58,12 +60,21 @@ class OrderDeleteAPIView(generics.DestroyAPIView):
 class AcceptOrderAPIView(viewsets.ModelViewSet):
     queryset = AcceptOrder.objects.all()
     serializer_class = AcceptOrderSerializer
-    permission_classes = (AllowAny, )
+    permission_classes = (AllowAny, )   
 
 class AcceptOrderCreateAPIView(generics.CreateAPIView):
     queryset = AcceptOrder.objects.all()
     serializer_class = AcceptOrderCreateSerializer
     permission_classes = (AllowAny, )
+
+    # def update_status_order(self,request, pk):
+    #     try:
+    #         order = Order.objects.get(self.queryset)
+    #         if order:
+    #             order.status = True
+    #             order.save()
+    #     except:
+    #         return Response({'Вышла ошибка'}, status=status.HTTP_400_BAD_REQUEST)
 
 class UpdateStatusSeriaizer(generics.UpdateAPIView):
     queryset = Order.objects.all()
