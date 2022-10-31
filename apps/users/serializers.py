@@ -186,7 +186,6 @@ class MediaCreateSerializer(serializers.ModelSerializer):
         fields = ('name', 'file', 'src', 'user')
 
 class AcceptOrderSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = AcceptOrder
         fields = "__all__"
@@ -194,13 +193,13 @@ class AcceptOrderSerializer(serializers.ModelSerializer):
 class UserSerializerList(serializers.ModelSerializer):
     contact = ContactSerializer(many=True, source='contact_set.all', read_only=True)
     media = MediaSerializer(many = True,  source='media_set.all', read_only = True)
-    orders = AcceptOrderSerializer(many = True, read_only = True)
+    accept_order_user = AcceptOrderSerializer(many = True, read_only = True)
 
     class Meta:
         model = User
         fields = (
             'id', 'username', 'first_name', 'last_name', 'email', 'verifed', 'status_user', 'profile_image', 'description', 
-            'user_location', 'user_category', 'another', 'contact', 'media', 'orders'
+            'user_location', 'user_category', 'another', 'contact', 'media', 'accept_order_user'
         )
 
 

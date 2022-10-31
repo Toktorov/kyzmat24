@@ -32,7 +32,7 @@ class Order(models.Model):
         ordering = ('-id',)
 
 class AcceptOrder(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "accept_order_user")
     order = models.OneToOneField(Order, limit_choices_to = {'status': False}, on_delete=models.CASCADE, unique=True)
     created = models.DateTimeField(auto_now_add=True)
 
