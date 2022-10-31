@@ -67,14 +67,11 @@ class AcceptOrderCreateAPIView(generics.CreateAPIView):
     serializer_class = AcceptOrderCreateSerializer
     permission_classes = (AllowAny, )
 
-    # def update_status_order(self,request, pk):
-    #     try:
-    #         order = Order.objects.get(self.queryset)
-    #         if order:
-    #             order.status = True
-    #             order.save()
-    #     except:
-    #         return Response({'Вышла ошибка'}, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        obj = serializer.save()
+        accept_order = AcceptOrder.objects.get(id = obj.id)
+        accept_order.order.status = True 
+        accept_order.order.save()
 
 class UpdateStatusSeriaizer(generics.UpdateAPIView):
     queryset = Order.objects.all()
