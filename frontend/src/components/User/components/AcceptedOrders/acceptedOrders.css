@@ -21,3 +21,28 @@
     background: #566ffe;
 }
 
+.accept-orders-popup{
+    position: fixed;
+    background-color: white;
+    z-index: 5;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    box-shadow: 0 0 20px 0 rgba(34, 60, 80, 0.2);
+}
+
+.orders-popup-button{
+    background-color: #566ffe;
+    border:none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+.orders-popup-btns{
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}

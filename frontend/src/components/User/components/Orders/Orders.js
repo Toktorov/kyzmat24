@@ -27,30 +27,19 @@ const Orders = () => {
     };
 
     const acceptOrderFunc = (orderId) => {
-        axios.put(`/api/order/update/${orderId}`, {
-            status: true
-        }).then(({data}) => console.log(data)).catch(error => console.log('1', error.response));
-
         axios.post('/api/order/create_accept_order/', {
             user: id,
             order: orderId
-        }).then(({data}) => {
-            console.log('accept', data);
-            axios.put(`/api/order/accept-update/${orderId}`, {
-                status: true
-            }).then(response => {
-                console.log('update', response);
-                setMessage("Вы взяли заказ. Откройте раздел мои" )
-
-            }).catch(error => {
-                console.log('2', error.response);
-                setMessage("Упс. Кто-то уже взял этот заказ")
-            })
-
-        }).catch(error => console.log('3', error.response)).finally(()=>{
+        }).then((response)=>{
+            console.log(response);
+            setMessage("Вы взяли заказ. Откройте раздел мои заказы" );
+        }).catch((error)=>{
+            console.log(error);
+            setMessage("Упс. Кто-то уже взял этот заказ")
+        }).finally(()=>{
             dispatch(setShowPopup(true));
-            dispatch(getOrders());
-        });
+            dispatch(getOrders())
+        })
 
     };
 

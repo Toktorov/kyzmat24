@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import './acceptedOrders.css';
 import {useDispatch, useSelector} from "react-redux";
-import {getAcceptOrders} from "../../../../redux/reducers/user";
-import axios from "axios";
+
 import {setHiddenFooter} from "../../../../redux/reducers/app";
+import {getAcceptOrders} from "../../../../redux/reducers/user";
+import AcceptOrdersPopup from "./AcceptOrdersPopup";
 
 
 const AcceptedOrders = () => {
     const acceptOrders = useSelector(s => s.user.acceptOrders);
     const [filterOrders, setFilterOrders] = useState([]);
     const [orderSelector, setOrderSelector] = useState('all');
+    const [showPopup, setShowPopup] = useState(false);
+    const [orderId, setOrderId] = useState(null);
+    const [acceptId, setAcceptId] = useState(null);
+    const [message, setMessage] = useState('');
     const dispatch = useDispatch();
     const orderFilterFunc = (selector) =>{
         setOrderSelector(selector);
@@ -30,18 +35,7 @@ const AcceptedOrders = () => {
         ? filterOrders
         : acceptOrders
     };
-    const cancelTheOrder = (orderId, acceptId) => {
-        axios.delete(`/api/order/accept_order/${acceptId}`)
-            .then(response => {
-                console.log('delete', response);
-                axios.put(`https://kyzmat24.com/api/order/accept-update/${orderId}`, {
-                    status: false
-                }).then(response => {
-                    console.log('update', response);
-                    dispatch(getAcceptOrders());
-                }).catch(error => console.log(error))
-            }).catch(error => console.log(error.response));
-    };
+
 
 
     useEffect(() => {
@@ -50,6 +44,17 @@ const AcceptedOrders = () => {
     }, [dispatch]);
     return (
         <>
+            {
+                showPopup ?
+                    <AcceptOrdersPopup
+                        message={message}
+                    setShowPopup={setShowPopup}
+                                       orderId={orderId}
+                                       acceptId={acceptId}
+                                       setAcceptId={setAcceptId}
+                    />
+                    : ''
+            }
 
             <div className="section__creators mt-100">
                 <div className="container">
@@ -112,16 +117,18 @@ const AcceptedOrders = () => {
                                                                 item.completed ?"" : <>
                                                                     <button className="btn btn-primary btn-sm"
                                                                             onClick={() => {
-                                                                                axios.put(`https://kyzmat24.com/api/order/update_completed/${item.id}`, {
-                                                                                    "completed": true
-                                                                                })
-                                                                                    .then(response => console.log(response))
+                                                                              setShowPopup(true);
+                                                                              setOrderId(item.id);
+                                                                              setMessage('Вы уверены что хотите пометить как выполнено?')
                                                                             }}
                                                                     >Выполнено
                                                                     </button>
                                                                     <button
                                                                         onClick={()=>{
-                                                                            cancelTheOrder(item.id, item.acceptId)
+                                                                            setShowPopup(true);                                                                              setMessage('Вы уверены что хотите пометить как выполнено?')
+                                                                            setMessage('Вы уверены что хотите отказаться?');
+                                                                            setOrderId(item.id);
+                                                                            setAcceptId(item.acceptId)
                                                                         }}
                                                                         className="btn btn-primary btn-sm">Отказаться</button>
                                                                 </>
