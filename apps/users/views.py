@@ -1,7 +1,4 @@
-from django.shortcuts import redirect
-from requests import request
 from rest_framework import viewsets, generics
-from apps.orders import serializers
 from apps.users.models import User, Contact, Media
 from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
     RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
@@ -16,10 +13,9 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.permissions import AllowAny
-from apps.users.permissions import OwnerProfilePermissions, OwnerDeletePermissions
-from rest_framework.authentication import BasicAuthentication, TokenAuthentication, SessionAuthentication
+from apps.users.permissions import OwnerDeletePermissions
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
@@ -27,14 +23,12 @@ from rest_framework import status
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import EmailMessage
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail 
-import random
-from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.encoding import smart_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
-from django.http import HttpResponsePermanentRedirect, HttpResponse
+from django.http import HttpResponsePermanentRedirect
 
 # Create your views here.
 
@@ -341,11 +335,3 @@ class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
     permission_classes = [AllowAny]
-
-    # def post(self, request, *args, **kwargs):
-    #     name = request.data['name']
-    #     file = request.data['file']
-    #     src = request.data['src']
-    #     user = request.data['user']
-    #     Media.objects.create(name=name, file=file, src = src, user = user)
-    #     return HttpResponse({'message': 'Media created'}, status=200)

@@ -1,7 +1,6 @@
 from django.db import models
 from apps.categories.models import Category, Location
 from apps.users.models import User
-from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Order(models.Model):
@@ -15,9 +14,8 @@ class Order(models.Model):
     tel = models.CharField(max_length=100, help_text="Телефоный номер", blank=True, null = True)
     cretated = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(
-        _("status"),
         default=False,
-        help_text=_("Status Product"),
+        help_text= "Status Product",
     )
     completed = models.BooleanField(
         default=False, help_text="Статус заказа"

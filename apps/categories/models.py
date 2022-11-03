@@ -7,7 +7,6 @@ class Category(models.Model):
         verbose_name='Наименование'
     )
     
-
     def __str__(self):
         return f"{self.content}"
 
@@ -29,7 +28,6 @@ class CategoryImage(models.Model):
     def __str__(self):
         return f"{self.id}"
 
-
     class Meta:
         verbose_name = 'Изображение продукта'
         verbose_name_plural = 'Изображении продуктов'
@@ -37,7 +35,7 @@ class CategoryImage(models.Model):
 
 class Location(models.Model):
     title = models.CharField(max_length=255)
-    location_self = models.ForeignKey('self', on_delete=models.SET_NULL, null = True, blank = True)
+    location_self = models.ForeignKey('self', on_delete=models.CASCADE, null = True, blank = True)
 
     def __str__(self):
         return str(self.title)

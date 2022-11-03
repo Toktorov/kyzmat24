@@ -1,4 +1,4 @@
-from rest_framework import viewsets, generics
+from rest_framework import viewsets
 from apps.categories.models import Category, Location
 from apps.categories.serializers import CategorySerializerList, LocationSerializerList
 from rest_framework.permissions import AllowAny

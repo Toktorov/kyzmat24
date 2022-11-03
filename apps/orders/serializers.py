@@ -22,8 +22,7 @@ class OrderUserSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only = True)
-    # order_user = serializers.ReadOnlyField(source='order_user.username')
-    
+
     class Meta:
         model = Order
         fields = "__all__"
@@ -34,8 +33,6 @@ class OrderCompletedSerializer(serializers.ModelSerializer):
         fields = ('completed', )
 
 class OrderAcceptUpdateSerializer(serializers.ModelSerializer):
-    # order_user = serializers.ReadOnlyField(source='order_user.username')
-    
     class Meta:
         model = Order
         fields = ('status', )

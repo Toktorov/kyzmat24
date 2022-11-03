@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
-from django.core.mail import send_mail 
 from apps.categories.models import Category, Location
 
 # Create your models here.
@@ -64,28 +63,9 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} -- {self.description}"
 
-
-    """В следующем обновлении сделаем отправку сообщений в email зарегистрированного пользователя, пока что код заморожен"""
-    # def save(self, *args, **kwargs):
-    #     try:
-    #         send_mail(
-    #                 # title:
-    #                 f"Добро пожаловать {self.username}!",
-    #                 # message:
-    #                 f"Добро пожаловать в наш сервис Kyzmat24",
-    #                 # from:
-    #                 "noreply@somehost.local",
-    #                 # to:
-    #                 [self.email]
-    #         )
-    #     except Exception:
-    #         return f"Error"
-
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-
-
 
 class Contact(models.Model):
     name = models.CharField(max_length = 100)

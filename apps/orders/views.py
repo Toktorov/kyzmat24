@@ -1,16 +1,13 @@
 from rest_framework import viewsets, generics
 from apps.orders.models import AcceptOrder, Order, Review
-from apps.orders.serializers import (CategorySerializer, 
+from apps.orders.serializers import ( 
     OrderSerializer, CreateOrderSerializer, OrderCreateSerializer, 
     OrderDetailSerializer, AcceptOrderSerializer, AcceptOrderCreateSerializer,
     UpdateStatusSeriaizer, OrderAcceptUpdateSerializer, OrderCompletedSerializer,
     ReviewSerializer
     )
 from django.shortcuts import render
-from apps.categories.models import Category
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.permissions import AllowAny
 # Create your views here.
 
 class OrderAPIViewSet(viewsets.ModelViewSet):

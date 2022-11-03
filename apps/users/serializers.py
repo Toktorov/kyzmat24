@@ -1,16 +1,12 @@
-from dataclasses import field
-from secrets import choice
 from rest_framework import serializers
 from apps.users.models import User, Contact, Media
-from apps.orders.models import AcceptOrder, Order
-from rest_framework.validators import UniqueValidator
+from apps.orders.models import AcceptOrder
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import Serializer, ModelSerializer, CharField
-from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework.exceptions import AuthenticationFailed
 
@@ -61,7 +57,6 @@ class SendConfirmEmailSerializer(serializers.Serializer):
         model = User 
         fields = ('email', )
 
-
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=2)
 
@@ -69,7 +64,6 @@ class ResetPasswordEmailRequestSerializer(serializers.Serializer):
 
     class Meta:
         fields = ['email']
-
 
 class SetNewPasswordSerializer(serializers.Serializer):
     password = serializers.CharField(
@@ -127,7 +121,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class UsersSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'date_joined']
@@ -139,24 +132,20 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 class IssueTokenRequestSerializer(Serializer):
     model = User
-
     username = CharField(required=True)
     password = CharField(required=True)
 
 
 class TokenSeriazliser(ModelSerializer):
-
     class Meta:
         model = Token
         fields = ['key']
 
 class ContactSerializer(serializers.ModelSerializer):
     class ContactUserSerializer(serializers.ModelSerializer):
-
         class Meta:
             model = User
             fields = ('username',)
-
     user = ContactUserSerializer()
     class Meta:
         model = Contact
@@ -169,18 +158,15 @@ class ContactCreateSerializer(serializers.ModelSerializer):
 
 class MediaSerializer(serializers.ModelSerializer):
     class MediaUserSerializer(serializers.ModelSerializer):
-
         class Meta:
             model = User
             fields = ('username',)
-
     user = MediaUserSerializer()
     class Meta:
         model = Media
         fields = "__all__"
 
 class MediaCreateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Media
         fields = ('name', 'file', 'src', 'user')
@@ -194,7 +180,6 @@ class UserSerializerList(serializers.ModelSerializer):
     contact = ContactSerializer(many=True, source='contact_set.all', read_only=True)
     media = MediaSerializer(many = True,  source='media_set.all', read_only = True)
     accept_order_user = AcceptOrderSerializer(many = True, read_only = True)
-
     class Meta:
         model = User
         fields = (
@@ -205,13 +190,11 @@ class UserSerializerList(serializers.ModelSerializer):
 
 class UserDetailSerializer(serializers.ModelSerializer):
     user_order = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    
     class Meta:
         model = User 
         fields = ('id', 'username', 'description', 'profile_image', 'user_location', 'user_category', 'another', 'user_order')
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)

@@ -26,7 +26,6 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from apps.users import views
 from apps.orders.views import handler404
 
 # handler404 = 'apps.orders.views.handler404'
@@ -51,6 +50,7 @@ api_urlpatterns = [
 ]
 
 urlpatterns = [
+    #frontend urls
     path('', TemplateView.as_view(template_name = 'index.html'), name = "index"),
     path('category/', TemplateView.as_view(template_name = 'index.html')),
     path('search/', TemplateView.as_view(template_name = 'index.html')),
@@ -76,17 +76,16 @@ urlpatterns = [
     path('api/', include(api_urlpatterns)),
 
 
-    # auth
+    # auth urls
     path('auth/', include('rest_framework.urls')),
     path('user/api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'),
     path('api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
 
-    # docs
+    # docs urls
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
-    # urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns+=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
