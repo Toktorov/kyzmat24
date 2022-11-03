@@ -7,7 +7,7 @@ from apps.orders.serializers import (
     ReviewSerializer
     )
 from django.shortcuts import render
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 # Create your views here.
 
 class OrderAPIViewSet(viewsets.ModelViewSet):
@@ -38,6 +38,13 @@ class OrderUpdateAPIView(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = (AllowAny,)
+
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy', 'create']:
+            permission_classes = (IsAdminUser,)           
+        else :
+            permission_classes = (AllowAny, )  
+        return [permission() for permission in permission_classes]
 
 class OrderCompletedUpdateAPIView(generics.UpdateAPIView):
     queryset = Order.objects.all()

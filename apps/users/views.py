@@ -13,8 +13,8 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import AllowAny
-from apps.users.permissions import OwnerDeletePermissions
+from rest_framework.permissions import AllowAny, IsAdminUser
+from apps.users.permissions import UserPermissions, UserContactPermissions, UserMediaPermissions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.request import Request
 from django.contrib.auth import authenticate
@@ -42,6 +42,13 @@ class UserAPIViewSet(viewsets.ModelViewSet):
         if self.action in ['list', 'retrieve']:
             return UserSerializerList
         return self.serializer_class
+
+    def get_permissions(self):
+        if self.action in ['update', 'partial_update', 'destroy', ]:
+            permission_classes = (UserPermissions, IsAdminUser)           
+        else :
+            permission_classes = (AllowAny, )  
+        return [permission() for permission in permission_classes]
 
 class UserDetailAPIViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
@@ -231,24 +238,18 @@ def getRoutes(request):
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserUpdateSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (UserPermissions, IsAdminUser)
     
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = (UserPermissions, IsAdminUser)
 
     def get(self, request, pk, format=None,):
         content = {
             'Kyzmat24': 'Вы уверены что хотите удалить свой профиль?'
         }
         return Response(content)
-
-    def get_permissions(self):
-        if self.request.method == 'DELETE':
-            return [OwnerDeletePermissions()]
-        return [permission() for permission in self.permission_classes]
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -296,42 +297,40 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class ContactAPIViewSet(generics.ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny,)
 
 class ContactUpdateAPIView(generics.UpdateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (UserContactPermissions, IsAdminUser)
 
 class ContactDeleteAPIView(generics.DestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (UserContactPermissions, IsAdminUser)
 
 class ContactCreateAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactCreateSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = (UserContactPermissions, IsAdminUser)
 
 #MediaAPI
 class MediaAPIViewSet(generics.ListAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny, )
 
 class MediaUpdateAPIView(generics.UpdateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = [AllowAny]
-
+    permission_classes = (UserMediaPermissions, IsAdminUser)
 
 class MediaDeleteAPIView(generics.DestroyAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (UserMediaPermissions, IsAdminUser)
 
 class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
-    permission_classes = [AllowAny]
+    permission_classes = (UserMediaPermissions, IsAdminUser)
