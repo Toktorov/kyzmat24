@@ -13,7 +13,7 @@ from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from apps.users.permissions import UserPermissions, UserContactPermissions, UserMediaPermissions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.request import Request
@@ -238,18 +238,28 @@ def getRoutes(request):
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserUpdateSerializer
-    permission_classes = (UserPermissions, IsAdminUser)
+    permission_classes = (UserPermissions,)
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
     
 class UserDeleteAPIView(generics.DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (UserPermissions, IsAdminUser)
+    permission_classes = (UserPermissions, )
 
     def get(self, request, pk, format=None,):
         content = {
             'Kyzmat24': 'Вы уверены что хотите удалить свой профиль?'
         }
         return Response(content)
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -304,15 +314,30 @@ class ContactUpdateAPIView(generics.UpdateAPIView):
     serializer_class = ContactSerializer
     permission_classes = (UserContactPermissions, IsAdminUser)
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
+
 class ContactDeleteAPIView(generics.DestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     permission_classes = (UserContactPermissions, IsAdminUser)
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
+
 class ContactCreateAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactCreateSerializer
     permission_classes = (UserContactPermissions, IsAdminUser)
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
 
 #MediaAPI
 class MediaAPIViewSet(generics.ListAPIView):
@@ -325,12 +350,27 @@ class MediaUpdateAPIView(generics.UpdateAPIView):
     serializer_class = MediaSerializer
     permission_classes = (UserMediaPermissions, IsAdminUser)
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
+
 class MediaDeleteAPIView(generics.DestroyAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
     permission_classes = (UserMediaPermissions, IsAdminUser)
 
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
+
 class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
     permission_classes = (UserMediaPermissions, IsAdminUser)
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return [permission() for permission in self.permission_classes]
