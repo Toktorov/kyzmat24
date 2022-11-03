@@ -48,7 +48,7 @@ class OrderDetailSerializer(serializers.ModelSerializer):
         model = Order
         fields = ("__all__")
 
-class AcceptOrderSerializer(serializers.ModelSerializer):
+class OrderAcceptOrderSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only = True)
     order = OrderSerializer(read_only = True)
 

@@ -135,7 +135,6 @@ class IssueTokenRequestSerializer(Serializer):
     username = CharField(required=True)
     password = CharField(required=True)
 
-
 class TokenSeriazliser(ModelSerializer):
     class Meta:
         model = Token

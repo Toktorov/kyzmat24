@@ -75,7 +75,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_urlpatterns)),
 
-
     # auth urls
     path('auth/', include('rest_framework.urls')),
     path('user/api/token/obtain', TokenObtainPairView.as_view(), name='token_obtain'),

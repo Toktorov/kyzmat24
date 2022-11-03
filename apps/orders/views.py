@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics
 from apps.orders.models import AcceptOrder, Order, Review
 from apps.orders.serializers import ( 
     OrderSerializer, CreateOrderSerializer, OrderCreateSerializer, 
-    OrderDetailSerializer, AcceptOrderSerializer, AcceptOrderCreateSerializer,
+    OrderDetailSerializer, OrderAcceptOrderSerializer, AcceptOrderCreateSerializer,
     UpdateStatusSeriaizer, OrderAcceptUpdateSerializer, OrderCompletedSerializer,
     ReviewSerializer
     )
@@ -56,7 +56,7 @@ class OrderDeleteAPIView(generics.DestroyAPIView):
 
 class AcceptOrderAPIView(viewsets.ModelViewSet):
     queryset = AcceptOrder.objects.all()
-    serializer_class = AcceptOrderSerializer
+    serializer_class = OrderAcceptOrderSerializer
     permission_classes = (AllowAny, )   
 
 class AcceptOrderCreateAPIView(generics.CreateAPIView):
