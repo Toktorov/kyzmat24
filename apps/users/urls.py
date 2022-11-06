@@ -11,7 +11,6 @@ router.register('', views.UserAPIViewSet, basename='users')
 urlpatterns = [
     #user urls
     path('user/<int:pk>', views.UserDetailAPIViewSet.as_view(), name = 'user_detail'),
-    path('user/', views.user, name = "user"),
     path('user/login', views.issue_token, name='issue_token'),
     path('register/', views.RegisterView.as_view(), name='auth_register'),
     path('social-login/google/', views.GoogleLogin.as_view(), name='google_login'),

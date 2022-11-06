@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics
 from apps.users.models import User, Contact, Media
 from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
     RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, ContactUpdateSerializer,
-    MediaSerializer, MediaUpdateSerializer, UsersSerializer, IssueTokenRequestSerializer,
+    MediaSerializer, MediaUpdateSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, UserUpdateSerializer,
     ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
     SendConfirmEmailSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
@@ -12,10 +12,9 @@ from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from apps.users.permissions import UserPermissions, UserContactPermissions, UserMediaPermissions
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
@@ -31,7 +30,6 @@ from django.urls import reverse
 from django.http import HttpResponsePermanentRedirect
 
 # Create your views here.
-
 #UserAPI
 class UserAPIViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -171,12 +169,9 @@ class ChangePasswordView(generics.UpdateAPIView):
         def update(self, request, *args, **kwargs):
             self.object = self.get_object()
             serializer = self.get_serializer(data=request.data)
-
             if serializer.is_valid():
-                # Check old password
                 if not self.object.check_password(serializer.data.get("old_password")):
                     return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
-                # set_password also hashes the password that the user will get
                 self.object.set_password(serializer.data.get("password"))
                 self.object.save()
                 response = {
@@ -185,9 +180,7 @@ class ChangePasswordView(generics.UpdateAPIView):
                     'message': 'Password updated successfully',
                     'data': []
                 }
-
                 return Response(response)
-
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VerifyEmail(generics.GenericAPIView):
@@ -261,14 +254,6 @@ def issue_token(request: Request):
         return Response(TokenSeriazliser(token).data)
     else:
         return Response(serializer.errors, status=400)
-
-@api_view()
-@permission_classes([AllowAny])
-@authentication_classes([TokenAuthentication])
-def user(request: Request):
-    return Response({
-        'data': UsersSerializer(request.user).data
-    })
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
@@ -363,9 +348,4 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
 class MediaCreateAPIView(generics.CreateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaCreateSerializer
-    permission_classes = (UserMediaPermissions, IsAdminUser)
-
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [IsAuthenticated()]
-        return [permission() for permission in self.permission_classes]
+    permission_classes = [IsAuthenticated]

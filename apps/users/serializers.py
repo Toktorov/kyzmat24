@@ -120,11 +120,6 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class UsersSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'date_joined']
-
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
