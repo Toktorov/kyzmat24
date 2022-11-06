@@ -149,6 +149,11 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = "__all__"
+    
+class ContactUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = "__all__"
 
 class ContactCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -161,6 +166,11 @@ class MediaSerializer(serializers.ModelSerializer):
             model = User
             fields = ('username',)
     user = MediaUserSerializer()
+    class Meta:
+        model = Media
+        fields = "__all__"
+
+class MediaUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Media
         fields = "__all__"

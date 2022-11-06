@@ -1,8 +1,8 @@
 from rest_framework import viewsets, generics
 from apps.users.models import User, Contact, Media
 from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
-    RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, 
-    MediaSerializer, UsersSerializer, IssueTokenRequestSerializer,
+    RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, ContactUpdateSerializer,
+    MediaSerializer, MediaUpdateSerializer, UsersSerializer, IssueTokenRequestSerializer,
     TokenSeriazliser, UserUpdateSerializer,
     ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
     SendConfirmEmailSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
@@ -224,7 +224,6 @@ class UserUpdateAPIView(generics.UpdateAPIView):
 
     def put(self, request, pk):
         user = User.objects.get(pk=pk)
-        print(user)
         self.check_object_permissions(request, user)
         serializer=UserUpdateSerializer(instance=user,data=request.data)
         if serializer.is_valid():
@@ -299,13 +298,14 @@ class ContactAPIViewSet(generics.ListAPIView):
 
 class ContactUpdateAPIView(generics.UpdateAPIView):
     queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
+    serializer_class = ContactUpdateSerializer
     permission_classes = [UserContactPermissions]
 
     def put(self, request, pk, format=None):
         contact = Contact.objects.get(pk = pk)
+        print(contact)
         self.check_object_permissions(request, contact)
-        serializer=ContactSerializer(instance=user,data=request.data)
+        serializer=ContactUpdateSerializer(instance=contact,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)
@@ -336,13 +336,13 @@ class MediaAPIViewSet(generics.ListAPIView):
 
 class MediaUpdateAPIView(generics.UpdateAPIView):
     queryset = Media.objects.all()
-    serializer_class = MediaSerializer
+    serializer_class = MediaUpdateSerializer
     permission_classes = (UserMediaPermissions, IsAdminUser)
 
     def put(self, request, pk, format=None):
         media = Media.objects.get(pk = pk)
         self.check_object_permissions(request, media)
-        serializer=MediaSerializer(instance=user,data=request.data)
+        serializer=MediaUpdateSerializer(instance=media,data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)
