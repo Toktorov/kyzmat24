@@ -70,20 +70,6 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
-    # def post(self, request):
-    #     serializer = self.serializer_class(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     user_data = serializer.data
-    #     user_uuid = user_data['username']
-    #     user = User.objects.get(email=user_data['email'])
-    #     relativeLink = "/api/users/email-verify/"
-    #     absurl = 'http://'+ 'kyzmat24.com' + relativeLink + user_uuid 
-    #     email_body = 'Добро пожаловать в Kyzmat24! \n' + absurl 
-    #     data = {'email_body': email_body,'to_email': user.email, 'email_subject':'Потвердите свою личность'}
-    #     Util.send_email(data)
-    #     return Response(user_data, status=status.HTTP_201_CREATED)
-
 class SendComfirmEmailView(generics.GenericAPIView):
     serializer_class = SendConfirmEmailSerializer
     permission_classes = (AllowAny, )
@@ -130,7 +116,6 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
             Util.send_email(data)
         return Response({'success': 'Мы отправили вам ссылку для сброса пароля'}, status=status.HTTP_200_OK)
 
-
 class PasswordTokenCheckAPI(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
     permission_classes = (AllowAny, )
@@ -161,8 +146,6 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
                     
             except UnboundLocalError as e:
                 return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
     serializer_class = SetNewPasswordSerializer
@@ -218,7 +201,6 @@ class VerifyEmail(generics.GenericAPIView):
 		except User.DoesNotExist:
 			return Response({'Неправильное имя пользователя'}, status=status.HTTP_400_BAD_REQUEST)
 
-
 class GoogleLogin(SocialLoginView):
     authentication_classes = [] # отключить аутентификацию
     adapter_class = GoogleOAuth2Adapter
@@ -240,15 +222,16 @@ class UserUpdateAPIView(generics.UpdateAPIView):
     serializer_class = UserUpdateSerializer
     permission_classes = (UserPermissions,)
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [IsAuthenticated()]
-        return [permission() for permission in self.permission_classes]
-    
+    # def put(self, request, pk):
+    #     user = User.objects.get(pk=pk)
+    #     print(user)
+    #     self.check_object_permissions(request, user)
+    #     user.save()
+    #     return Response({user.username : 'профиль успешно обновлен'}, status=status.HTTP_200_OK)
+
 class UserDeleteAPIView(generics.DestroyAPIView):
-    queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (UserPermissions, )
+    permission_classes = [UserPermissions]
 
     def get(self, request, pk, format=None,):
         content = {
@@ -256,10 +239,11 @@ class UserDeleteAPIView(generics.DestroyAPIView):
         }
         return Response(content)
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [IsAuthenticated()]
-        return [permission() for permission in self.permission_classes]
+    def delete(self, request, pk, format=None):
+        user = User.objects.get(pk=pk)
+        self.check_object_permissions(request, user)
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -307,43 +291,40 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 class ContactAPIViewSet(generics.ListAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = [AllowAny]
 
 class ContactUpdateAPIView(generics.UpdateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = (UserContactPermissions, IsAdminUser)
+    permission_classes = [UserContactPermissions]
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [IsAuthenticated()]
-        return [permission() for permission in self.permission_classes]
+    def put(self, request, pk, format=None):
+        contact = Contact.objects.get(pk = pk)
+        self.check_object_permissions(request, contact)
+        contact.save()
+        return Response(status=status.HTTP_200_OK)
 
 class ContactDeleteAPIView(generics.DestroyAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
-    permission_classes = (UserContactPermissions, IsAdminUser)
+    permission_classes = [UserContactPermissions, ]
 
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [IsAuthenticated()]
-        return [permission() for permission in self.permission_classes]
+    def delete(self, request, pk, format=None):
+        contact = Contact.objects.get(pk = pk)
+        self.check_object_permissions(request, contact)
+        contact.save()
+        return Response(status=status.HTTP_200_OK)
 
 class ContactCreateAPIView(generics.CreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactCreateSerializer
-    permission_classes = (UserContactPermissions, IsAdminUser)
-
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [IsAuthenticated()]
-        return [permission() for permission in self.permission_classes]
+    permission_classes = [IsAuthenticated]
 
 #MediaAPI
 class MediaAPIViewSet(generics.ListAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
-    permission_classes = (AllowAny, )
+    permission_classes = [AllowAny]
 
 class MediaUpdateAPIView(generics.UpdateAPIView):
     queryset = Media.objects.all()
