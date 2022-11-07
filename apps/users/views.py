@@ -311,8 +311,8 @@ class ContactDeleteAPIView(generics.DestroyAPIView):
     def delete(self, request, pk, format=None):
         contact = Contact.objects.get(pk = pk)
         self.check_object_permissions(request, contact)
-        contact.save()
-        return Response(status=status.HTTP_200_OK)
+        contact.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 #MediaAPI
 class MediaAPIViewSet(generics.ListAPIView):
@@ -361,4 +361,4 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
         media = Media.objects.get(pk = pk)
         self.check_object_permissions(request, media)
         media.delete()
-        return Response({"Kyzmat24" : "Успешно удалено"}, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
