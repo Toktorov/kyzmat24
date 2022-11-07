@@ -11,18 +11,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework.exceptions import AuthenticationFailed
 
 class RegisterSerializer(serializers.ModelSerializer):
-    # email = serializers.EmailField(
-    #         required=True,
-    #         validators=[UniqueValidator(queryset=User.objects.all())]
-    #         )
-
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
-    # CUSTOMER_OR_EMPLOYEE = (
-    #     ('Заказчик', 'Заказчик'),
-    #     ('Работник', 'Работник'),
-    # )
-    # customer_or_employee = serializers.ChoiceField(choices=CUSTOMER_OR_EMPLOYEE)
 
     class Meta:
         model = User
@@ -37,15 +27,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create(
             username=validated_data['username'],
-            # email=validated_data['email'],
-            # first_name=validated_data['first_name'],
-            # last_name=validated_data['last_name']
         )
-
-        
         user.set_password(validated_data['password'])
         user.save()
-
         return user
 
 class SendConfirmEmailSerializer(serializers.Serializer):
@@ -59,7 +43,6 @@ class SendConfirmEmailSerializer(serializers.Serializer):
 
 class ResetPasswordEmailRequestSerializer(serializers.Serializer):
     email = serializers.EmailField(min_length=2)
-
     redirect_url = serializers.CharField(max_length=500, required=False)
 
     class Meta:
@@ -67,7 +50,7 @@ class ResetPasswordEmailRequestSerializer(serializers.Serializer):
 
 class SetNewPasswordSerializer(serializers.Serializer):
     password = serializers.CharField(
-        min_length=6, max_length=68, write_only=True)
+        min_length=8, max_length=68, write_only=True)
     token = serializers.CharField(
         min_length=1, write_only=True)
     uidb64 = serializers.CharField(
@@ -97,10 +80,6 @@ class SetNewPasswordSerializer(serializers.Serializer):
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
-
-    """
-    Serializer for password change endpoint.
-    """
     old_password = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
     password2 = serializers.CharField(required=True)
@@ -191,7 +170,6 @@ class UserSerializerList(serializers.ModelSerializer):
             'user_location', 'user_category', 'another', 'contact', 'media', 'accept_order_user'
         )
 
-
 class UserDetailSerializer(serializers.ModelSerializer):
     user_order = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
@@ -202,7 +180,5 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
-        # Добавить пользовательские претензии
         token['username'] = user.username
         return token

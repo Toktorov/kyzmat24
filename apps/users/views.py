@@ -29,8 +29,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
 from django.http import HttpResponsePermanentRedirect
 
-# Create your views here.
-#UserAPI
+
 class UserAPIViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializerList
@@ -43,7 +42,7 @@ class UserAPIViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy', ]:
-            permission_classes = (UserPermissions, IsAdminUser)           
+            permission_classes = (UserPermissions, )           
         else :
             permission_classes = (AllowAny, )  
         return [permission() for permission in permission_classes]
@@ -200,16 +199,6 @@ class GoogleLogin(SocialLoginView):
     callback_url = "http://localhost:3000"
     client_class = OAuth2Client
 
-@api_view(['GET'])
-def getRoutes(request):
-    routes = [
-        '/api/token',
-        '/api/token/refresh',
-    ]
-
-    return Response(routes)
-
-
 class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserUpdateSerializer
@@ -281,6 +270,24 @@ class ContactAPIViewSet(generics.ListAPIView):
     serializer_class = ContactSerializer
     permission_classes = [AllowAny]
 
+class ContactCreateAPIView(generics.CreateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactCreateSerializer
+    permission_classes = [IsAuthenticated, UserContactPermissions]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            if self.request.user.id == int(serializer.initial_data['user']):
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response({ self.request.user.username : "У вас нет доступа" },status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 class ContactUpdateAPIView(generics.UpdateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactUpdateSerializer
@@ -308,21 +315,33 @@ class ContactDeleteAPIView(generics.DestroyAPIView):
         contact.save()
         return Response(status=status.HTTP_200_OK)
 
-class ContactCreateAPIView(generics.CreateAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactCreateSerializer
-    permission_classes = [IsAuthenticated]
-
 #MediaAPI
 class MediaAPIViewSet(generics.ListAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaSerializer
     permission_classes = [AllowAny]
 
+class MediaCreateAPIView(generics.CreateAPIView):
+    queryset = Media.objects.all()
+    serializer_class = MediaCreateSerializer
+    permission_classes = [IsAuthenticated, UserMediaPermissions]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            if self.request.user.id == int(serializer.initial_data['user']):
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class MediaUpdateAPIView(generics.UpdateAPIView):
     queryset = Media.objects.all()
     serializer_class = MediaUpdateSerializer
-    permission_classes = (UserMediaPermissions, IsAdminUser)
+    permission_classes = [UserMediaPermissions]
 
     def put(self, request, pk, format=None):
         media = Media.objects.get(pk = pk)
@@ -344,8 +363,3 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
         self.check_object_permissions(request, media)
         media.save()
         return Response(status=status.HTTP_200_OK)
-
-class MediaCreateAPIView(generics.CreateAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaCreateSerializer
-    permission_classes = [IsAuthenticated]
