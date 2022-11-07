@@ -21,13 +21,6 @@ const UserHeader = () => {
 						space-x-10
 						align-items-center">
                             <div className="space-x-10 d-flex align-items-center">
-                                {/*<lottie-player*/}
-                                {/*    src="https://assets6.lottiefiles.com/private_files/lf30_kqshlcsx.json"*/}
-                                {/*    background="transparent"*/}
-                                {/*    speed="2"*/}
-                                {/*    style="width: 50px; height: 50px"*/}
-                                {/*    loop*/}
-                                {/*    autoplay></lottie-player>*/}
                                 <p className="color_white">
                                     Скоро будет доступна
                                     <span> тёмная тема </span>
@@ -66,17 +59,32 @@ const UserHeader = () => {
                                             <li className="has_popup">
                                                 <Link  to={'/user/orders/'} className="color_black"
                                                       onClick={()=>{
-                                                          localStorage.removeItem('editSection')
+                                                          localStorage.removeItem('editSection');
+                                                          setTimeout(()=>{
+                                                              burgerMenuFunc();
+                                                          }, 250);
+
                                                       }}
                                                 >Заказы</Link>
                                             </li>
                                             <li>
-                                                <Link to={'/user/tasks/'} className="color_black" >Мои заказы</Link>
+                                                <Link to={'/user/tasks/'}
+                                                      onClick={()=>{
+                                                          localStorage.removeItem('editSection');
+                                                          setTimeout(()=>{
+                                                              burgerMenuFunc();
+                                                          }, 250);
+
+                                                      }}
+                                                      className="color_black" >Мои заказы</Link>
                                             </li>
                                             <li>
                                                 <Link to={'/user'}
                                                       onClick={()=>{
-                                                          localStorage.removeItem('editSection')
+                                                          localStorage.removeItem('editSection');
+                                                          setTimeout(()=>{
+                                                              burgerMenuFunc();
+                                                          }, 250);
                                                       }}
                                                       className="color_black" > Профиль</Link>
                                             </li>

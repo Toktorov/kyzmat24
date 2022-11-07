@@ -98,6 +98,12 @@ const User = () => {
         dispatch(getLocations());
         dispatch(getCategories());
         dispatch(setHiddenFooter(true));
+      if (authTokens){
+          axios.defaults.headers.post['Authorization'] = `Bearer ${authTokens.access}`;
+          axios.defaults.headers.put['Authorization'] = `Bearer ${authTokens.access}`;
+          axios.defaults.headers.delete['Authorization'] = `Bearer ${authTokens.access}`;
+          axios.defaults.headers.patch['Authorization'] = `Bearer ${authTokens.access}`;
+      }
     }, [dispatch, id]);
 
     return (

@@ -14,7 +14,9 @@ const PopupMedia = ({setShowMediaPopup, mediaId}) => {
     const showPopup = useSelector(s => s.item.showPopup);
     const [message, setMessage] = useState('');
     const deleteMedia = (idMedia) => {
-        axios.delete(`/api/users/media/delete/${idMedia}`)
+        axios.delete(`/api/users/media/delete/${idMedia}`,{
+
+        })
             .then(response => {
                 console.log(response);
                 dispatch(setUser(id));

@@ -25,13 +25,6 @@ const Header = () => {
 						space-x-10
 						align-items-center">
                         <div className="space-x-10 d-flex align-items-center">
-                            {/*<lottie-player*/}
-                            {/*    src="https://assets6.lottiefiles.com/private_files/lf30_kqshlcsx.json"*/}
-                            {/*    background="transparent"*/}
-                            {/*    speed="2"*/}
-                            {/*    style="width: 50px; height: 50px"*/}
-                            {/*    loop*/}
-                            {/*    autoplay></lottie-player>*/}
                             <p className="color_white">
                                 Скоро будет доступна
                                 <span> тёмная тема </span>
@@ -70,6 +63,9 @@ const Header = () => {
                                     <Link to={'/'} className="color_black"
                                     onClick={()=>{
                                         dispatch(setStatus('home'));
+                                        setTimeout(()=>{
+                                            burgerMenuFunc()
+                                        }, 250);
                                     }}
                                     >Главная</Link>
                                 </li>
@@ -79,7 +75,10 @@ const Header = () => {
                                 <li>
                                     <Link to={'/reviews'}
                                           onClick={()=>{
-                                              dispatch(setStatus('/reviews'))
+                                              dispatch(setStatus('/reviews'));
+                                              setTimeout(()=>{
+                                                  burgerMenuFunc()
+                                              }, 250);
                                           }}
                                           className="color_black" > Отзывы</Link>
                                 </li>
@@ -87,6 +86,9 @@ const Header = () => {
                                     <Link to={'/search'}
                                           onClick={()=>{
                                               dispatch(setStatus('search'));
+                                              setTimeout(()=>{
+                                                  burgerMenuFunc()
+                                              }, 250);
                                           }}
                                           className="color_black" >Поиск</Link>
                                 </li>
@@ -111,68 +113,11 @@ const Header = () => {
                             }}
                             className="header__burger js-header-burger"> </div>
                     </div>
-                        {/*<div className="header__mobile js-header-mobile">*/}
-                        {/*    <div className="header__mobile__menu space-y-40">*/}
-                        {/*        <ul className="d-flex space-y-20">*/}
-                        {/*            <li><a className="color_black" href="Marketplace.html"> Marketplace</a></li>*/}
-                        {/*            <li><a className="color_black" href="Collections.html"> Collections</a></li>*/}
-                        {/*            <li><a className="color_black" href="Profile.html"> Profile</a></li>*/}
-                        {/*            <li><a className="color_black" href="Creators.html"> Creators</a></li>*/}
 
-                        {/*        </ul>*/}
-                        {/*        <div className="space-y-20">*/}
-                        {/*            <div className="header__search in_mobile w-full">*/}
-                        {/*                <input type="text" placeholder="Search"/>*/}
-                        {/*                <button className="header__result">*/}
-                        {/*                    <i className="ri-search-line"></i>*/}
-                        {/*                </button>*/}
-                        {/*            </div>*/}
-                        {/*            <a className="btn btn-grad btn-sm" href="Connect-wallet.html">Connect*/}
-                        {/*                wallet</a>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </header>
 
-
-            {/*<h1 className='header__logo'><Link to={'/'}>kyzmat24</Link></h1>*/}
-
-            {/*<div className="header__nav">*/}
-            {/*    <nav className={ showBurgerMenu ? 'header__menu show-menu' : 'header__menu'}>*/}
-
-            {/*        <Link className={status === 'home' ? 'header__link header__link-active' : 'header__link'} to={'/'}*/}
-            {/*              onClick={() => {*/}
-            {/*                  dispatch(setStatus('home'));*/}
-            {/*              }}>Главная</Link>*/}
-
-            {/*        <Link className={status === 'category' ? 'header__link header__link-active' : 'header__link'}*/}
-            {/*              to={'/about'} onClick={() => {*/}
-            {/*            dispatch(setStatus('category'));*/}
-            {/*            localStorage.setItem('category', 'restaurant');*/}
-            {/*        }}>О нас</Link>*/}
-
-            {/*        <Link className={status === 'search' ? 'header__link header__link-active' : 'header__link'}*/}
-            {/*              to={'/search'} onClick={() => {*/}
-            {/*                  dispatch(setStatus('search'));*/}
-            {/*              }}>Поиск</Link>*/}
-
-            {/*        <Link className={status === 'review' ? 'header__link header__link-active' : 'header__link'}*/}
-            {/*              to={'/reviews'} onClick={() => {*/}
-            {/*                  dispatch(setStatus('review'));*/}
-            {/*              }}>Отзывы</Link>*/}
-            {/*        <Link to={'/user'} onClick={()=> {*/}
-            {/*            dispatch(setApp('order'));*/}
-            {/*        }} className="header__link header__link-form" >Вход/Регистрация</Link>*/}
-            {/*    </nav>*/}
-            {/*    <div onClick={() => {*/}
-            {/*        burgerMenuFunc();*/}
-            {/*    }} className="mobile-btn">*/}
-            {/*        <span> </span>*/}
-            {/*    </div>*/}
-
-            {/*</div>*/}
 
         </>
     );

@@ -49,8 +49,8 @@
     height: 50px;
 }
 .mediaCreate-forms form p{
-    position: absolute;
-    top: -45px;
+    /*position: absolute;*/
+    /*top: -45px;*/
 }
 .mediaCreate-forms-input-video{
     padding: 5px 10px;

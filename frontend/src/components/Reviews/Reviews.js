@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-//import './reviews.css'
 import {useDispatch, useSelector} from "react-redux";
 import {setApp, setShowPopup, setStatus} from "../../redux/reducers/item";
 import {setHiddenFooter} from "../../redux/reducers/app";

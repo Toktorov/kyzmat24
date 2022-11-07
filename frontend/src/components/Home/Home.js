@@ -63,11 +63,11 @@ const Home = () => {
                             <div className="row">
                                 {
                                     showcaseOrders.map((item) => {
-                                        return <div key={item.id} className=" col-3">
+                                        return <div key={item.id} className="col-lg-3 col-md-4 col-sm-6">
                                                 <div className="space-x-10 color_green show-case-orders">
                                                     {
                                                             item.description.length > 10
-                                                                ? item.description.slice(0, 7) + "..."
+                                                                ? item.description.slice(0, 7).trim() + "..."
                                                                 : item.description
                                                         }
                                                 </div>
@@ -134,7 +134,11 @@ const Home = () => {
                                                 <div className="card_footer d-block space-y-10">
                                                     <div className="card_footer justify-content-between">
                                                         <div className="creators">
-                                                            <p className="txt_sm">{item.description}</p>
+                                                            <p className="txt_sm">{
+                                                                item.description.length > 15
+                                                                ? item.description.substr(0, 12).trim() + '...'
+                                                                    : item.description
+                                                            }</p>
                                                         </div>
                                                         <a href="Home1.html#" className="">
                                                             <p className="txt_sm">

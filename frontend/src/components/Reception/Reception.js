@@ -1,5 +1,4 @@
 import React from 'react';
-//import "./reception.css";
 import {Link} from "react-router-dom";
 import inHero1 from "../../assets/img/bg/in_hero1.png";
 
