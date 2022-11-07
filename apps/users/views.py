@@ -285,8 +285,7 @@ class ContactCreateAPIView(generics.CreateAPIView):
             else:
                 return Response({ self.request.user.username : "У вас нет доступа" },status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 class ContactUpdateAPIView(generics.UpdateAPIView):
     queryset = Contact.objects.all()
@@ -361,5 +360,5 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
     def delete(self, request, pk, format=None):
         media = Media.objects.get(pk = pk)
         self.check_object_permissions(request, media)
-        media.save()
-        return Response(status=status.HTTP_200_OK)
+        media.delete()
+        return Response({"Kyzmat24" : "Успешно удалено"}, status=status.HTTP_204_NO_CONTENT)
