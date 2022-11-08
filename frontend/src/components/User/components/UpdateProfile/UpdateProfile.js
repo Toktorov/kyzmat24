@@ -33,7 +33,7 @@ const UpdateProfile = ({setShowUpdateProfile, loading, setLoading}) => {
             data.append('description', description);
             data.append('status_user', 'Usually');
             createContact();
-            axios.put(`https://kyzmat24.com/api/users/update/${id}`, data)
+            axios.put(`/api/users/update/${id}`, data)
                 .then(response => {
                     console.log(response);
                     dispatch(setUser(id));

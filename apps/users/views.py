@@ -294,7 +294,6 @@ class ContactUpdateAPIView(generics.UpdateAPIView):
 
     def put(self, request, pk, format=None):
         contact = Contact.objects.get(pk = pk)
-        print(contact)
         self.check_object_permissions(request, contact)
         serializer=ContactUpdateSerializer(instance=contact,data=request.data)
         if serializer.is_valid():

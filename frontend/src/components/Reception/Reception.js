@@ -19,7 +19,7 @@ const Reception = () => {
                                     сотрудника</p>
                                 <div className="space-x-20 d-flex flex-column flex-md-row
 										sm:space-y-20">
-                                    <Link to={'/order'} className="btn btn-primary">Добавить обьявление</Link>
+                                    <Link to={'/order'} className="btn btn-primary">Добавить объявление</Link>
                                 </div>
                             </div>
                         </div>
@@ -33,27 +33,6 @@ const Reception = () => {
                 </div>
             </div>
 
-
-            {/*<div className="bg-img" >*/}
-            {/*    <img src={Bg} alt=""/>*/}
-            {/*</div>*/}
-            {/*<div className="container">*/}
-            {/*    {*/}
-            {/*        status !== 'addItem' && status !== 'profile'*/}
-            {/*            ? <div className={'reception__content'}>*/}
-            {/*                <h2>Добро пожаловать в KYZMAT.COM!</h2>*/}
-            {/*                <Link className={'reception__btn'} to={'/order'} onClick={() => {*/}
-            {/*                    dispatch(setStatus('addItem'));*/}
-            {/*                    localStorage.setItem('status', status)*/}
-            {/*                }}>Добавить объявление </Link>*/}
-            {/*            </div>*/}
-            {/*            : ''*/}
-
-
-            {/*    }*/}
-
-
-            {/*</div>*/}
         </>
     );
 };

@@ -26,6 +26,7 @@ import OrderDetails from "./components/User/components/OrderDetails/OrderDetails
 function App() {
     const app = useSelector(s => s.item.app);
     const hiddenFooter = useSelector(s => s.app.hiddenFooter);
+    const authTokens = useSelector(s => s.user.authTokens);
     const getCsrfToken = () => {
             const start = document.cookie.indexOf('csrftoken=') + 10;
             const end = document.cookie.indexOf(';', start);
@@ -39,7 +40,24 @@ function App() {
 
     useEffect(() => {
         axios.defaults.headers.post['X-CSRF-TOKEN'] = getCsrfToken();
+        axios.defaults.headers.put['X-CSRF-TOKEN'] = getCsrfToken();
+        axios.defaults.headers.patch['X-CSRF-TOKEN'] = getCsrfToken();
+        axios.defaults.headers.delete['X-CSRF-TOKEN'] = getCsrfToken();
+        console.log(axios.defaults.headers)
     }, []);
+    useEffect(()=>{
+        if (authTokens){
+            axios.defaults.headers.post['Authorization'] = `Bearer ${authTokens.access}`;
+            axios.defaults.headers.put['Authorization'] = `Bearer ${authTokens.access}`;
+            axios.defaults.headers.delete['Authorization'] = `Bearer ${authTokens.access}`;
+            axios.defaults.headers.patch['Authorization'] = `Bearer ${authTokens.access}`;
+        } else {
+            delete axios.defaults.headers.post['Authorization'];
+            delete  axios.defaults.headers.put['Authorization'];
+            delete  axios.defaults.headers.delete['Authorization'];
+            delete axios.defaults.headers.patch['Authorization'] ;
+        }
+    }, [authTokens]);
     return (
 
 

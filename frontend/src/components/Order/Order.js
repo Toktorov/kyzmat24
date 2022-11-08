@@ -94,7 +94,7 @@ const Order = () => {
                                                 required={true}
                                                 value={tel}
                                                 onChange={e => setTel(e.target.value)}
-                                                placeholder={'Обязетельно пишите'}
+                                                placeholder={'Обязательно пишите'}
                                                 type="tel" className="form-control"/>
                                         </div>
                                         <div className="space-y-10">

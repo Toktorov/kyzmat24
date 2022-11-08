@@ -34,7 +34,7 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
         }
 
 
-        axios.put(`https://kyzmat24.com/api/users/update/${id}`, data).then(response => {
+        axios.put(`/api/users/update/${id}`, data).then(response => {
             console.log(response);
             setMessage('Изменения сохранены');
             dispatch(setUser(id));
@@ -60,6 +60,7 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
     useEffect(() => {
         dispatch(setUser(id));
     }, [dispatch, id]);
+
 
     return (
         <>
@@ -109,7 +110,7 @@ const EditProfileEdit = ({editSelect, setEditSelect, loading, setLoading}) => {
                 </div>
                 <div>
                     {
-                            loading ? <div className={'editPreloader'}>
+                            loading === true ? <div className={'editPreloader'}>
                             <div className="lds-ellipsis">
                                 <div></div>
                                 <div></div>

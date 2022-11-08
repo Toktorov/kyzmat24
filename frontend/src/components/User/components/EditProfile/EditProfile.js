@@ -10,11 +10,15 @@ import EditProfilePassword from "./EditProfileComponents/EditProfilePassword";
 import EditProfileAccount from "./EditProfileComponents/EditProfileAccount";
 import {setHiddenFooter} from "../../../../redux/reducers/app";
 import {setUser} from "../../../../redux/reducers/user";
+import PopupComponent from "../../../PopupComponent/PopupComponent";
+import {setShowPopup} from "../../../../redux/reducers/item";
 
 const EditProfile = () => {
     const user = useSelector(s => s.user.user);
     const dispatch = useDispatch();
     const id = useSelector(s => s.user.id);
+    const showPopup = useSelector(s => s.item.showPopup);
+    const [message, setMessage] = useState('');
     const [editSection, setEditSection] = useState(localStorage.getItem('editSection') ? localStorage.getItem('editSection') : 'profile');
     const [editSelect, setEditSelect] = useState('');
     const [loading, setLoading] = useState('');
@@ -33,14 +37,18 @@ const EditProfile = () => {
             data.append('username', user.username);
             data.append('profile_image', profileImage, profileImage.name);
             setLoading('profileImage');
-            axios.put(`https://kyzmat24.com/api/users/update/${id}`, data)
+            axios.put(`/api/users/update/${id}`, data)
                 .then((response)=>{
                     console.log(response);
                     dispatch(setUser(id));
+                    setMessage('Изменения сохранены');
                 }).catch((error)=>{
                 console.log(error.response);
+                setMessage('Произошла ошибка. Проверьте соединение с интернетом');
             }).finally(()=>{
-                setLoading(false)
+                setLoading(false);
+                setProfileImage(null);
+               // dispatch(setShowPopup(true))
             })
         }
     };
@@ -50,6 +58,9 @@ const EditProfile = () => {
     }, [dispatch]);
     return (
         <>
+            {
+                showPopup ? <PopupComponent messageForUsers={message}/> : ''
+            }
             <div className="container">
                 <div className="top_margin">
                     <div className="avatars space-x-20 mb-30">
@@ -69,6 +80,15 @@ const EditProfile = () => {
                                                     }}
                                                     className="btn btn-dark">
                                                     Поменять</button>
+                                                    : loading === 'profileImage'
+                                                ? <div className={'editPreloader'}>
+                                                        <div className="lds-ellipsis">
+                                                            <div></div>
+                                                            <div></div>
+                                                            <div></div>
+                                                            <div></div>
+                                                        </div>
+                                                    </div>
                                                     : ''
                                             }
                                             <label className="mediaCreate-forms-label-photo mediaCreate-forms-label-photo-edit">
@@ -172,69 +192,6 @@ const EditProfile = () => {
                     </div>
                 </div>
 
-                {/*<div className="editProfile-row">*/}
-                {/*    <div className="editProfile-select-btns">*/}
-                {/*        <button className={*/}
-                {/*            editSection === 'profile' ?*/}
-                {/*                'editProfile-select-btns-button editProfile-select-btns-button-active' :*/}
-                {/*                'editProfile-select-btns-button'*/}
-                {/*        }*/}
-                {/*                onClick={() => {*/}
-                {/*                    setEditSection('profile');*/}
-                {/*                    localStorage.setItem('editSection', 'profile')*/}
-                {/*                }}*/}
-                {/*        >Редактировать профиль*/}
-                {/*        </button>*/}
-                {/*        <button className={*/}
-                {/*            editSection === 'contact' ?*/}
-                {/*                'editProfile-select-btns-button editProfile-select-btns-button-active' :*/}
-                {/*                'editProfile-select-btns-button'*/}
-                {/*        }*/}
-                {/*                onClick={() => {*/}
-                {/*                    setEditSection('contact');*/}
-                {/*                    localStorage.setItem('editSection', 'contact')*/}
-                {/*                }}*/}
-                {/*        >Контакты*/}
-                {/*        </button>*/}
-                {/*        <button className={*/}
-                {/*            editSection === 'account' ?*/}
-                {/*                'editProfile-select-btns-button editProfile-select-btns-button-active' :*/}
-                {/*                'editProfile-select-btns-button'*/}
-                {/*        }*/}
-                {/*                onClick={() => {*/}
-                {/*                    setEditSection('account');*/}
-                {/*                    localStorage.setItem('editSection', 'account')*/}
-                {/*                }}*/}
-                {/*        >Настройки аккаунта*/}
-                {/*        </button>*/}
-                {/*        <button className={*/}
-                {/*            editSection === 'password' ?*/}
-                {/*                'editProfile-select-btns-button editProfile-select-btns-button-active' :*/}
-                {/*                'editProfile-select-btns-button'*/}
-                {/*        }*/}
-                {/*                onClick={() => {*/}
-                {/*                    setEditSection('password');*/}
-                {/*                    localStorage.setItem('editSection', 'password')*/}
-                {/*                }}*/}
-                {/*        >Изменить/сбросить пароль*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*    <div className="editProfile-forms">*/}
-                {/*        {*/}
-                {/*            editSection === 'profile' ?*/}
-                {/*                <EditProfileEdit loading={loading} setLoading={setLoading} editSelect={editSelect} setEditSelect={setEditSelect}/> :*/}
-                {/*                editSection === 'contact' ?*/}
-                {/*                    <EditProfileContact loading={loading} setLoading={setLoading} editSelect={editSelect} setEditSelect={setEditSelect}/> :*/}
-                {/*                    editSection === 'password' ?*/}
-                {/*                        <EditProfilePassword loading={loading} setLoading={setLoading} editSelect={editSelect} setEditSelect={setEditSelect}/> :*/}
-                {/*                        editSection === 'account' ?*/}
-                {/*                            <EditProfileAccount loading={loading} setLoading={setLoading} editSelect={editSelect}*/}
-                {/*                                                setEditSelect={setEditSelect}/> :*/}
-                {/*                            <p>Другие настройки</p>*/}
-                {/*        }*/}
-
-                {/*    </div>*/}
-                {/*</div>*/}
 
             </div>
         </>

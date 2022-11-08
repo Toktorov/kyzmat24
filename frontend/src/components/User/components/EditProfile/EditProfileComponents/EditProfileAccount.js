@@ -44,7 +44,7 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
             data.append('user_location', location)
         }
         setLoading('update');
-      axios.put(`https://kyzmat24.com/api/users/update/${id}`, data)
+      axios.put(`/api/users/update/${id}`, data)
           .then((response)=>{
           console.log(response);
           setMessage('Изменения сохранены');
@@ -162,73 +162,6 @@ const EditProfileAccount = ({editSelect, setEditSelect, loading, setLoading}) =>
 
             </div>
 
-            {/*<p>Настройки аккаунта</p>*/}
-            {/*<div className={'editProfile-forms-label'}>*/}
-            {/*    <p>email:</p>*/}
-            {/*    <input type="text" value={email != null ? email: ''} onChange={e => {*/}
-            {/*        setEmail(e.target.value);*/}
-            {/*        setEditSelect('email')*/}
-            {/*    }}/>*/}
-            {/*</div>*/}
-
-            {/*<label className="editProfile-forms-label">*/}
-            {/*    <p>Имя пользователя/логин:</p>*/}
-            {/*    <input type="text" value={username} onChange={(e)=>{*/}
-            {/*        setUsername(e.target.value);*/}
-            {/*        setEditSelect('username')*/}
-            {/*    }}/>*/}
-            {/*</label>*/}
-
-            {/*<label className="editProfile-forms-label">*/}
-            {/*    <select*/}
-            {/*        defaultValue={user && user.user_category ? user.user_category: ''}*/}
-            {/*        onChange={(e)=>{*/}
-            {/*        setCategory(e.target.value);*/}
-            {/*            setEditSelect('category')*/}
-            {/*        }}>*/}
-            {/*        <option value="0">Выбрать категорию</option>*/}
-            {/*        {*/}
-            {/*            categories.map((item)=>{*/}
-            {/*                return <option key={item.id} value={item.id}>{item.content}</option>*/}
-            {/*            })*/}
-            {/*        }*/}
-            {/*    </select>*/}
-
-            {/*</label>*/}
-
-            {/*<div className={'editProfile-forms-label'}>*/}
-            {/*    <p>локация:</p>*/}
-            {/*    <select name="" id="" defaultValue={location}*/}
-            {/*            onChange={(e) => {*/}
-            {/*                setLocation(e.target.value);*/}
-            {/*                setEditSelect(true)*/}
-            {/*            }}*/}
-            {/*    >*/}
-            {/*        <option value="0">Выбрать локацию</option>*/}
-            {/*        {*/}
-            {/*            locations.map((item) => {*/}
-            {/*                return <option value={item.id} key={item.id}>{item.title}</option>*/}
-            {/*            })*/}
-            {/*        }*/}
-            {/*    </select>*/}
-            {/*</div>*/}
-            {/*{*/}
-            {/*    loading ? <div className={'editPreloader'}>*/}
-            {/*        <div className="lds-ellipsis">*/}
-            {/*            <div></div>*/}
-            {/*            <div></div>*/}
-            {/*            <div></div>*/}
-            {/*            <div></div>*/}
-            {/*        </div>*/}
-            {/*    </div> : <button*/}
-            {/*        className={ editSelect ? 'editProfile-forms-button editProfile-forms-button-selected': 'editProfile-forms-button'}*/}
-            {/*        type={'button'} onClick={() => {*/}
-            {/*            if (editSelect){*/}
-            {/*                updateAccount()*/}
-            {/*            }*/}
-            {/*        }}>сохранить*/}
-            {/*    </button>*/}
-            {/*}*/}
         </>
     );
 };

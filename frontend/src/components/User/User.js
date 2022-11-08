@@ -24,7 +24,6 @@ import Footer from "../Footer/Footer";
 import profileBg from '../../assets/img/bg/prrofile.png';
 
 const User = () => {
-    const params = useParams();
     const history = useHistory();
     const [status, setStatus] = useState('login');
     const user = useSelector(s => s.user.user);
@@ -93,17 +92,12 @@ const User = () => {
     }, [user, authTokens, history]);
 
     useEffect(() => {
-        dispatch(setApp('order'));
+        dispatch(setApp('user'));
         dispatch(setUser(id));
         dispatch(getLocations());
         dispatch(getCategories());
         dispatch(setHiddenFooter(true));
-      if (authTokens){
-          axios.defaults.headers.post['Authorization'] = `Bearer ${authTokens.access}`;
-          axios.defaults.headers.put['Authorization'] = `Bearer ${authTokens.access}`;
-          axios.defaults.headers.delete['Authorization'] = `Bearer ${authTokens.access}`;
-          axios.defaults.headers.patch['Authorization'] = `Bearer ${authTokens.access}`;
-      }
+        console.log(axios.defaults.headers)
     }, [dispatch, id]);
 
     return (
@@ -332,143 +326,7 @@ const User = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/*    <div className={'profile__block'}>*/}
-                                    {/*    <div className="profile-top">*/}
 
-                                    {/*        <div className="profile-image">*/}
-                                    {/*            <img className={'avatar'}*/}
-                                    {/*                 src={user.profile_image ? user.profile_image : altAvatar}*/}
-                                    {/*                 alt=""/>*/}
-                                    {/*        </div>*/}
-
-                                    {/*        <div className="profile-text">*/}
-                                    {/*            <div className="profile-title">*/}
-                                    {/*                <h2>{user.first_name ? user.first_name : user.username}*/}
-                                    {/*                    <span>{user.id}</span></h2>*/}
-                                    {/*                {*/}
-                                    {/*                    user.last_name ? <p>{user.first_name} {user.last_name}</p> : ''*/}
-                                    {/*                }*/}
-                                    {/*                {*/}
-                                    {/*                    user.first_name ? <p><b>Имя пользователя:</b> {user.username}</p> : ''*/}
-                                    {/*                }*/}
-                                    {/*                <p><b>Описание:</b> {user.description} </p>*/}
-                                    {/*            </div>*/}
-
-                                    {/*            <div className="profile-info">*/}
-                                    {/*                <p><b>Категория:</b> {user.user_category ? getUserCategory(user.user_category): "--"}</p>*/}
-                                    {/*                <p><b>Локация:</b> {user.user_location ? getUserLocation(user.user_location): "--"} </p>*/}
-                                    {/*                <p><b>Email:</b> {user.email} </p>*/}
-                                    {/*                <p><b>Доп-но:</b> доп. инф.</p>*/}
-                                    {/*                <p><b>Контакты: </b></p>*/}
-                                    {/*                <div className={"profile-contact"}>{*/}
-                                    {/*                    user.contact.length === 0 ? '---' :*/}
-                                    {/*                        user.contact.map((item) => {*/}
-                                    {/*                            if (item.name === 'facebook') {*/}
-                                    {/*                                return <a key={item.src} href={item.src} target={'_blank'}>*/}
-                                    {/*                                    <FontAwesomeIcon icon={faFacebook}/></a>*/}
-                                    {/*                            } else if (item.name === 'whatsapp') {*/}
-                                    {/*                                return <a key={item.src} href={item.src} target={'_blank'}>*/}
-                                    {/*                                    <FontAwesomeIcon icon={faWhatsapp}/> </a>*/}
-                                    {/*                            } else if (item.name === 'instagram') {*/}
-                                    {/*                                return <a key={item.src} href={item.src} target={'_blank'}>*/}
-                                    {/*                                    <FontAwesomeIcon icon={faInstagram}/></a>*/}
-                                    {/*                            } else if (item.name === 'telegram') {*/}
-                                    {/*                                return <a key={item.src} href={item.src}*/}
-                                    {/*                                          target={'_blank'}><FontAwesomeIcon*/}
-                                    {/*                                    icon={faTelegramPlane}/></a>*/}
-                                    {/*                            } else {*/}
-                                    {/*                                return <a key={item.src} href={item.src}*/}
-                                    {/*                                          target={'_blank'}>{item.src}</a>*/}
-                                    {/*                            }*/}
-                                    {/*                        })*/}
-                                    {/*                }</div>*/}
-                                    {/*                <div className="link_class">*/}
-                                    {/*                    <p><Link to={"/user/edit"} className={'edit-profile-button'}>Редактивровать*/}
-                                    {/*                        профиль <FontAwesomeIcon icon={faPenToSquare}/></Link></p>*/}
-                                    {/*                    {*/}
-                                    {/*                        !user.email ? <>*/}
-                                    {/*                            <p className={'verified__message'}>Добавьте email для*/}
-                                    {/*                                безопасности! Без email невозможно будет восстановить пароль!!!</p>*/}
-                                    {/*                        </> : ''*/}
-                                    {/*                    }*/}
-                                    {/*                    {*/}
-                                    {/*                        user.status_user === 'Free' ? <>*/}
-                                    {/*                            <p className={'verified__message'}>Ваш профиль не публичный! Чтобы*/}
-                                    {/*                                сделать его публичным <button*/}
-                                    {/*                                    onClick={() => setShowUpdateProfile(true)}>НАЖМИТЕ!</button>*/}
-                                    {/*                            </p>*/}
-                                    {/*                        </> : ''*/}
-                                    {/*                    }*/}
-                                    {/*                    <button onClick={() => {*/}
-                                    {/*                        setShowLogoutPopup(true);*/}
-                                    {/*                    }}*/}
-                                    {/*                            className={'logout-btn'}>Выйти*/}
-                                    {/*                    </button>*/}
-                                    {/*                </div>*/}
-                                    {/*            </div>*/}
-                                    {/*        </div>*/}
-
-
-                                    {/*    </div>*/}
-                                    {/*    <hr/>*/}
-                                    {/*    <div className="profile-bottom">*/}
-
-                                    {/*        <div className="bottom-row">*/}
-                                    {/*            <button*/}
-                                    {/*                onClick={() => setShowMediaCreate(true)}*/}
-                                    {/*                className={'button-create-media'}><FontAwesomeIcon icon={faPlus}/></button>*/}
-                                    {/*            {*/}
-                                    {/*                user.media.map(item => {*/}
-                                    {/*                    if (item.name === 'img') {*/}
-                                    {/*                        return (*/}
-                                    {/*                            <div className={"col-4"} key={item.file}>*/}
-                                    {/*                                <div className="profile-images">*/}
-                                    {/*                                    {*/}
-                                    {/*                                        showMediaPopup === item.id ? <PopupMedia*/}
-                                    {/*                                            setShowMediaPopup={setShowMediaPopup}*/}
-                                    {/*                                            mediaId={item.id}/> : <button*/}
-                                    {/*                                            onClick={() => {*/}
-                                    {/*                                                setShowMediaPopup(item.id)*/}
-                                    {/*                                            }}*/}
-                                    {/*                                            className={'profile-images-btn'}>...</button>*/}
-                                    {/*                                    }*/}
-
-                                    {/*                                    <a data-fancybox="gallery" href={`${item.file}`}>*/}
-                                    {/*                                        <img className='profile-img' src={`${item.file}`}*/}
-                                    {/*                                             alt="картина"/>*/}
-                                    {/*                                    </a>*/}
-
-                                    {/*                                </div>*/}
-                                    {/*                            </div>*/}
-                                    {/*                        )*/}
-                                    {/*                    } else {*/}
-                                    {/*                        return (*/}
-                                    {/*                            <div className={"col-4"} key={item.src}>*/}
-                                    {/*                                <div className="profile-images">*/}
-                                    {/*                                    {*/}
-                                    {/*                                        showMediaPopup === item.id ? <PopupMedia*/}
-                                    {/*                                            setShowMediaPopup={setShowMediaPopup}*/}
-                                    {/*                                            mediaId={item.id}/> : <button*/}
-                                    {/*                                            onClick={() => {*/}
-                                    {/*                                                setShowMediaPopup(item.id)*/}
-                                    {/*                                            }}*/}
-                                    {/*                                            className={'profile-images-btn'}>...</button>*/}
-                                    {/*                                    }*/}
-
-                                    {/*                                    <a data-fancybox="gallery" href={`${item.src}`}>*/}
-                                    {/*                                        <ReactPlayer className='profile-video'*/}
-                                    {/*                                                     url={item.src} controls={true} alt=""/>*/}
-                                    {/*                                    </a>*/}
-                                    {/*                                </div>*/}
-                                    {/*                            </div>*/}
-                                    {/*                        )*/}
-
-                                    {/*                    }*/}
-                                    {/*                })*/}
-                                    {/*            }*/}
-                                    {/*        </div>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
                                 </>
                                 : <div className={'preloader'}>
                                     <div className="lds-ring">

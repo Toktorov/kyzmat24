@@ -34,8 +34,7 @@ export const user= (state = initState, action) => {
             }
         }
         case LOGOUT_USER: {
-            localStorage.removeItem('authTokens');
-            localStorage.removeItem('id');
+            localStorage.clear();
             return {
                 ...state,
                 authTokens: null,
@@ -92,7 +91,7 @@ export const setUser = (id) => {
                 return  dispatch({type: SET_USER, user: data})
             }).catch(error => {
                 if (error.response.status === 404){
-                    dispatch(logoutUser())
+                    // dispatch(logoutUser())
                 }
         });
 
