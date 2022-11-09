@@ -20,6 +20,7 @@ django-allauth==0.50.0
 django-cors-headers==3.11.0
 django-environ==0.8.1
 django-phonenumber-field==6.1.0
+django-resized==1.0.2
 django-rest-passwordreset==1.2.1
 django-rest-sms-auth==0.1.22
 django-templated-mail==1.1.1
@@ -40,6 +41,7 @@ phonenumbers==8.12.48
 Pillow==9.1.0
 prompt-toolkit==3.0.29
 psycopg-binary==3.0.15
+psycopg2-binary==2.9.3
 pycparser==2.21
 PyJWT==2.3.0
 pyotp==2.6.0

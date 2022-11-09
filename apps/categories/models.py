@@ -14,25 +14,6 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
-class CategoryImage(models.Model):
-    image = models.ImageField(
-        upload_to='category',
-        verbose_name='Картинки',
-        blank=True, null=True
-    )
-    category = models.ForeignKey(
-        Category, on_delete=models.CASCADE,
-        related_name='category_image'
-    )
-
-    def __str__(self):
-        return f"{self.id}"
-
-    class Meta:
-        verbose_name = 'Изображение продукта'
-        verbose_name_plural = 'Изображении продуктов'
-        ordering = ('-id',)
-
 class Location(models.Model):
     title = models.CharField(max_length=255)
     location_self = models.ForeignKey('self', on_delete=models.CASCADE, null = True, blank = True)

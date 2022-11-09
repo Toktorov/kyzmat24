@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from apps.categories.models import Category, Location
+from django_resized.forms import ResizedImageField
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -41,7 +42,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank = True, null = True, default="Пользователь не добавил описание")
-    profile_image = models.ImageField(upload_to='profiles', blank=True, null=True)
+    profile_image = ResizedImageField(force_format="WEBP", quality=75, upload_to='profiles/', blank=True, null=True)
     user_location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null = True)
     user_category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank = True, null = True)
     another = models.TextField(blank = True, null = True)
@@ -85,7 +86,7 @@ def upload_path(instance, filname):
 
 class Media(models.Model):
     name = models.CharField(max_length = 100, verbose_name="Имя")
-    file = models.FileField(upload_to = upload_path, blank=True, null = True)
+    file = ResizedImageField(force_format="WEBP", quality=75, upload_to = upload_path, blank=True, null = True)
     src = models.CharField(max_length = 250, blank=True, null = True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
