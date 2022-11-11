@@ -209,6 +209,8 @@ class UserUpdateAPIView(generics.UpdateAPIView):
         self.check_object_permissions(request, user)
         serializer=UserUpdateSerializer(instance=user,data=request.data)
         if serializer.is_valid():
+            if user.profile_image:
+                user.profile_image.delete()
             serializer.save()
             return Response({user.username : 'профиль успешно обновлен'}, status=status.HTTP_200_OK)
         else:
@@ -227,6 +229,8 @@ class UserDeleteAPIView(generics.DestroyAPIView):
     def delete(self, request, pk, format=None):
         user = User.objects.get(pk=pk)
         self.check_object_permissions(request, user)
+        if user.profile_image:
+            user.profile_image.delete()
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -346,6 +350,8 @@ class MediaUpdateAPIView(generics.UpdateAPIView):
         self.check_object_permissions(request, media)
         serializer=MediaUpdateSerializer(instance=media,data=request.data)
         if serializer.is_valid():
+            if media.file:
+                media.file.delete()
             serializer.save()
             return Response(status=status.HTTP_200_OK)
         else:
@@ -359,5 +365,7 @@ class MediaDeleteAPIView(generics.DestroyAPIView):
     def delete(self, request, pk, format=None):
         media = Media.objects.get(pk = pk)
         self.check_object_permissions(request, media)
+        if media.file:
+            media.file.delete()
         media.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
