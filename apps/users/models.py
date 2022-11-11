@@ -81,7 +81,7 @@ class Contact(models.Model):
         verbose_name_plural = "Контакты"
         
 def upload_path(instance, filname):
-    return '/'.join(['media_files   ', str(instance.name), filname])
+    return '/'.join(['media_files', str(instance.name), filname])
     
 
 class Media(models.Model):
