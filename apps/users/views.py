@@ -209,8 +209,6 @@ class UserUpdateAPIView(generics.UpdateAPIView):
         self.check_object_permissions(request, user)
         serializer=UserUpdateSerializer(instance=user,data=request.data)
         if serializer.is_valid():
-            if user.profile_image:
-                user.profile_image.delete()
             serializer.save()
             return Response({user.username : 'профиль успешно обновлен'}, status=status.HTTP_200_OK)
         else:
