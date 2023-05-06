@@ -1,20 +1,10 @@
-from rest_framework import viewsets, generics
-from apps.users.models import User, Contact, Media
-from apps.users.serializers import (UserSerializer, UserSerializerList, UserDetailSerializer, 
-    RegisterSerializer, MyTokenObtainPairSerializer, ContactSerializer, ContactUpdateSerializer,
-    MediaSerializer, MediaUpdateSerializer, IssueTokenRequestSerializer,
-    TokenSeriazliser, UserUpdateSerializer,
-    ChangePasswordSerializer, ContactCreateSerializer, MediaCreateSerializer,
-    SendConfirmEmailSerializer, ResetPasswordEmailRequestSerializer, SetNewPasswordSerializer
-    )
+from rest_framework import generics
+from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins
 from rest_framework_simplejwt.views import TokenObtainPairView
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-from dj_rest_auth.registration.views import SocialLoginView
-from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
-from apps.users.permissions import UserPermissions, UserContactPermissions, UserMediaPermissions
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
@@ -29,28 +19,42 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
 from django.http import HttpResponsePermanentRedirect
 
+from apps.users.models import User, Contact, Media
+from apps.users import serializers
+from apps.users.permissions import UserPermissions, UserMediaContactPermissions
 
-class UserAPIViewSet(viewsets.ModelViewSet):
+
+class UserAPIViewSet(GenericViewSet,
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.CreateModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin):
     queryset = User.objects.all()
-    serializer_class = UserSerializerList
-    permission_classes = [AllowAny]
+    serializer_class = serializers.UserSerializerList
+    permission_classes = (AllowAny, )
 
     def get_serializer_class(self):
-        if self.action in ['list', 'retrieve']:
-            return UserSerializerList
+        if self.action in ('list', 'retrieve'):
+            return serializers.UserSerializerList
+        if self.action in ('create', ):
+            return serializers.RegisterSerializer
+        if self.action in ('update', 'partial_update'):
+            return serializers.UserUpdateSerializer
         return self.serializer_class
 
     def get_permissions(self):
-        if self.action in ['update', 'partial_update', 'destroy', ]:
-            permission_classes = (UserPermissions, )           
-        else :
-            permission_classes = (AllowAny, )  
-        return [permission() for permission in permission_classes]
-
-class UserDetailAPIViewSet(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserDetailSerializer
-    permission_classes = [AllowAny]
+        if self.action in ('update', 'partial_update', 'destroy', ):
+            return (AllowAny(), UserPermissions())        
+        return (AllowAny(), )
+    
+    def destroy(self, request, *args, **kwargs):
+        user = User.objects.get(pk=request.user.pk)
+        self.check_object_permissions(request, user)
+        if user.profile_image:
+            user.profile_image.delete()
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Util:
 	@staticmethod
@@ -62,13 +66,8 @@ class CustomRedirect(HttpResponsePermanentRedirect):
 
     allowed_schemes = ['https', 'http']
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-    permission_classes = [AllowAny]
-
 class SendComfirmEmailView(generics.GenericAPIView):
-    serializer_class = SendConfirmEmailSerializer
+    serializer_class = serializers.SendConfirmEmailSerializer
     permission_classes = (AllowAny, )
 
     def post(self, request):
@@ -89,7 +88,7 @@ class SendComfirmEmailView(generics.GenericAPIView):
         return Response({'success': 'Успешно отправлено'}, status=status.HTTP_200_OK)
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
-    serializer_class = ResetPasswordEmailRequestSerializer
+    serializer_class = serializers.ResetPasswordEmailRequestSerializer
     permission_classes = (AllowAny, )
 
     def post(self, request):
@@ -114,7 +113,7 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
         return Response({'success': 'Мы отправили вам ссылку для сброса пароля'}, status=status.HTTP_200_OK)
 
 class PasswordTokenCheckAPI(generics.GenericAPIView):
-    serializer_class = SetNewPasswordSerializer
+    serializer_class = serializers.SetNewPasswordSerializer
     permission_classes = (AllowAny, )
 
     def get(self, request, uidb64, token):
@@ -145,7 +144,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
                 return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
-    serializer_class = SetNewPasswordSerializer
+    serializer_class = serializers.SetNewPasswordSerializer
     permission_classes = (AllowAny, )
 
     def patch(self, request):
@@ -157,7 +156,7 @@ class ChangePasswordView(generics.UpdateAPIView):
         """
         An endpoint for changing password.
         """
-        serializer_class = ChangePasswordSerializer
+        serializer_class = serializers.ChangePasswordSerializer
         model = User
         permission_classes = (AllowAny,)
 
@@ -193,62 +192,23 @@ class VerifyEmail(generics.GenericAPIView):
 		except User.DoesNotExist:
 			return Response({'Неправильное имя пользователя'}, status=status.HTTP_400_BAD_REQUEST)
 
-class GoogleLogin(SocialLoginView):
-    authentication_classes = [] # отключить аутентификацию
-    adapter_class = GoogleOAuth2Adapter
-    callback_url = "http://localhost:3000"
-    client_class = OAuth2Client
-
-class UserUpdateAPIView(generics.UpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserUpdateSerializer
-    permission_classes = (UserPermissions,)
-
-    def put(self, request, pk):
-        user = User.objects.get(pk=pk)
-        self.check_object_permissions(request, user)
-        serializer=UserUpdateSerializer(instance=user,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({user.username : 'профиль успешно обновлен'}, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-            
-class UserDeleteAPIView(generics.DestroyAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [UserPermissions]
-
-    def get(self, request, pk, format=None,):
-        content = {
-            'Kyzmat24': 'Вы уверены что хотите удалить свой профиль?'
-        }
-        return Response(content)
-
-    def delete(self, request, pk, format=None):
-        user = User.objects.get(pk=pk)
-        self.check_object_permissions(request, user)
-        if user.profile_image:
-            user.profile_image.delete()
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def issue_token(request: Request):
-    serializer = IssueTokenRequestSerializer(data=request.data)
+    serializer = serializers.IssueTokenRequestSerializer(data=request.data)
     if serializer.is_valid():
         authenticated_user = authenticate(**serializer.validated_data)
         try:
             token = Token.objects.get(user=authenticated_user)
         except Token.DoesNotExist:
             token = Token.objects.create(user=authenticated_user)
-        return Response(TokenSeriazliser(token).data)
+        return Response(serializers.TokenSeriazliser(token).data)
     else:
         return Response(serializer.errors, status=400)
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
-    serializer_class = MyTokenObtainPairSerializer
+    serializer_class = serializers.MyTokenObtainPairSerializer
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
@@ -267,103 +227,37 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
 
 #ContactAPI
-class ContactAPIViewSet(generics.ListAPIView):
+class ContactAPIViewSet(GenericViewSet,
+                     mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.CreateModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin):
     queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [AllowAny]
+    serializer_class = serializers.ContactSerializer
 
-class ContactCreateAPIView(generics.CreateAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactCreateSerializer
-    permission_classes = [IsAuthenticated, UserContactPermissions]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        try:
-            if self.request.user.id == int(serializer.initial_data['user']):
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(status=status.HTTP_201_CREATED)
-            else:
-                return Response({ self.request.user.username : "У вас нет доступа" },status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response({}, status=status.HTTP_400_BAD_REQUEST)
-
-class ContactUpdateAPIView(generics.UpdateAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactUpdateSerializer
-    permission_classes = [UserContactPermissions]
-
-    def put(self, request, pk, format=None):
-        contact = Contact.objects.get(pk = pk)
-        self.check_object_permissions(request, contact)
-        serializer=ContactUpdateSerializer(instance=contact,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
-class ContactDeleteAPIView(generics.DestroyAPIView):
-    queryset = Contact.objects.all()
-    serializer_class = ContactSerializer
-    permission_classes = [UserContactPermissions, ]
-
-    def delete(self, request, pk, format=None):
-        contact = Contact.objects.get(pk = pk)
-        self.check_object_permissions(request, contact)
-        contact.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+    
+    def get_permissions(self):
+        if self.action in ('update', 'partial_update', 'destroy'):
+            return (IsAuthenticated(), UserMediaContactPermissions())
+        return (AllowAny(), )
 
 #MediaAPI
-class MediaAPIViewSet(generics.ListAPIView):
+class MediaAPIViewSet(GenericViewSet,
+                      mixins.ListModelMixin,
+                      mixins.RetrieveModelMixin,
+                      mixins.CreateModelMixin,
+                      mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin):
     queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [AllowAny]
+    serializer_class = serializers.MediaSerializer
 
-class MediaCreateAPIView(generics.CreateAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaCreateSerializer
-    permission_classes = [IsAuthenticated, UserMediaPermissions]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        try:
-            if self.request.user.id == int(serializer.initial_data['user']):
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response(status=status.HTTP_201_CREATED)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-class MediaUpdateAPIView(generics.UpdateAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaUpdateSerializer
-    permission_classes = [UserMediaPermissions]
-
-    def put(self, request, pk, format=None):
-        media = Media.objects.get(pk = pk)
-        self.check_object_permissions(request, media)
-        serializer=MediaUpdateSerializer(instance=media,data=request.data)
-        if serializer.is_valid():
-            if media.file:
-                media.file.delete()
-            serializer.save()
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-
-class MediaDeleteAPIView(generics.DestroyAPIView):
-    queryset = Media.objects.all()
-    serializer_class = MediaSerializer
-    permission_classes = [UserMediaPermissions]
-
-    def delete(self, request, pk, format=None):
-        media = Media.objects.get(pk = pk)
-        self.check_object_permissions(request, media)
-        if media.file:
-            media.file.delete()
-        media.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+    
+    def get_permissions(self):
+        if self.action in ('update', 'partial_update', 'destroy'):
+            return (IsAuthenticated(), UserMediaContactPermissions())
+        return (AllowAny(), )
