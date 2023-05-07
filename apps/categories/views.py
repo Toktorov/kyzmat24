@@ -1,10 +1,17 @@
-from rest_framework import viewsets
-from apps.categories.models import Category, Location
-from apps.categories.serializers import CategorySerializerList, LocationSerializerList
+from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAdminUser
 
+from apps.categories.models import Category, Location
+from apps.categories.serializers import CategorySerializerList, LocationSerializerList
+
 # Create your views here.
-class CategoryAPIViewSet(viewsets.ModelViewSet):
+class CategoryAPIViewSet(GenericViewSet,
+                         mixins.ListModelMixin,
+                         mixins.RetrieveModelMixin,
+                         mixins.CreateModelMixin,
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin):
     queryset = Category.objects.all()
     serializer_class = CategorySerializerList
 
@@ -20,7 +27,12 @@ class CategoryAPIViewSet(viewsets.ModelViewSet):
             permission_classes = (AllowAny, )  
         return [permission() for permission in permission_classes]
 
-class LocationAPIViewSet(viewsets.ModelViewSet):
+class LocationAPIViewSet(GenericViewSet,
+                         mixins.ListModelMixin,
+                         mixins.RetrieveModelMixin,
+                         mixins.CreateModelMixin,
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin):
     queryset = Location.objects.all()
     serializer_class = LocationSerializerList
 

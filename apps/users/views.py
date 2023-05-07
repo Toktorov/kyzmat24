@@ -181,7 +181,7 @@ class ChangePasswordView(generics.UpdateAPIView):
                 return Response(response)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class VerifyEmail(generics.GenericAPIView):
+class VerifyEmail(generics.GenericAPIView):    
 	def get(self, request, pk):
 		try:
 			user = User.objects.get(username = pk)
