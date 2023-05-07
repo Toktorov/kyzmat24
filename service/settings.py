@@ -11,15 +11,17 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 #Tested branch
 #Checked
-import os
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
 import config
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv('.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -32,6 +34,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+TELEGRAM_TOKEN = os.environ.get('telegram_token')
 
 # Application definition
 
@@ -66,6 +69,7 @@ INSTALLED_APPS = [
     'apps.categories',
     'apps.orders', 
     'apps.users',
+    'apps.telegram',
 ]
 
 MIDDLEWARE = [
