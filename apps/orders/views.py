@@ -3,9 +3,11 @@ from rest_framework import generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAdminUser
+import asyncio
 
 from apps.orders.models import AcceptOrder, Order, Review
 from apps.orders import serializers
+from apps.telegram.views import send_order
 # Create your views here.
 
 class OrderAPIViewSet(GenericViewSet,
@@ -20,8 +22,11 @@ class OrderAPIViewSet(GenericViewSet,
 
     def get_queryset(self):
         return self.queryset.filter(status=False)
-    
+
     def perform_create(self, serializer):
+        order = serializer.validated_data
+        message = f"Новый заказ\nОписание: {order['description']}\nTel: {order['tel']}\nEmail: {order['email']}\nЛокация: {order['location']}\nКатегория: {order['category']}\nStatus: False"
+        asyncio.run(send_order(-1001956980852, f'{message}'))
         return serializer.save(user=self.request.user)
     
     def get_serializer_class(self):
