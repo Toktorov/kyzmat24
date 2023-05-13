@@ -3,11 +3,14 @@ from rest_framework import generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
 import asyncio
 
 from apps.orders.models import AcceptOrder, Order, Review
 from apps.orders import serializers
 from apps.telegram.views import send_order
+from apps.orders.pagination import StandardResultsSetPagination
+
 # Create your views here.
 
 class OrderAPIViewSet(GenericViewSet,
@@ -19,12 +22,14 @@ class OrderAPIViewSet(GenericViewSet,
     queryset = Order.objects.all()
     serializer_class = serializers.OrderSerializer
     permission_classes = (AllowAny, )
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['description', 'user', 'location', 'places', 'tel']
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
-        return self.queryset.filter(status=False)
+        return self.queryset.filter(status=True)
 
     def perform_create(self, serializer):
-        
         instance = serializer.save(user=self.request.user)
         message = f"""Новое объявление #{instance.id}
 Описание: {instance.description}
@@ -46,7 +51,6 @@ Tel: {instance.tel}
             return (IsAdminUser(), )        
         return (AllowAny(), )
     
-
 class OrderCompletedUpdateAPIView(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = serializers.OrderCompletedSerializer
@@ -66,7 +70,7 @@ class AcceptOrderAPIViewSet(GenericViewSet,
     def get_serializer_class(self):
         if self.action in ('create', ):
             return serializers.AcceptOrderCreateSerializer
-        return serializers.OrderAc
+        return serializers.OrderAcceptOrderSerializer
 
     def perform_create(self, serializer):
         obj = serializer.save()
