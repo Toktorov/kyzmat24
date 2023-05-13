@@ -24,10 +24,15 @@ class OrderAPIViewSet(GenericViewSet,
         return self.queryset.filter(status=False)
 
     def perform_create(self, serializer):
-        order = serializer.validated_data
-        message = f"Новый заказ\nОписание: {order['description']}\nTel: {order['tel']}\nEmail: {order['email']}\nЛокация: {order['location']}\nКатегория: {order['category']}\nStatus: False"
+        
+        instance = serializer.save(user=self.request.user)
+        message = f"""Новое объявление #{instance.id}
+Описание: {instance.description}
+Emaii: {instance.email}
+Tel: {instance.tel}
+Дата создания {instance.cretated}"""
         asyncio.run(send_order(-1001956980852, f'{message}'))
-        return serializer.save(user=self.request.user)
+        return instance
     
     def get_serializer_class(self):
         if self.action in ('create', ):
