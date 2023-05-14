@@ -44,7 +44,7 @@ class UserAPIViewSet(GenericViewSet,
         return (AllowAny(), )
     
     def destroy(self, request, *args, **kwargs):
-        user = User.objects.get(pk=request.user.pk)
+        user = User.objects.get(pk=self.kwargs['pk'])
         self.check_object_permissions(request, user)
         if user.profile_image:
             user.profile_image.delete()
@@ -214,14 +214,22 @@ class ContactAPIViewSet(GenericViewSet,
     serializer_class = serializers.ContactSerializer
 
     def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            return serializer.save(user=self.request.user)
+            instance = self.perform_create(serializer)
         except ValueError:
-            raise ValueError("401 ошибка токена доступа")
+            print("Error")
+            return Response({"token": "Неавторизованный пользователь"}, status=status.HTTP_400_BAD_REQUEST)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
-            return (IsAuthenticated(), UserMediaContactPermissions())
+            return (UserMediaContactPermissions(), )
         return (AllowAny(), )
 
 #MediaAPI
@@ -235,12 +243,20 @@ class MediaAPIViewSet(GenericViewSet,
     serializer_class = serializers.MediaSerializer
 
     def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+        
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            return serializer.save(user=self.request.user)
+            instance = self.perform_create(serializer)
         except ValueError:
-            raise ValueError("401 ошибка токена доступа")
+            print("Error")
+            return Response({"token": "Неавторизованный пользователь"}, status=status.HTTP_400_BAD_REQUEST)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
-            return (IsAuthenticated(), UserMediaContactPermissions())
+            return (UserMediaContactPermissions(), )
         return (AllowAny(), )

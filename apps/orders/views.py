@@ -88,6 +88,11 @@ class ReviewAPIViewSet(GenericViewSet,
     serializer_class = serializers.ReviewSerializer
     permission_classes = (AllowAny(), )
 
+    def get_permissions(self):
+        if self.action in ('update', 'partial_update', 'destroy', ):
+            return (IsAdminUser(), )        
+        return (AllowAny(), )
+
 def handler404(request, exception):
     response = render(request, "404/index.html")
     response.status_code = 404
