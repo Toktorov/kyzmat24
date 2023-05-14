@@ -42,8 +42,15 @@ class User(AbstractUser):
     username = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank = True, null = True, default="Пользователь не добавил описание")
     profile_image = ResizedImageField(force_format="WEBP", quality=75, upload_to='profiles/', blank=True, null=True)
-    user_location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null = True)
-    user_category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank = True, null = True)
+    user_location = models.ForeignKey(
+        Location, on_delete=models.SET_NULL, 
+        related_name='location_users',
+        blank=True, null = True
+    )
+    user_category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, 
+        related_name='category_users',
+        blank = True, null = True)
     another = models.TextField(blank = True, null = True)
     password = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, null = True, blank = True, unique=True)
