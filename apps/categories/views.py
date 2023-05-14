@@ -19,7 +19,7 @@ class CategoryAPIViewSet(GenericViewSet,
     filterset_fields = ('content', )
 
     def get_serializer_class(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ('list', 'retrieve'):
             return CategorySerializerList
         return self.serializer_class
 

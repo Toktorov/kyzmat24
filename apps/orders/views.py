@@ -29,7 +29,10 @@ class OrderAPIViewSet(GenericViewSet,
         return self.queryset.filter(status=True)
 
     def perform_create(self, serializer):
-        instance = serializer.save(user=self.request.user)
+        try:
+            instance = serializer.save(user=self.request.user)
+        except ValueError:
+            instance = serializer.save()
         message = f"""Новое объявление #{instance.id}
 Описание: {instance.description}
 Emaii: {instance.email}
