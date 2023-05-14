@@ -1,13 +1,8 @@
 from rest_framework import generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.request import Request
-from django.contrib.auth import authenticate
-from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
@@ -45,7 +40,7 @@ class UserAPIViewSet(GenericViewSet,
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy', ):
-            return (AllowAny(), UserPermissions())        
+            return (UserPermissions(), )        
         return (AllowAny(), )
     
     def destroy(self, request, *args, **kwargs):
@@ -192,24 +187,6 @@ class VerifyEmail(generics.GenericAPIView):
 		except User.DoesNotExist:
 			return Response({'Неправильное имя пользователя'}, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def issue_token(request: Request):
-    serializer = serializers.IssueTokenRequestSerializer(data=request.data)
-    if serializer.is_valid():
-        authenticated_user = authenticate(**serializer.validated_data)
-        try:
-            token = Token.objects.get(user=authenticated_user)
-        except Token.DoesNotExist:
-            token = Token.objects.create(user=authenticated_user)
-        return Response(serializers.TokenSeriazliser(token).data)
-    else:
-        return Response(serializer.errors, status=400)
-
-class MyObtainTokenPairView(TokenObtainPairView):
-    permission_classes = (AllowAny,)
-    serializer_class = serializers.MyTokenObtainPairSerializer
-
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
 
@@ -237,7 +214,10 @@ class ContactAPIViewSet(GenericViewSet,
     serializer_class = serializers.ContactSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(user=self.request.user)
+        try:
+            return serializer.save(user=self.request.user)
+        except ValueError:
+            raise ValueError("401 ошибка токена доступа")
     
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):
@@ -255,7 +235,10 @@ class MediaAPIViewSet(GenericViewSet,
     serializer_class = serializers.MediaSerializer
 
     def perform_create(self, serializer):
-        return serializer.save(user=self.request.user)
+        try:
+            return serializer.save(user=self.request.user)
+        except ValueError:
+            raise ValueError("401 ошибка токена доступа")
     
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'destroy'):

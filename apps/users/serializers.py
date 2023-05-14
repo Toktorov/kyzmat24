@@ -1,14 +1,15 @@
 from rest_framework import serializers
-from apps.users.models import User, Contact, Media
-from apps.orders.models import AcceptOrder
-from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.serializers import Serializer, ModelSerializer, CharField
+from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from rest_framework.exceptions import AuthenticationFailed
+from django.utils.http import urlsafe_base64_decode
+
+from apps.users.models import User, Contact, Media
+from apps.orders.models import AcceptOrder
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -21,7 +22,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Пароли отличаются"})
-
         return attrs
 
     def create(self, validated_data):
@@ -115,11 +115,6 @@ class TokenSeriazliser(ModelSerializer):
         fields = ['key']
 
 class ContactSerializer(serializers.ModelSerializer):
-    class ContactUserSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = User
-            fields = ('username',)
-    user = ContactUserSerializer()
     class Meta:
         model = Contact
         fields = "__all__"

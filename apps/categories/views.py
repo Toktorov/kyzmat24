@@ -22,10 +22,8 @@ class CategoryAPIViewSet(GenericViewSet,
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy', 'create']:
-            permission_classes = (IsAdminUser,)           
-        else :
-            permission_classes = (AllowAny, )  
-        return [permission() for permission in permission_classes]
+            permission_classes = (IsAdminUser(),)           
+        return (AllowAny(), )
 
 class LocationAPIViewSet(GenericViewSet,
                          mixins.ListModelMixin,
@@ -38,7 +36,5 @@ class LocationAPIViewSet(GenericViewSet,
 
     def get_permissions(self):
         if self.action in ['update', 'partial_update', 'destroy', 'create']:
-            permission_classes = (IsAdminUser,)           
-        else :
-            permission_classes = (AllowAny, )  
-        return [permission() for permission in permission_classes]
+            permission_classes = (IsAdminUser(),)           
+        return (AllowAny(), )

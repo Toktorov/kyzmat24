@@ -1,9 +1,9 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAdminUser
-from django_filters.rest_framework import DjangoFilterBackend
 import asyncio
 
 from apps.orders.models import AcceptOrder, Order, Review
@@ -12,7 +12,6 @@ from apps.telegram.views import send_order
 from apps.orders.pagination import StandardResultsSetPagination
 
 # Create your views here.
-
 class OrderAPIViewSet(GenericViewSet,
                       mixins.ListModelMixin,
                       mixins.RetrieveModelMixin,

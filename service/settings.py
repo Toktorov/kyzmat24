@@ -180,19 +180,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 #Cors
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://94.228.124.229",
-    "http://localhost:1000",
-    "http://localhost:2000",
-    "http://localhost:3000",
-    "http://localhost:4000",
-    "http://localhost:5000",
-    "http://localhost:6000",
-    "http://localhost:7000",
-    "http://localhost:8000",
-    "http://localhost:9000",
-    "https://kyzmat24.com",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=660),

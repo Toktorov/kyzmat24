@@ -5,7 +5,6 @@ from django_resized.forms import ResizedImageField
 
 # Create your models here.
 class UserManager(BaseUserManager):
-
     def create_user(self, username, email, password=None, **kwargs):
         """Create and return a `User` with an email, phone number, username and password."""
         if username is None:
@@ -71,7 +70,7 @@ class User(AbstractUser):
 class Contact(models.Model):
     name = models.CharField(max_length = 100)
     src = models.CharField(max_length = 250, blank = True, null = True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_contacts")
 
     def __str__(self):
         return str(self.name)
