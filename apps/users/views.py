@@ -13,10 +13,12 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
 from django.http import HttpResponsePermanentRedirect
+from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.users.models import User, Contact, Media
 from apps.users import serializers
 from apps.users.permissions import UserPermissions, UserMediaContactPermissions
+from apps.orders.pagination import StandardResultsSetPagination
 
 
 class UserAPIViewSet(GenericViewSet,
@@ -28,6 +30,9 @@ class UserAPIViewSet(GenericViewSet,
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializerList
     permission_classes = (AllowAny, )
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['username', 'description', 'user_location', 'user_category', 'email', 'verifed', 'status_user', 'customer_or_employee']
+    pagination_class = StandardResultsSetPagination
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
