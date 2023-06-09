@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework.viewsets import GenericViewSet
-from rest_framework import mixins
+from rest_framework import mixins, filters
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status
@@ -30,8 +30,9 @@ class UserAPIViewSet(GenericViewSet,
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializerList
     permission_classes = (AllowAny, )
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['username', 'description', 'user_location', 'user_category', 'email', 'verifed', 'status_user', 'customer_or_employee']
+    search_fields = ['username', 'description', 'user_location__title', 'user_category__content', 'email', 'verifed', 'status_user', 'customer_or_employee', 'another', 'first_name', 'last_name']  # Поля, по которым будет выполняться поиск
     pagination_class = StandardResultsSetPagination
 
     def get_serializer_class(self):

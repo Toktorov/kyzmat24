@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.viewsets import GenericViewSet
-from rest_framework import mixins
+from rest_framework import mixins, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 import asyncio
 
@@ -21,8 +21,9 @@ class OrderAPIViewSet(GenericViewSet,
     queryset = Order.objects.all()
     serializer_class = serializers.OrderSerializer
     permission_classes = (AllowAny, )
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['description', 'user', 'location', 'places', 'tel']
+    search_fields = ['description', 'user__username', 'location__title', 'places', 'tel']
     pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
