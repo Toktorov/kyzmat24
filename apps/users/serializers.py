@@ -9,7 +9,7 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 
 from apps.users.models import User, Contact, Media
-from apps.orders.models import AcceptOrder
+from apps.orders.models import AcceptOrder, Order
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -149,7 +149,23 @@ class MediaCreateSerializer(serializers.ModelSerializer):
         model = Media
         fields = ('name', 'file', 'src', 'user')
 
+class AcceptUserSerializerList(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id', 'username', 'first_name', 'last_name', 'email', 
+            'verifed', 'status_user', 'profile_image', 'description', 
+            'user_location', 'user_category', 'another',
+        )
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = "__all__"
+
 class AcceptOrderSerializer(serializers.ModelSerializer):
+    user = AcceptUserSerializerList(read_only=True)
+    order = OrderSerializer(read_only=True)
     class Meta:
         model = AcceptOrder
         fields = "__all__"
