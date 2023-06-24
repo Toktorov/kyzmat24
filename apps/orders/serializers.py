@@ -10,6 +10,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+        ref_name = "CategorySerializer"
 
 class CreateOrderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,6 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = "__all__"
+        ref_name = "OrderSerializer"
 
 class OrderCompletedSerializer(serializers.ModelSerializer):
     class Meta:
