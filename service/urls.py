@@ -32,11 +32,11 @@ from apps.orders.views import handler404
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Blog API",
+        title="Kyzmat API",
         default_version='v1',
-        description="Test description",
+        description="Kyzmat24 - это плотформа для поиска работы или сотрудника",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="nursultandev@gmail.com"),
+        contact=openapi.Contact(email="toktorovkurmanbek92@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -48,6 +48,7 @@ api_urlpatterns = [
     path('users/', include('apps.users.urls')),
     path('category/', include('apps.categories.urls')),
     path('order/', include('apps.orders.urls')),
+    path('setting/', include('apps.settings.urls')),
     
     # docs urls
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

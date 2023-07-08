@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from apps.orders.models import AcceptOrder, Order, Review
 from apps.categories.models import Category
 from apps.users.models import User
@@ -9,6 +10,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = "__all__"
+        ref_name = "CategorySerializer"
 
 class CreateOrderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = "__all__"
+        ref_name = "OrderSerializer"
 
 class OrderCompletedSerializer(serializers.ModelSerializer):
     class Meta:

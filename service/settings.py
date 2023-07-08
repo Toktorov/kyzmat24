@@ -11,27 +11,29 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 #Tested branch
 #Checked
-import os
 from pathlib import Path
 from datetime import timedelta
-import config
+from dotenv import load_dotenv
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv('.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config.SECRET_KEY
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+TELEGRAM_TOKEN = os.environ.get('telegram_token')
 
 # Application definition
 
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
+    'django_filters',
 
     #frontend
     'corsheaders',
@@ -66,6 +69,8 @@ INSTALLED_APPS = [
     'apps.categories',
     'apps.orders', 
     'apps.users',
+    'apps.telegram',
+    'apps.settings',
 ]
 
 MIDDLEWARE = [
@@ -103,9 +108,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'service.wsgi.application'
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': [
@@ -120,9 +128,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': config.DATABASE_NAME,
-    'USER': config.DATABASE_USER,
-    'PASSWORD': config.DATABASE_USER_PASSWORD,
+    'NAME': os.environ.get('DATABASE_NAME'),
+    'USER': os.environ.get('DATABASE_USER'),
+    'PASSWORD': os.environ.get('DATABASE_USER_PASSWORD'),
     'HOST': 'localhost',
     'PORT': '5432',
 }
@@ -156,8 +164,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIT_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -172,19 +180,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 #Cors
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://94.228.124.229",
-    "http://localhost:1000",
-    "http://localhost:2000",
-    "http://localhost:3000",
-    "http://localhost:4000",
-    "http://localhost:5000",
-    "http://localhost:6000",
-    "http://localhost:7000",
-    "http://localhost:8000",
-    "http://localhost:9000",
-    "https://kyzmat24.com",
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=660),

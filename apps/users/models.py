@@ -5,7 +5,6 @@ from django_resized.forms import ResizedImageField
 
 # Create your models here.
 class UserManager(BaseUserManager):
-
     def create_user(self, username, email, password=None, **kwargs):
         """Create and return a `User` with an email, phone number, username and password."""
         if username is None:
@@ -43,8 +42,15 @@ class User(AbstractUser):
     username = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank = True, null = True, default="Пользователь не добавил описание")
     profile_image = ResizedImageField(force_format="WEBP", quality=75, upload_to='profiles/', blank=True, null=True)
-    user_location = models.ForeignKey(Location, on_delete=models.SET_NULL, blank=True, null = True)
-    user_category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank = True, null = True)
+    user_location = models.ForeignKey(
+        Location, on_delete=models.SET_NULL, 
+        related_name='location_users',
+        blank=True, null = True
+    )
+    user_category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, 
+        related_name='category_users',
+        blank = True, null = True)
     another = models.TextField(blank = True, null = True)
     password = models.CharField(max_length=100)
     email = models.EmailField(max_length=255, null = True, blank = True, unique=True)
@@ -71,7 +77,7 @@ class User(AbstractUser):
 class Contact(models.Model):
     name = models.CharField(max_length = 100)
     src = models.CharField(max_length = 250, blank = True, null = True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_contacts")
 
     def __str__(self):
         return str(self.name)
